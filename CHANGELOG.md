@@ -3,6 +3,21 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.1] — 2026-09-13 [PUBLISHED]
+
+### Fixed
+
+- **Sidebar type-and-go search text was invisible on themes with a
+  mode-independent sidebar (e.g. express light).** The framed search box
+  (`.pc-sidebar__search`) sits on the **input** surface (`--base-input-bg`), but
+  its field text and its `:hover` colour used `--pc-sidebar-text` — a token tuned
+  for the **sidebar** surface. When a theme keeps the sidebar one colour across
+  modes (express: always-black sidebar → `--pc-sidebar-text: #fff`), that white
+  text landed on the light input background and vanished (white-on-white). Both
+  now use `--base-input-color`, which is emitted per-mode alongside
+  `--base-input-bg`, so the text/background pair is always legible. Affects
+  `.pc-sidebar__search-field` and `.pc-sidebar__search:hover`.
+
 ## [1.0.0] — 2026-09-12 [PUBLISHED]
 
 The **first stable release** — the 1.0.0-rc series culminates here. Two additive
@@ -138,7 +153,7 @@ pure-css mirrors it and a drift guard keeps the two honest.
 The **shared theming knob** release. Before rc07 the same visual token (a tooltip
 background, an input border, a dropdown surface) was produced *twice and
 independently* — pure-admin's `--pc-*` component tokens were baked compile-time
-literals, while the KeenMate web components read `--base-*` live — so they agreed
+literals, while the Keenmate web components read `--base-*` live — so they agreed
 only by coincidence and diverged the instant a theme retuned `--base-*` at
 runtime (every dual-mode theme does exactly this at `.pc-mode-dark`). rc07 makes
 `--base-*` the single runtime knob: override one namespace and pure-admin

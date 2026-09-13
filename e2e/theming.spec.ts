@@ -3,7 +3,7 @@ import { test, expect } from './fixtures';
 /**
  * The theming contract. pure-css's runtime layer is the --pc-* tokens; the
  * --base-* layer is the authoring source of truth plus one runtime bridge
- * (--pc-border-color: var(--base-border-color, ...)) that KeenMate components
+ * (--pc-border-color: var(--base-border-color, ...)) that Keenmate components
  * also read. These specs pin both the defaults and the two live cascades so a
  * variable rename or a broken link can't slip through.
  */

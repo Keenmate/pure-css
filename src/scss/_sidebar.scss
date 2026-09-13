@@ -221,7 +221,12 @@ body.pc-layout--sticky .pc-layout__sidebar {
       // alias; inlined so the shell no longer depends on the component layer
       // (variables/_components.scss now lives in pure-admin-core).
       border-color: $accent-color;
-      color: var(--pc-sidebar-text, var(--base-text-color-1));
+      // This framed box sits on the INPUT surface (--base-input-bg above), NOT
+      // the sidebar surface — so emphasise with the input text colour, not
+      // --pc-sidebar-text. In themes with a mode-independent sidebar (e.g.
+      // express: always-black sidebar → --pc-sidebar-text is white) the old
+      // sidebar-text hover went white-on-white on the light input bg.
+      color: var(--base-input-color);
     }
 
     // Collapsed rail ONLY (icon-collapse mode AND actually collapsed, i.e.
@@ -276,7 +281,14 @@ body.pc-layout--sticky .pc-layout__sidebar {
         border: none;
         outline: none;
         background: transparent;
-        color: var(--pc-sidebar-text, var(--base-text-color-1));
+        // The field shows through to the framed box's --base-input-bg surface,
+        // so its text must use the input text colour (--base-input-color), not
+        // the sidebar text colour. --pc-sidebar-text is tuned for the sidebar
+        // surface, which can be mode-independent (express: always-black sidebar
+        // → white sidebar text) and then renders white-on-white on a light
+        // input bg. --base-input-color is emitted per-mode alongside
+        // --base-input-bg, so the pair is always legible.
+        color: var(--base-input-color);
         font: inherit;
         padding: 0;
 

@@ -2446,7 +2446,7 @@ body.loaded .pc-sidebar__search {
 }
 .pc-sidebar__search:hover {
   border-color: #0ea5e9;
-  color: var(--pc-sidebar-text, var(--base-text-color-1));
+  color: var(--base-input-color);
 }
 .sidebar-hidden .pc-layout__sidebar--icon-collapse .pc-sidebar__search {
   width: auto;
@@ -2481,7 +2481,7 @@ body.loaded .pc-sidebar__search {
   border: none;
   outline: none;
   background: transparent;
-  color: var(--pc-sidebar-text, var(--base-text-color-1));
+  color: var(--base-input-color);
   font: inherit;
   padding: 0;
 }

@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-`@keenmate/pure-css` is the KeenMate CSS **foundation** — the `--base-*` theming
+`@keenmate/pure-css` is the Keenmate CSS **foundation** — the `--base-*` theming
 contract, the `.pc-row` / `.pc-col` flexbox grid, and the utility classes —
-extracted from [`@keenmate/pure-admin-core`](https://github.com/KeenMate/pure-admin)
+extracted from [`@keenmate/pure-admin-core`](https://github.com/Keenmate/pure-admin)
 so it can be consumed standalone. As of 1.0.0-rc05 it also carries the **app
 shell** (navbar, sidebar, layout container) and a small, dependency-free **JS
 runtime** (`window.pureCss` plus the fit / navbar-dropdown / sidebar-resize /
@@ -71,7 +71,7 @@ The core idea: **one block of variable overrides re-themes everything.**
 
 A **theme** is nothing more than a set of `--base-*` values (or `$base-*`
 overrides compiled in). Because pure-admin-core, its `--pc-*` component
-variables, and every KeenMate component all read the same variables, overriding
+variables, and every Keenmate component all read the same variables, overriding
 `--base-*` re-themes all of them at once.
 
 **The canonical `--base-*` contract lives in `@keenmate/base-css-variables`** (sibling

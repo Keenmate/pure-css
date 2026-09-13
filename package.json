@@ -1,7 +1,7 @@
 {
   "name": "@keenmate/pure-css",
-  "version": "1.0.0",
-  "description": "The KeenMate CSS foundation — --base-* theming contract, PureCSS grid and utility classes. Extracted from pure-admin-core so docs sites, standalone pages and every web/svelte component share one theming layer.",
+  "version": "1.0.1",
+  "description": "The Keenmate CSS foundation — --base-* theming contract, PureCSS grid and utility classes. Extracted from pure-admin-core so docs sites, standalone pages and every web/svelte component share one theming layer.",
   "style": "dist/css/pure-css.css",
   "exports": {
     ".": "./dist/css/pure-css.css",
@@ -55,7 +55,7 @@
     "keenmate",
     "pure-admin"
   ],
-  "author": "KeenMate",
+  "author": "Keenmate",
   "license": "MIT",
   "peerDependencies": {
     "sass": "^1.0.0"
@@ -67,12 +67,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KeenMate/pure-css.git"
+    "url": "git+https://github.com/Keenmate/pure-css.git"
   },
   "bugs": {
-    "url": "https://github.com/KeenMate/pure-css/issues"
+    "url": "https://github.com/Keenmate/pure-css/issues"
   },
-  "homepage": "https://github.com/KeenMate/pure-css#readme",
+  "homepage": "https://github.com/Keenmate/pure-css#readme",
   "publishConfig": {
     "access": "public"
   },

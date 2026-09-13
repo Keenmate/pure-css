@@ -1,26 +1,26 @@
 # @keenmate/pure-css
 
-KeenMate's CSS **foundation** — descended from [Yahoo's Pure CSS](https://purecss.io/) and extended into a
+Keenmate's CSS **foundation** — descended from [Yahoo's Pure CSS](https://purecss.io/) and extended into a
 more robust, themeable layer for real apps. One small, dependency-free package gives you the
 **`--base-*` theming contract** (one block of custom properties re-themes everything at once), a
 modern **flexbox grid** (`.pc-row` / `.pc-col`, container-query responsive — replacing Pure's float
 grid), a set of **utility classes**, and an optional **app shell + JS runtime** (in the
 `pure-css.css` bundle).
 
-It's the shared layer the whole KeenMate stack agrees on:
-[`@keenmate/pure-admin-core`](https://github.com/KeenMate/pure-admin) builds its component library on
-top of it, and every KeenMate web/Svelte component reads its colours from the same `--base-*`
+It's the shared layer the whole Keenmate stack agrees on:
+[`@keenmate/pure-admin-core`](https://github.com/Keenmate/pure-admin) builds its component library on
+top of it, and every Keenmate web/Svelte component reads its colours from the same `--base-*`
 variables.
+
+## What's New in 1.0.1
+
+- **Sidebar search — type-and-go text is legible again on mode-independent sidebars** — the framed sidebar search box (`.pc-sidebar__search`) sits on the *input* surface (`--base-input-bg`), but its field text and `:hover` colour were painted with `--pc-sidebar-text`, a token tuned for the *sidebar* surface. On themes that keep the sidebar one colour across light and dark (e.g. express, whose sidebar is always black → `--pc-sidebar-text: #fff`), that white text landed on the light input background and vanished — white-on-white, so you couldn't read what you were typing. Both `.pc-sidebar__search-field` and `.pc-sidebar__search:hover` now read `--base-input-color`, which is emitted per-mode alongside `--base-input-bg`, so the field text always pairs with its own surface and stays readable in every theme.
 
 ## What's New in 1.0.0
 
 - **Icons — a `filter` glyph and a `check` / `indeterminate` selection pair join the shared `--base-*` contract** — three more mask-friendly Lucide glyphs so every consumer paints the same affordances from one theme knob. `--base-icon-filter` (a funnel) is the "refine / narrow a list" mark, deliberately separate from `--base-icon-search` (find-by-text) so a component can show both at once. `--base-icon-check` (✓) and `--base-icon-indeterminate` (−) are the checkbox / tree-node selection pair used by web-multiselect, web-treeview and plain checkboxes — `check` means selected, `indeterminate` means a tri-state parent whose children are a mix. `indeterminate` reuses the minus shape of `collapse` by default but is its own independently-overridable token, so selection never gets entangled with disclosure (the same discipline as `add` vs `expand`). All three are authored in the canonical `@keenmate/base-css-variables` package first and mirrored into `variables/_base.scss` + the emit mixin, keeping the parity drift-guard green; consume them via `mask: var(--base-icon-check); background: currentColor`.
 
 - **Docs — mode & variant classes belong on `<html>`, not `<body>`** — a new "Mode & variant class placement" section in the README (mirrored by a `NOTE` in `_base-css-variables.scss`) documents a subtle theming pitfall. CSS resolves a custom property's `var()` at the element that *declares* it, so derived component tokens that pure-admin-core emits once at `:root` — e.g. `--pa-btn-info-bg: var(--pc-info)` — bake in `:root`'s input value. Put a `.pc-mode-dark` / `.pa-color-*` class on a descendant like `<body>` and the override arrives too late: the derived token stays frozen at its default-mode value and role buttons or surfaces don't recolour when you switch. Applying the class to `:root` (the element that declares the tokens) makes the overrides win and everything re-resolves. The section also documents the one-frame `transition: none !important` trick to suppress a colour flash during the swap.
-
-## What's New in 1.0.0-rc09
-
-- **Namespace hygiene — the app shell no longer reaches into pure-admin's token namespace** — the KeenMate ecosystem is aligning its custom-property prefixes with its class prefixes: `--pc-*` / `.pc-*` belong to the pure-css foundation + app shell, `--pa-*` / `.pa-*` belong to pure-admin components. As part of that rename, pure-css's shell had a handful of incidental references to *component* tokens — `var(--pc-card-bg, …)` in the fit-flyout / navbar dropdown / resize-handle, `var(--pc-input-bg, …)` in the sidebar search, and `var(--pc-icon-chevron, …)` on the sidebar/navbar chevrons. Since those tokens are moving to `--pa-*` (pure-admin's namespace) and the foundation must not depend on pure-admin, each now reads its `--base-*` foundation value directly. Rendered output is byte-for-byte unchanged — every dropped tier already resolved to the same `--base-*` fallback.
 
 ## Why
 
@@ -162,7 +162,7 @@ that redeclares them, loaded *after* `base.css`:
 
 Because pure-admin-core, the components and any consumer all read the same variables, that one block
 re-themes all of them at once. This is the same model as
-[`@keenmate/pure-admin-themes`](https://github.com/KeenMate/pure-admin-themes), so the same CLI and
+[`@keenmate/pure-admin-themes`](https://github.com/Keenmate/pure-admin-themes), so the same CLI and
 publishing infrastructure applies.
 
 ### Mode & variant class placement
@@ -210,4 +210,4 @@ One intentional difference: `utilities.scss` here `@use`s `_fonts.scss` so the g
 
 ## License
 
-MIT © KeenMate. The grid is derived from [Pure](https://purecss.io/) (Yahoo!, BSD).
+MIT © Keenmate. The grid is derived from [Pure](https://purecss.io/) (Yahoo!, BSD).
