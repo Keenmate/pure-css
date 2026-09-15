@@ -340,6 +340,8 @@ $base-rem: 1rem !default;
 //   - search:     magnifying glass — search inputs, filter fields, command palette.
 //   - filter:     funnel — narrow a list/table by criteria (filter toggles, faceted
 //                 search). Distinct from `search` (find by text) — read as "refine".
+//   - refresh:    two curved arrows (refresh-cw) — reload / re-fetch a view or
+//                 dataset. Consumers spin it (CSS animation) while in flight.
 //
 // Selection — the checkbox / tree-node state pair (shared by web-multiselect,
 // web-treeview, checkboxes — one tick everywhere):
@@ -363,10 +365,18 @@ $base-icon-delete: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/200
 // Utility: magnifying glass (Lucide search) + funnel (Lucide filter).
 $base-icon-search: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2211%22 cy=%2211%22 r=%228%22/%3E%3Cpath d=%22m21 21-4.3-4.3%22/%3E%3C/svg%3E") !default;
 $base-icon-filter: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpolygon points=%2222 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3%22/%3E%3C/svg%3E") !default;
+// refresh = two curved arrows (Lucide refresh-cw): reload / re-fetch a view or dataset.
+$base-icon-refresh: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8%22/%3E%3Cpath d=%22M21 3v5h-5%22/%3E%3Cpath d=%22M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16%22/%3E%3Cpath d=%22M3 21v-5h5%22/%3E%3C/svg%3E") !default;
 // Selection: check = ✓ (Lucide check), indeterminate = − (Lucide minus). indeterminate
 // shares the minus shape with `collapse` but is its own knob (selection ≠ disclosure).
 $base-icon-check: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M20 6 9 17l-5-5%22/%3E%3C/svg%3E") !default;
 $base-icon-indeterminate: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M5 12h14%22/%3E%3C/svg%3E") !default;
+// copy = two overlapping sheets (Lucide copy); ellipsis = three dots (Lucide
+// ellipsis, the "more / overflow" affordance — the vertical variant is the same
+// glyph rotated 90°); save = floppy disk (Lucide save).
+$base-icon-copy: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect width=%2214%22 height=%2214%22 x=%228%22 y=%228%22 rx=%222%22 ry=%222%22/%3E%3Cpath d=%22M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2%22/%3E%3C/svg%3E") !default;
+$base-icon-ellipsis: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%221%22/%3E%3Ccircle cx=%2219%22 cy=%2212%22 r=%221%22/%3E%3Ccircle cx=%225%22 cy=%2212%22 r=%221%22/%3E%3C/svg%3E") !default;
+$base-icon-save: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z%22/%3E%3Cpath d=%22M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7%22/%3E%3Cpath d=%22M7 3v4a1 1 0 0 0 1 1h7%22/%3E%3C/svg%3E") !default;
 
 // =============================================================================
 // ALERT COLOR DERIVATION PARAMETERS

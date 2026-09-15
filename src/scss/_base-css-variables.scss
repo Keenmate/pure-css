@@ -216,9 +216,11 @@
 
   // === Utility icons ===
   // search = magnifying glass (find by text); filter = funnel (refine/narrow a
-  // list — distinct affordance from search, its own knob).
+  // list — distinct affordance from search, its own knob); refresh = two curved
+  // arrows (reload/re-fetch — consumers spin it while a refresh is in flight).
   --base-icon-search: #{$base-icon-search};
   --base-icon-filter: #{$base-icon-filter};
+  --base-icon-refresh: #{$base-icon-refresh};
 
   // === Selection icons — checkbox / tree-node state pair ===
   // check = ✓ (selected), indeterminate = − (tri-state parent, partially selected).
@@ -226,6 +228,15 @@
   // minus shape with collapse but is its OWN knob (selection ≠ disclosure).
   --base-icon-check: #{$base-icon-check};
   --base-icon-indeterminate: #{$base-icon-indeterminate};
+
+  // === Action / affordance icons ===
+  // copy = two overlapping sheets (copy-to-clipboard); ellipsis = three dots
+  // ("more / overflow" — vertical variant is the same glyph rotated 90°);
+  // save = floppy disk. Consumed by pure-admin's --pa-icon-copy / -ellipsis /
+  // -save (which fell back to inline glyphs until these landed).
+  --base-icon-copy: #{$base-icon-copy};
+  --base-icon-ellipsis: #{$base-icon-ellipsis};
+  --base-icon-save: #{$base-icon-save};
 
   // === Theme palette slots (1–9) + paired contrast text (WS7.6) ===
   // Promoted into the --base-* contract so the branded/data-viz palette is

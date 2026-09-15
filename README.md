@@ -12,15 +12,13 @@ It's the shared layer the whole Keenmate stack agrees on:
 top of it, and every Keenmate web/Svelte component reads its colours from the same `--base-*`
 variables.
 
+## What's New in 1.0.2
+
+- **Icons — `copy`, `ellipsis`, `save` and `refresh` glyphs join the shared `--base-*` contract** — four more mask-friendly Lucide glyphs so every consumer paints the same actions from one theme knob. `--base-icon-copy` (two overlapping sheets) is copy-to-clipboard, `--base-icon-ellipsis` (three dots) is the "more / overflow" mark — its vertical `⋮` variant is the *same glyph rotated 90°* (the rotate-one-glyph discipline already used for `chevron`), so there's no separate token to maintain — `--base-icon-save` (a floppy disk) is persist / commit, and `--base-icon-refresh` (two curved arrows, Lucide `refresh-cw`) is reload / re-fetch, sitting alongside `search` and `filter` in the utility-icon row (consumers typically spin it with a CSS animation while a fetch is in flight). The action trio completes the affordance set pure-admin migrated off Font Awesome: its `--pa-icon-copy` / `-ellipsis` / `-save` already routed through these `--base-icon-*` names with inline fallbacks, so they become fully theme-overridable with zero pure-admin change. All are authored in `variables/_base.scss` and emitted from `output-base-css-variables`, so both the standalone `base.css` and the `pure-css.css` bundle carry them; consume via `mask: var(--base-icon-copy); background: currentColor`.
+
 ## What's New in 1.0.1
 
 - **Sidebar search — type-and-go text is legible again on mode-independent sidebars** — the framed sidebar search box (`.pc-sidebar__search`) sits on the *input* surface (`--base-input-bg`), but its field text and `:hover` colour were painted with `--pc-sidebar-text`, a token tuned for the *sidebar* surface. On themes that keep the sidebar one colour across light and dark (e.g. express, whose sidebar is always black → `--pc-sidebar-text: #fff`), that white text landed on the light input background and vanished — white-on-white, so you couldn't read what you were typing. Both `.pc-sidebar__search-field` and `.pc-sidebar__search:hover` now read `--base-input-color`, which is emitted per-mode alongside `--base-input-bg`, so the field text always pairs with its own surface and stays readable in every theme.
-
-## What's New in 1.0.0
-
-- **Icons — a `filter` glyph and a `check` / `indeterminate` selection pair join the shared `--base-*` contract** — three more mask-friendly Lucide glyphs so every consumer paints the same affordances from one theme knob. `--base-icon-filter` (a funnel) is the "refine / narrow a list" mark, deliberately separate from `--base-icon-search` (find-by-text) so a component can show both at once. `--base-icon-check` (✓) and `--base-icon-indeterminate` (−) are the checkbox / tree-node selection pair used by web-multiselect, web-treeview and plain checkboxes — `check` means selected, `indeterminate` means a tri-state parent whose children are a mix. `indeterminate` reuses the minus shape of `collapse` by default but is its own independently-overridable token, so selection never gets entangled with disclosure (the same discipline as `add` vs `expand`). All three are authored in the canonical `@keenmate/base-css-variables` package first and mirrored into `variables/_base.scss` + the emit mixin, keeping the parity drift-guard green; consume them via `mask: var(--base-icon-check); background: currentColor`.
-
-- **Docs — mode & variant classes belong on `<html>`, not `<body>`** — a new "Mode & variant class placement" section in the README (mirrored by a `NOTE` in `_base-css-variables.scss`) documents a subtle theming pitfall. CSS resolves a custom property's `var()` at the element that *declares* it, so derived component tokens that pure-admin-core emits once at `:root` — e.g. `--pa-btn-info-bg: var(--pc-info)` — bake in `:root`'s input value. Put a `.pc-mode-dark` / `.pa-color-*` class on a descendant like `<body>` and the override arrives too late: the derived token stays frozen at its default-mode value and role buttons or surfaces don't recolour when you switch. Applying the class to `:root` (the element that declares the tokens) makes the overrides win and everything re-resolves. The section also documents the one-frame `transition: none !important` trick to suppress a colour flash during the swap.
 
 ## Why
 
@@ -135,7 +133,11 @@ swap the icon set.
 | `--base-icon-add` / `--base-icon-edit` / `--base-icon-delete` | `+` / pencil / trash | **CRUD action** verbs — create / modify / **destroy** (delete is a trash can, *not* an ✕, so it reads as destructive) |
 | `--base-icon-search` | magnifying glass | search inputs, command palette — find **by text** |
 | `--base-icon-filter` | funnel | refine / **narrow a list** by criteria (filter toggles, faceted search) — distinct from `search` |
+| `--base-icon-refresh` | two curved arrows | reload / re-fetch a view or dataset |
 | `--base-icon-check` / `--base-icon-indeterminate` | `✓` / `−` | **selection** pair (checkboxes, multiselect, tree nodes): `check` = selected, `indeterminate` = a tri-state parent whose children are a mix |
+| `--base-icon-copy` | two overlapping sheets | copy-to-clipboard |
+| `--base-icon-ellipsis` | three dots `⋯` | "more / overflow" affordance — **rotate-one-glyph** for the vertical `⋮` variant (rotate 90°) |
+| `--base-icon-save` | floppy disk | persist / commit |
 
 Three intentional distinctions:
 

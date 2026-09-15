@@ -3,6 +3,31 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.2] — 2026-09-15 [PUBLISHED]
+
+### Added
+
+- **A `--base-icon-refresh` token.** Lucide's two-curved-arrows (`refresh-cw`)
+  glyph — reload / re-fetch a view or dataset — added to `variables/_base.scss`
+  and emitted from `output-base-css-variables` (so both the standalone `base.css`
+  and the `pure-css.css` bundle carry it). Sits in the utility-icon row next to
+  `search` and `filter`; consumers spin it with a CSS animation while a refresh
+  is in flight.
+- **Three `--base-icon-*` tokens: `copy`, `ellipsis`, `save`.** Mask-friendly
+  Lucide glyphs, added to `variables/_base.scss` **and** emitted from
+  `output-base-css-variables` (so both the standalone `base.css` and the
+  `pure-css.css` bundle carry them).
+  - `copy` (two overlapping sheets) — copy-to-clipboard.
+  - `ellipsis` (three dots) — the "more / overflow" affordance. The vertical
+    variant is the **same glyph rotated 90°** (rotate-one-glyph, like `chevron`),
+    so consumers don't need a separate token.
+  - `save` (floppy disk) — persist / commit.
+
+  These complete the affordance set pure-admin migrated off Font Awesome: its
+  `--pa-icon-copy` / `-ellipsis` / `-save` already routed through these
+  `--base-icon-*` names with inline fallbacks, so they now become fully
+  theme-overridable with no pure-admin change.
+
 ## [1.0.1] — 2026-09-13 [PUBLISHED]
 
 ### Fixed
