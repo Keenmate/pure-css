@@ -237,6 +237,21 @@
   --base-icon-copy: #{$base-icon-copy};
   --base-icon-ellipsis: #{$base-icon-ellipsis};
   --base-icon-save: #{$base-icon-save};
+  // settings = cog / gear. Consumed by pure-admin's --pa-icon-settings.
+  --base-icon-settings: #{$base-icon-settings};
+  // bell = notification bell. Consumed by pure-admin's --pa-icon-bell.
+  --base-icon-bell: #{$base-icon-bell};
+  // user = person. Consumed by pure-admin's --pa-icon-user.
+  --base-icon-user: #{$base-icon-user};
+
+  // === Status / severity icons — shared toast/alert/callout/notification set ===
+  // info = circle-i, success = circle-check, warning = triangle-alert,
+  // danger = circle-x. Consumed by pure-admin's --pa-icon-info / -success /
+  // -warning / -danger so every severity surface shows the same mark.
+  --base-icon-info: #{$base-icon-info};
+  --base-icon-success: #{$base-icon-success};
+  --base-icon-warning: #{$base-icon-warning};
+  --base-icon-danger: #{$base-icon-danger};
 
   // === Theme palette slots (1–9) + paired contrast text (WS7.6) ===
   // Promoted into the --base-* contract so the branded/data-viz palette is

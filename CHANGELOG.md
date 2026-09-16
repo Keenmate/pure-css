@@ -3,6 +3,40 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.3] — 2026-09-16 [PUBLISHED]
+
+### Added
+
+- **Three affordance icon tokens: `--base-icon-settings`, `--base-icon-bell`,
+  `--base-icon-user`.** Mask-friendly Lucide glyphs (`settings` = cog / gear;
+  `bell` = notification bell; `user` = person / profile), added to
+  `variables/_base.scss` and emitted from `output-base-css-variables` (both
+  `base.css` and the `pure-css.css` bundle carry them). For preferences/config,
+  notification, and profile affordances; consumed by pure-admin's
+  `--pa-icon-settings` / `--pa-icon-bell` / `--pa-icon-user`. Mirrors the
+  canonical `@keenmate/base-css-variables` contract (parity guard green).
+- **Four status / severity icon tokens: `--base-icon-info`,
+  `--base-icon-success`, `--base-icon-warning`, `--base-icon-danger`.**
+  Mask-friendly Lucide glyphs (info = circle-i, success = circle-check,
+  warning = triangle-alert, danger = circle-x), added to `variables/_base.scss`
+  and emitted from `output-base-css-variables` (both `base.css` and the
+  `pure-css.css` bundle carry them). One shared family so every severity surface
+  shows the same mark; consumed by pure-admin's `--pa-icon-info` / `-success` /
+  `-warning` / `-danger`. Mirrors the canonical `@keenmate/base-css-variables`
+  contract (parity guard green).
+
+### Changed
+
+- **The sidebar search icon (`.pc-sidebar__search-icon`) is now a masked
+  `--base-icon-search` glyph instead of a `🔍` text emoji.** Painted in
+  `currentColor` via `mask` (same technique as `.pc-sidebar__chevron`), so it
+  renders identically across platforms/fonts and re-skins from the shared
+  `--base-icon-search` knob — matching pure-admin's `.pa-icon--search` and the
+  navbar search. `font-size: 0` collapses any legacy `🔍` still in markup so it
+  never double-renders; consumers can drop the emoji from the button
+  (`<button class="pc-sidebar__search-icon">`). The literal Lucide glyph remains
+  the standalone fallback when `base.css` is absent.
+
 ## [1.0.2] — 2026-09-15 [PUBLISHED]
 
 ### Added

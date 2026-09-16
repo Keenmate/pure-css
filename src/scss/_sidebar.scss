@@ -262,17 +262,21 @@ body.pc-layout--sticky .pc-layout__sidebar {
         width: $sidebar-icon-size;
         min-width: $sidebar-icon-size;
         height: $sidebar-icon-size;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         flex-shrink: 0;
         padding: 0;
         border: none;
-        background: transparent;
-        color: inherit;
-        font-size: $font-size-base;
-        line-height: 1; // prevent emoji baseline shift, matching __icon
         cursor: pointer;
+        color: inherit;
+        // Masked magnifier painted in currentColor — was a 🔍 text emoji, which
+        // rendered inconsistently across platforms/fonts (the same reason the
+        // sidebar chevron is masked above). Reads the shared --base-icon-search
+        // so it matches pure-admin's .pa-icon--search and the navbar search;
+        // #{$base-icon-search} is the standalone literal fallback. font-size:0
+        // collapses any legacy 🔍 still in markup so it never double-renders.
+        font-size: 0;
+        background-color: currentColor;
+        -webkit-mask: var(--base-icon-search, #{$base-icon-search}) center / #{$font-size-base} no-repeat;
+                mask: var(--base-icon-search, #{$base-icon-search}) center / #{$font-size-base} no-repeat;
       }
 
       .pc-sidebar__search-field {
