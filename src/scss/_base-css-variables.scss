@@ -243,6 +243,11 @@
   --base-icon-bell: #{$base-icon-bell};
   // user = person. Consumed by pure-admin's --pa-icon-user.
   --base-icon-user: #{$base-icon-user};
+  // download = tray + down arrow; link = chain; external-link = arrow-out-of-box.
+  // Consumed by pure-admin's --pa-icon-download / -link / -external-link.
+  --base-icon-download: #{$base-icon-download};
+  --base-icon-link: #{$base-icon-link};
+  --base-icon-external-link: #{$base-icon-external-link};
 
   // === Status / severity icons — shared toast/alert/callout/notification set ===
   // info = circle-i, success = circle-check, warning = triangle-alert,
