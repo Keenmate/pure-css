@@ -14,11 +14,18 @@
 //   --ms-accent-color: var(--base-accent-color, #3b82f6);
 // ============================================================================
 
-// Make variables resolvable when this file is loaded as a @use module
-// (e.g. from main.scss). Legacy @import callers (themes) are unaffected —
-// Sass places @use'd members into the importing file's global scope, where
-// theme-set overrides already live.
-@use 'variables/index' as *;
+// Make the $-vocabulary resolvable here.
+//
+// MUST be @import, not `@use 'variables/index' as *`. A theme's whole job is to set
+// $base-* BEFORE pulling this file in (the !default flags then keep those values) --
+// but `@use ... as *` REFUSES to expose a member whose name already exists in the
+// importing global scope, so every theme died on
+//   "This module and the new module both define a variable named $base-accent-color".
+// That made the usage documented at the top of this file impossible: it worked only
+// for a theme that overrode nothing. @import shares one global scope and is what the
+// !default mechanism needs. pure-css's own `@use 'base-css-variables' as bcv` entries
+// are unaffected -- a module that @imports still exports its members normally.
+@import 'variables/index';
 
 @mixin output-base-css-variables {
   // === Accent Colors ===
