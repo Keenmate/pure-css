@@ -64,6 +64,18 @@ ul, ol {
   margin: $list-margin-top 0 $list-margin-bottom 0;
   padding: 0;
   padding-inline-start: $list-padding-left; // RTL: flips to right
+  // Runtime-overridable marker. Set --pc-list-bullet-type (disc | circle |
+  // square | none | decimal | …) at :root, on an ancestor, or per-instance
+  // (style="--pc-list-bullet-type: square") to switch the marker without a
+  // recompile. It layers over the base contract: --pc-list-bullet-type wins when
+  // set, else the themeable --base-list-bullet-type default (emitted by
+  // output-base-css-variables), else the inline browser-default disc. The --pc-
+  // knob itself is not emitted by the variable mixins — set it only where a
+  // per-instance marker is wanted. Components that reset the marker
+  // (list-style: none on nav/sidebar menus, .unstyled, pure-admin's
+  // --unstyled/--bordered/… list modifiers) win on source order, so this only
+  // affects lists that still show a marker.
+  list-style-type: var(--pc-list-bullet-type, var(--base-list-bullet-type, disc));
 
   li {
     margin-bottom: $list-item-margin-bottom;

@@ -283,6 +283,10 @@ $base-line-height-tight: 1.25 !default;
 $base-line-height-normal: 1.5 !default;
 $base-line-height-relaxed: 1.75 !default;
 
+// List marker — default bullet/number for ul, ol (disc | circle | square | none
+// | decimal | …). Consumed on the base list reboot with an inline `disc` fallback.
+$base-list-bullet-type: disc !default;
+
 // =============================================================================
 // BORDER RADIUS
 // Border radius sizes (unitless multipliers for x10px base)

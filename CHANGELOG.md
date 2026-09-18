@@ -3,10 +3,24 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.0.4] — 2026-09-17
+## [1.0.4] — 2026-09-18 [PUBLISHED]
 
 ### Added
 
+- **`--pc-list-bullet-type` — runtime list-marker knob on the `ul, ol` reboot,
+  backed by the `--base-list-bullet-type` contract.** Switch a list's marker
+  (`disc` / `circle` / `square` / `none` / `decimal` / …) without a recompile: set
+  `--pc-list-bullet-type` at `:root`, on an ancestor, or per-instance
+  (`style="--pc-list-bullet-type: square"`). Applies to every list since it sits on
+  the base `ul, ol` reboot. It resolves as
+  `var(--pc-list-bullet-type, var(--base-list-bullet-type, disc))` — the per-instance
+  `--pc-` knob wins when set, else the themeable `--base-list-bullet-type` default
+  (newly added to `@keenmate/base-css-variables`, mirrored as `$base-list-bullet-type`
+  and emitted from `output-base-css-variables` in both `base.css` and the bundle),
+  else the inline browser-default `disc`. The `--pc-` knob itself is **not** emitted by
+  `output-*` mixins — set it only where a per-instance marker is wanted. Lists that
+  reset the marker (`list-style: none` on nav/sidebar menus, `.unstyled`, downstream
+  `--unstyled` / `--bordered` / … modifiers) still win on source order.
 - **Three action / navigation icon tokens: `--base-icon-download`,
   `--base-icon-link`, `--base-icon-external-link`.** Mask-friendly Lucide glyphs
   (`download` = tray + down arrow for save-to-disk / export; `link` = chain for
