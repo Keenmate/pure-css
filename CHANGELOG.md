@@ -3,6 +3,19 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.5] — 2026-09-18 [PUBLISHED]
+
+### Fixed
+
+- **Ordered lists (`<ol>`) regressed to `disc` bullets instead of numbers.** In
+  1.0.4 the `--pc-list-bullet-type` knob was applied to the shared `ul, ol`
+  reboot rule with a `disc` default, so every `<ol>` (bare, or `.pa-list-ordered`
+  and any consumer's ordered list) rendered filled bullets instead of `decimal`
+  numbers. The marker knob is an **unordered** concern, so it now lives on a
+  `ul`-only rule; `<ol>` keeps the browser-default `decimal` (ordered-marker
+  variants like roman/alpha stay a per-component override). The shared
+  margin/padding rule on `ul, ol` is unchanged.
+
 ## [1.0.4] — 2026-09-18 [PUBLISHED]
 
 ### Added
