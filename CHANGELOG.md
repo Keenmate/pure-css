@@ -3,6 +3,24 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.6] — 2026-09-20 [PUBLISHED]
+
+### Added
+
+- **`--base-icon-check-size` — a runtime mask-size knob for the selection glyph,
+  so the glyph and its scale re-theme in lockstep.** The check mark
+  (`--base-icon-check`) and the indeterminate dash (`--base-icon-indeterminate`)
+  share one mask box, but the size that box was painted at was hard-coded
+  downstream per consumer. This adds a single `$base-icon-check-size` (`68%`
+  default, emitted as `--base-icon-check-size`) that both pure-admin and the
+  Keenmate web components read, so overriding the check glyph **and** its scale
+  re-sizes the mark everywhere at once — e.g. swap in an edge-to-edge glyph like a
+  star and shrink it from this one knob. `68%` leaves breathing room inside the
+  box; it also sizes the indeterminate mark since that shares the mask box.
+  Authored in `variables/_base.scss` and emitted from `output-base-css-variables`,
+  so both `base.css` and the `pure-css.css` bundle carry it. Mirrors the canonical
+  `@keenmate/base-css-variables` contract (parity guard green).
+
 ## [1.0.5] — 2026-09-18 [PUBLISHED]
 
 ### Fixed

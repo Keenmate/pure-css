@@ -374,6 +374,11 @@ $base-icon-refresh: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/20
 // Selection: check = ✓ (Lucide check), indeterminate = − (Lucide minus). indeterminate
 // shares the minus shape with `collapse` but is its own knob (selection ≠ disclosure).
 $base-icon-check: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M20 6 9 17l-5-5%22/%3E%3C/svg%3E") !default;
+// mask-size for the selection glyph inside its box. One knob both pure-admin and
+// the web components read, so overriding the glyph AND its scale re-sizes the mark
+// everywhere at once. 68% leaves breathing room; an edge-to-edge glyph (e.g. a
+// star) can be shrunk from here. Also sizes indeterminate (shares the mask box).
+$base-icon-check-size: 68% !default;
 $base-icon-indeterminate: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M5 12h14%22/%3E%3C/svg%3E") !default;
 // copy = two overlapping sheets (Lucide copy); ellipsis = three dots (Lucide
 // ellipsis, the "more / overflow" affordance — the vertical variant is the same

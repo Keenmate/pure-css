@@ -228,6 +228,10 @@
   // Shared by web-multiselect / web-treeview / checkboxes. indeterminate shares the
   // minus shape with collapse but is its OWN knob (selection ≠ disclosure).
   --base-icon-check: #{$base-icon-check};
+  // mask-size for the selection glyph inside its box — one knob every consumer
+  // reads, so overriding the glyph AND its scale re-sizes the mark in lockstep.
+  // Also sizes indeterminate (it shares the mask box).
+  --base-icon-check-size: #{$base-icon-check-size};
   --base-icon-indeterminate: #{$base-icon-indeterminate};
 
   // === Action / affordance icons ===
