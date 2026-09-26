@@ -2413,9 +2413,6 @@ body.pc-layout--sticky .pc-layout__sidebar {
   font-weight: 500;
   border-inline-end: 3px solid transparent;
 }
-body.loaded .pc-sidebar__link {
-  transition: all 0.1s ease-out;
-}
 .pc-sidebar__link:hover {
   color: var(--pc-sidebar-text, var(--base-text-color-1));
   background-color: var(--pc-accent-light);
@@ -2444,9 +2441,6 @@ body.loaded .pc-sidebar__link {
 }
 .pc-sidebar__search[hidden] {
   display: none;
-}
-body.loaded .pc-sidebar__search {
-  transition: all 0.1s ease-out;
 }
 .pc-sidebar__search:hover {
   border-color: #0ea5e9;
@@ -2512,9 +2506,6 @@ body.loaded .pc-sidebar__search {
   text-align: start;
   font-weight: 500;
   cursor: pointer;
-}
-body.loaded .pc-sidebar__toggle {
-  transition: all 0.1s ease-out;
 }
 .pc-sidebar__toggle:hover {
   color: var(--pc-sidebar-text, var(--base-text-color-1));
@@ -3131,6 +3122,31 @@ body.pc-layout--sticky .pc-layout__inner {
 }
 .pc-fit-flyout__item + .pc-fit-flyout__item {
   border-top: 1px solid var(--pc-border-color);
+}
+
+.pc-sidebar__link:not([aria-disabled=true]):not(.is-disabled):hover .pa-icon,
+.pc-sidebar__toggle:not([aria-disabled=true]):not(.is-disabled):hover .pa-icon {
+  -webkit-mask-image: var(--pa-icon-src-hover, var(--pa-icon-src));
+  mask-image: var(--pa-icon-src-hover, var(--pa-icon-src));
+}
+.pc-sidebar__link:not([aria-disabled=true]):not(.is-disabled):hover .pc-icon-hover-fill,
+.pc-sidebar__toggle:not([aria-disabled=true]):not(.is-disabled):hover .pc-icon-hover-fill {
+  font-weight: 900;
+}
+.pc-sidebar__link:not([aria-disabled=true]):not(.is-disabled):hover .pc-icon-hover-highlight,
+.pc-sidebar__toggle:not([aria-disabled=true]):not(.is-disabled):hover .pc-icon-hover-highlight {
+  color: var(--pc-icon-hover-color, var(--pc-accent));
+}
+
+.pc-icon-hover:not([disabled]):not([aria-disabled=true]):not(.is-disabled):hover .pa-icon {
+  -webkit-mask-image: var(--pa-icon-src-hover, var(--pa-icon-src));
+  mask-image: var(--pa-icon-src-hover, var(--pa-icon-src));
+}
+.pc-icon-hover:not([disabled]):not([aria-disabled=true]):not(.is-disabled):hover .pc-icon-hover-fill {
+  font-weight: 900;
+}
+.pc-icon-hover:not([disabled]):not([aria-disabled=true]):not(.is-disabled):hover .pc-icon-hover-highlight {
+  color: var(--pc-icon-hover-color, var(--pc-accent));
 }
 
 .font-family-system {

@@ -159,10 +159,6 @@ body.pc-layout--sticky .pc-layout__sidebar {
     font-weight: $font-weight-medium;
     border-inline-end: $border-width-thick solid transparent; // RTL: flips to border-left
 
-    body.loaded & {
-      transition: all $transition-fast $easing-snappy;
-    }
-
     &:hover {
       color: var(--pc-sidebar-text, var(--base-text-color-1));
       background-color: var(--pc-accent-light);
@@ -210,10 +206,6 @@ body.pc-layout--sticky .pc-layout__sidebar {
     // `[hidden]{display:none}` rule otherwise).
     &[hidden] {
       display: none;
-    }
-
-    body.loaded & {
-      transition: all $transition-fast $easing-snappy;
     }
 
     &:hover {
@@ -334,10 +326,6 @@ body.pc-layout--sticky .pc-layout__sidebar {
     text-align: start; // RTL: flips to right
     font-weight: $font-weight-medium;
     cursor: pointer;
-
-    body.loaded & {
-      transition: all $transition-fast $easing-snappy;
-    }
 
     &:hover {
       color: var(--pc-sidebar-text, var(--base-text-color-1));

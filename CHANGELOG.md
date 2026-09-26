@@ -3,6 +3,41 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.1.0] — 2026-09-26 [PUBLISHED]
+
+### Changed
+
+- **Sidebar link / submenu-toggle hover is now instant (removed `transition: all`).**
+  `.pc-sidebar__link`, the submenu toggle, and the sidebar search trigger animated
+  their hover with `transition: all $transition-fast`, which swept in `color` /
+  `background-color` — so the hover tint *faded in* and felt sluggish. Their hover
+  only changes colours (no motion), so the transition was pure colour animation,
+  against the "colours snap; transitions are motion-only" rule. Removed it; hover
+  colours now snap. The genuine motion transitions are kept — the submenu chevron
+  rotation (`transform`) and the icon-collapse label fade (`opacity` / `width`).
+
+### Added
+
+- **Icon hover affordance (foundation) — `_icon-hover.scss`.** Inside an enabled
+  interactive control on `:hover`, icons react with no JS and no SVG computation,
+  driven by convention + marker classes a wrapper stamps:
+  - masked `.pa-icon` glyphs that declared `--pa-icon-src-hover` swap to the
+    filled source (automatic; no-op for outline-only sets like Lucide);
+  - Font Awesome `<i>` marked `.pc-icon-hover-fill` flips regular → solid via the
+    `font-weight` axis (needs the `far` face, i.e. FA Pro);
+  - outline icons marked `.pc-icon-hover-highlight` recolour to
+    `--pc-icon-hover-color` (default: `--pc-accent`) — the hover cue for sets with
+    no solid form.
+
+  Applied to the shell contexts the foundation owns (`.pc-sidebar__link:hover` and
+  the submenu `.pc-sidebar__toggle:hover`, so submenu parents match plain/child
+  items) and a generic opt-in wrapper `.pc-icon-hover` for any enabled control. The behaviour
+  is exposed as the `pc-icon-hover-effects` mixin so component layers (pure-admin
+  core on `.pa-btn` / `.pa-tabs__item`, etc.) can apply the same effects to their
+  own selectors without redefining them. Additive; no change to existing output.
+  (Two-asset outline↔solid toggle for Heroicons / Fluent is a follow-up, wired
+  when a wrapper renders both layers.) See `pure-admin/docs/icon-hover-fill-design.md`.
+
 ## [1.0.6] — 2026-09-20 [PUBLISHED]
 
 ### Added

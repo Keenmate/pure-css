@@ -1,0 +1,64 @@
+// ── Icon hover affordance (foundation) ────────────────────────────────────────
+// See pure-admin/docs/icon-hover-fill-design.md.
+//
+// Inside an ENABLED interactive control on :hover, icons react — no JS, no SVG
+// computation, driven by convention + marker classes the wrapper stamps:
+//
+//   • Masked `.pa-icon` glyphs that declared a filled source on
+//     `--pa-icon-src-hover` swap their mask to it. NO-OP for outline-only glyphs
+//     (e.g. Lucide ships no solid), and no marker needed — it's automatic.
+//   • Font Awesome `<i>` marked `.pc-icon-hover-fill` flips regular → solid via the
+//     font-weight axis (same codepoint). Needs the `far` regular face present
+//     (largely FA Pro), else there's nothing lighter to flip from.
+//   • Outline icons marked `.pc-icon-hover-highlight` recolour to
+//     `--pc-icon-hover-color` (default: the accent). This is the answer for sets
+//     with no solid form (Lucide): a real hover cue without a fill.
+//
+// The behaviour lives here (foundation) so every consumer — pure-admin core,
+// keen, svelte, the web components — shares ONE definition. Wrappers only stamp
+// the marker classes. `pc-icon-hover-effects` is a mixin so component layers can
+// apply the same effects to their own enabled-control selectors (e.g. core on
+// `.pa-btn` / `.pa-tabs__item`) without redefining them.
+//
+// Deliberately NOT here yet: the two-asset outline↔solid toggle for Heroicons /
+// Fluent (render both layers, swap visibility) — that needs a wrapper markup
+// contract, so it's wired when a wrapper renders both layers.
+
+@mixin pc-icon-hover-effects {
+  // Masked icons: swap to the filled mask source if one was declared. Set the
+  // longhand directly (not --pa-icon-src) so the var(--pa-icon-src) fallback
+  // stays non-cyclic — reassigning --pa-icon-src to reference itself would
+  // compute to invalid and wipe the mask to a solid box.
+  .pa-icon {
+    -webkit-mask-image: var(--pa-icon-src-hover, var(--pa-icon-src));
+            mask-image: var(--pa-icon-src-hover, var(--pa-icon-src));
+  }
+
+  // Font Awesome regular → solid (weight axis). No transition — a font-weight
+  // swap is instant, matching the mask swap.
+  .pc-icon-hover-fill {
+    font-weight: 900;
+  }
+
+  // Outline-only sets (Lucide): recolour the stroke instead of filling. Works
+  // because Lucide SVGs are stroke="currentColor".
+  .pc-icon-hover-highlight {
+    color: var(--pc-icon-hover-color, var(--pc-accent));
+  }
+}
+
+// Shell contexts owned by the foundation: sidebar nav links AND submenu toggles,
+// so a submenu parent's icon reacts identically to a plain/child link (not just
+// to the toggle's own hover colour).
+.pc-sidebar__link:not([aria-disabled='true']):not(.is-disabled):hover,
+.pc-sidebar__toggle:not([aria-disabled='true']):not(.is-disabled):hover {
+  @include pc-icon-hover-effects;
+}
+
+// Generic opt-in: put `.pc-icon-hover` on any enabled control/element to get the
+// behaviour without depending on a component class (a bare link, a custom
+// button, a list row, …). Disabled opt-outs are excluded so only actionable
+// controls react.
+.pc-icon-hover:not([disabled]):not([aria-disabled='true']):not(.is-disabled):hover {
+  @include pc-icon-hover-effects;
+}
