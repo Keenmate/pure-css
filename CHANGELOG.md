@@ -3,6 +3,26 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.1.1] — 2026-09-26 [PUBLISHED]
+
+### Fixed
+
+- **Themes could not override `$base-*` — `_base-css-variables.scss` now `@import`s
+  the variable vocabulary instead of `@use`ing it.** The file pulled its
+  `$`-vocabulary in with `@use 'variables/index' as *`, but Sass refuses to expose
+  a member whose name already exists in the importing global scope — so any consumer
+  that set a `$base-*` value **before** importing (exactly what a theme does, relying
+  on the `!default` flags) failed with *"This module and the new module both define a
+  variable named $base-accent-color"*. The workflow documented at the top of that
+  file therefore worked only for a theme that overrode nothing, and the first real
+  downstream theme (`keen-docs-themes/cobalt2`) could not build. Switched to
+  `@import 'variables/index'`, which shares the one global scope the `!default`
+  mechanism needs (the same reason `variables/_index.scss` uses `@import`). pure-css's
+  own `@use 'base-css-variables' as bcv` entry points are unaffected. Behaviour-
+  preserving for the prebuilt CSS: all 7 artifacts rebuilt, every emitted `--base-*`
+  token name and value identical. Committed as `40b5b88`; it reached `prod` just after
+  the 1.1.0 tarball was cut, so 1.1.1 is its first published release.
+
 ## [1.1.0] — 2026-09-26 [PUBLISHED]
 
 ### Changed
