@@ -72,6 +72,34 @@ If `WIP_VERSION` ≠ `NEW_VERSION` (e.g. the WIP is `X.Y.Z-rcN` but the user ask
 
 ## Steps (in order)
 
+### 0. Preflight — branch + remote drift check [per-repo]
+
+**Run this before anything else — before resolving versions, before any edit.** This
+is the guard against the recurring trap: publishing from a stale `prod` (another
+machine pushed commits you don't have), which silently drops their fixes from the
+release. This bit 1.1.0 — the theme `$base-*` override fix had been pushed to
+`origin/prod` from another machine, the local branch was behind, and the published
+tarball missed it (it took a `1.1.1` to ship).
+
+- **Confirm the branch.** Run `git rev-parse --abbrev-ref HEAD`. Releases are cut
+  from **`prod`** — that's this repo's trunk (there is **no `main`** on the remote).
+  If HEAD is not `prod`, **stop** and tell the user to `git switch prod` (or confirm
+  they really intend to release from another branch) before continuing.
+- **Fetch and compare against the remote.** Run:
+  ```bash
+  git fetch origin
+  git status
+  git log --oneline prod..origin/prod   # commits on the remote you DON'T have
+  git log --oneline origin/prod..prod   # commits you have that aren't pushed
+  ```
+  - If `prod..origin/prod` is **non-empty**, local `prod` is **behind or diverged** —
+    **stop**. Do not bump, edit, or build. Report the missing commits and tell the
+    user to integrate first (`git pull --rebase origin prod`, or merge), then re-run
+    `/publish`. Publishing from behind is exactly what drops another machine's work.
+  - If `prod..origin/prod` is empty (local is up to date or purely ahead), proceed.
+- Note anything `git status` surfaces (uncommitted work) — step 1 handles the
+  file-level detail, but flag it here if the tree is dirty in unexpected ways.
+
 ### 1. Sanity checks [canonical]
 
 - Run `git status`. The repo intentionally keeps `.claude/` untracked — that's fine. **`dist/` IS tracked here**, so a rebuild later in this flow will show `dist/css/*.css` as modified — that's expected and gets committed with the release. If there are **other** uncommitted changes that aren't `CHANGELOG.md`, `README.md`, `package.json`, or `dist/`, list them and ask the user before continuing. (Typical case: substantive `src/scss/` changes belonging in this release that haven't been committed yet — confirm they're intended for this version before bumping.)
