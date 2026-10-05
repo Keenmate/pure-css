@@ -709,16 +709,47 @@ $spacers: (
 .text-warning { color: var(--pc-warning-text) !important; }
 .text-info { color: var(--pc-info-text) !important; }
 
-// Text color utilities (theme custom colors 1-9)
-.text-color-1 { color: var(--pc-color-1) !important; }
-.text-color-2 { color: var(--pc-color-2) !important; }
-.text-color-3 { color: var(--pc-color-3) !important; }
-.text-color-4 { color: var(--pc-color-4) !important; }
-.text-color-5 { color: var(--pc-color-5) !important; }
-.text-color-6 { color: var(--pc-color-6) !important; }
-.text-color-7 { color: var(--pc-color-7) !important; }
-.text-color-8 { color: var(--pc-color-8) !important; }
-.text-color-9 { color: var(--pc-color-9) !important; }
+// Text colour — neutral hierarchy. Maps to --pc-text-color-N (text HIERARCHY),
+// a DIFFERENT scale from the numbered .text-color-N palette below (--pc-color-N
+// data colours). `.text-secondary` is the flat muted/subdued text utility (the
+// muted token used to live only inside a component modifier); `.text-body` is the
+// explicit default body colour. !important so the colour wins when composed onto
+// a component that carries its own colour.
+.text-body      { color: var(--pc-text-color-1) !important; } // default body text (explicit)
+.text-secondary { color: var(--pc-text-color-2) !important; } // muted / subdued body text
+
+// Semantic text shorthands (compound).
+.text-caption {
+  font-size: $font-size-xs;
+  color: var(--pc-text-color-2);
+  margin-bottom: $spacing-sm;
+}
+.text-lead {
+  font-size: $font-size-base;
+  line-height: $line-height-relaxed;
+}
+
+// Theme palette colour utilities (theme custom colors 1-9).
+// Two token layers per slot: --pc-color-N (the slot) + --pc-color-N-text (its
+// guaranteed-contrasting text). Each form applies the slot to one property;
+// `.surface-color-N` is the composite (slot background + readable text). All
+// !important for cascade parity with the role colours above.
+//
+//   .text-color-N     slot as text colour
+//   .bg-color-N       slot as background
+//   .border-color-N   slot as border colour
+//   .text-on-color-N  contrast text only (pair with .bg-color-N yourself)
+//   .surface-color-N  slot background + contrast text in one class
+@for $i from 1 through 9 {
+  .text-color-#{$i} { color: var(--pc-color-#{$i}) !important; }
+  .bg-color-#{$i} { background-color: var(--pc-color-#{$i}) !important; }
+  .border-color-#{$i} { border-color: var(--pc-color-#{$i}) !important; }
+  .text-on-color-#{$i} { color: var(--pc-color-#{$i}-text) !important; }
+  .surface-color-#{$i} {
+    background-color: var(--pc-color-#{$i}) !important;
+    color: var(--pc-color-#{$i}-text) !important;
+  }
+}
 
 // Rounded utilities
 .rounded {

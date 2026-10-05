@@ -3,6 +3,35 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.2.0] — 2026-10-05
+
+### Added
+
+- **Palette + neutral-text utilities graduated from `@keenmate/pure-admin-core`.**
+  The flat colour-apply helpers that consume pure-css's palette (`--pc-color-N` /
+  `--pc-color-N-text`) and text (`--pc-text-color-N`) tokens now live here beside
+  `.text-color-N` and the role colours, completing the foundation utility surface:
+  - **Palette property-forms (slots 1–9):** `.bg-color-N` (background),
+    `.border-color-N` (border), `.text-on-color-N` (contrast text only), and the
+    composite `.surface-color-N` (slot background + guaranteed-readable text). They
+    join the existing `.text-color-N`; all emit `!important` for cascade parity with
+    the role colours.
+  - **Neutral text hierarchy:** `.text-body` (explicit default body colour) and
+    `.text-secondary` (muted / subdued) → `--pc-text-color-1/2`, plus the compound
+    `.text-caption` and `.text-lead` shorthands.
+
+  These were temporarily homed in `pure-admin-core` so they were demo-able over the
+  `file:` link without a pure-css release; this is their permanent home. The
+  numbered `-color-N` helpers were also unprefixed from `pa-*-color-N` in that
+  cycle (see pure-admin Initiative 2). pure-admin-core drops its copies and
+  single-sources them from here — bump its `@keenmate/pure-css` dep to `^1.2.0`.
+
+- **`--base-checkbox-scale` web-component bridge token** (`$base-checkbox-scale`,
+  default `1`). Multiplies a checkbox's own box width/height — NOT a CSS
+  `transform`, which pixel-snaps the fractionally-positioned mask glyph off-centre.
+  The box sizes as `calc(<base-size> * var(--base-checkbox-scale))` and the glyph
+  via `--base-icon-check-size`, so one knob resizes every checkbox in lockstep.
+
 ## [1.1.1] — 2026-09-26 [PUBLISHED]
 
 ### Fixed

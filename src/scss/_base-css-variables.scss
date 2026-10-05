@@ -188,6 +188,10 @@
   --base-border-radius-sm: #{$base-border-radius-sm};
   --base-border-radius-md: #{$base-border-radius-md};
   --base-border-radius-lg: #{$base-border-radius-lg};
+  // Checkbox BOX scale — multiplies the box's own size (NOT a transform, which
+  // would pixel-snap the mask glyph off-centre). One knob every component with a
+  // checkbox reads; pairs with --base-icon-check-size.
+  --base-checkbox-scale: #{$base-checkbox-scale};
 
   // === Rem base for web components ===
   --base-rem: #{$base-rem};

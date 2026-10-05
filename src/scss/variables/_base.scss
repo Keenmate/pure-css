@@ -296,6 +296,14 @@ $base-border-radius-sm: 0.4 !default;  // 4px
 $base-border-radius-md: 0.6 !default;  // 6px
 $base-border-radius-lg: 0.8 !default;  // 8px
 
+// Checkbox BOX scale (web-component bridge: --base-checkbox-scale) — multiplies
+// the box's OWN width/height, NOT a CSS transform (a transform pixel-snaps the
+// fractionally-positioned mask glyph and shifts it off-centre). The box sizes as
+// `calc(<base-size> * var(--base-checkbox-scale))`, the glyph via
+// --base-icon-check-size. One knob every component with a checkbox reads, so a
+// theme resizes all of them in lockstep. 1 = the component's base size.
+$base-checkbox-scale: 1 !default;
+
 // Rem base for web components (bridge: --base-rem). They size themselves as
 // `calc(<unitless-multiplier> * var(--base-rem, 10px))`. pure-css pins
 // `html { font-size: 10px }` (reboot), so `1rem` tracks that base adaptively.
