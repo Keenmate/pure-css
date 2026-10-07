@@ -3,7 +3,7 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.2.0] — 2026-10-05
+## [1.2.0] — 2026-10-07 [PUBLISHED]
 
 ### Added
 
@@ -31,6 +31,42 @@ All notable changes to `@keenmate/pure-css` are documented here. Format based on
   `transform`, which pixel-snaps the fractionally-positioned mask glyph off-centre.
   The box sizes as `calc(<base-size> * var(--base-checkbox-scale))` and the glyph
   via `--base-icon-check-size`, so one knob resizes every checkbox in lockstep.
+
+- **Role surface utilities — `.bg-{role}` / `.text-on-{role}` / `.surface-{role}`**
+  (`utilities.scss`). The role parallel of the numeric
+  `.{bg,text-on,surface}-color-N` family: fill from `--pc-{role}` (primary →
+  `--pc-accent`), on-fill contrast text from `--base-text-on-{role}` (the only
+  on-role contrast token — the foreground `.text-{role}` is a different colour).
+  `.bg-{role}` sets the role colour as background only, `.text-on-{role}` the
+  contrast text to pair with it, and `.surface-{role}` combines both in one class.
+  Emitted for primary / success / warning / danger / info, all `!important` for
+  cascade parity with the role text utilities.
+
+- **Opt-in desktop overlay sidebar — `.sidebar-overlay`** (`_layout-responsive.scss`).
+  The mobile off-canvas drawer (fixed sheet that slides in/out with a fading
+  backdrop scrim) was refactored into a shared `sidebar-drawer-overlay` mixin
+  parameterised by a body qualifier and drawer width. The mobile
+  `@media (max-width: $mobile-breakpoint)` path calls it unqualified at a 90vw
+  sheet; the new `body.sidebar-overlay` caller applies the same drawer behaviour at
+  any width (normal `$sidebar-width`, 288px) so a burger can open a temporary
+  floating sidebar on desktop with the content usable behind it. The qualifier
+  composes onto `body` so the `body.loaded` transition gate and `.sidebar-visible`
+  open state stay same-element compounds, and RTL still slides the drawer off the
+  inline-start edge.
+
+- **Foundation component catalog — `COMPONENTS.md` + `components.json`**
+  (`scripts/build-catalog.mjs`, `npm run catalog`). A generated manifest of the
+  foundation surface pure-admin's catalog deliberately doesn't track: the `pc-*`
+  components (grid, app-shell, fit engine, responsive / mode state hooks,
+  icon-hover) plus the unprefixed utility classes. Extraction is from the COMPILED
+  bundles on purpose — the grid / visibility / offset families and the utilities
+  are loop-generated, so only the compiled CSS is the complete list; a source-only
+  parse would miss every interpolated class. Each `pc-*` class is assigned to a
+  component by longest-prefix match against a hand-authored taxonomy, and the build
+  FAILS on any unclassified class (drift) or unused prefix (stale) so coverage
+  can't silently rot. Wired into `prepublishOnly` (build → catalog) and both files
+  ship in the package `files[]`, giving the svelte / phoenix wrappers a source of
+  truth to validate their non-`pa-*` emitted DOM against.
 
 ## [1.1.1] — 2026-09-26 [PUBLISHED]
 

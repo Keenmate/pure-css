@@ -709,6 +709,24 @@ $spacers: (
 .text-warning { color: var(--pc-warning-text) !important; }
 .text-info { color: var(--pc-info-text) !important; }
 
+// Role SURFACE utilities — the role parallel of the numeric
+// .{bg,text-on,surface}-color-N family below. Fill = --pc-{role} (primary →
+// --pc-accent); on-fill contrast text = --base-text-on-{role} (the only on-role
+// contrast token — foreground .text-{role} above is a DIFFERENT colour). All
+// !important for cascade parity with the role text utilities.
+//
+//   .bg-{role}        role colour as background (no text change)
+//   .text-on-{role}   contrast text to sit on a role fill (pair with .bg-{role})
+//   .surface-{role}   role background + contrast text in one class
+@each $role, $fill in (primary: accent, success: success, warning: warning, danger: danger, info: info) {
+  .bg-#{$role} { background-color: var(--pc-#{$fill}) !important; }
+  .text-on-#{$role} { color: var(--base-text-on-#{$role}) !important; }
+  .surface-#{$role} {
+    background-color: var(--pc-#{$fill}) !important;
+    color: var(--base-text-on-#{$role}) !important;
+  }
+}
+
 // Text colour — neutral hierarchy. Maps to --pc-text-color-N (text HIERARCHY),
 // a DIFFERENT scale from the numbered .text-color-N palette below (--pc-color-N
 // data colours). `.text-secondary` is the flat muted/subdued text utility (the

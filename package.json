@@ -24,7 +24,9 @@
     "src/js/",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "components.json",
+    "COMPONENTS.md"
   ],
   "scripts": {
     "build:bundle": "sass src/scss/pure-css.scss dist/css/pure-css.css --no-source-map --silence-deprecation=import",
@@ -42,7 +44,8 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:install": "playwright install chromium",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build && npm run catalog",
+    "catalog": "node scripts/build-catalog.mjs"
   },
   "keywords": [
     "css",

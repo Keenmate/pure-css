@@ -2961,8 +2961,8 @@ body.pc-layout--sticky .pc-layout__inner {
 }
 
 @media (max-width: 768px) {
-  .pc-layout__sidebar,
-  .pc-layout__sidebar--icon-collapse {
+  body .pc-layout__sidebar,
+  body .pc-layout__sidebar--icon-collapse {
     position: fixed;
     top: 4.8rem;
     inset-inline-start: 0;
@@ -2977,15 +2977,11 @@ body.pc-layout--sticky .pc-layout__inner {
     transform: translateX(-100%);
     visibility: hidden;
   }
-  body.loaded .pc-layout__sidebar,
-  body.loaded .pc-layout__sidebar--icon-collapse {
-    transition: transform 0.25s ease-out, visibility 0.25s ease-out;
-  }
-  [dir=rtl] .pc-layout__sidebar,
-  [dir=rtl] .pc-layout__sidebar--icon-collapse {
+  [dir=rtl] body .pc-layout__sidebar,
+  [dir=rtl] body .pc-layout__sidebar--icon-collapse {
     transform: translateX(100%);
   }
-  .pc-layout__sidebar--icon-collapse .pc-sidebar__label {
+  body .pc-layout__sidebar--icon-collapse .pc-sidebar__label {
     opacity: 1 !important;
     width: auto !important;
     overflow: visible !important;
@@ -3003,23 +2999,27 @@ body.pc-layout--sticky .pc-layout__inner {
     visibility: hidden;
     pointer-events: none;
   }
-  body.loaded body::before {
+  body.loaded .pc-layout__sidebar,
+  body.loaded .pc-layout__sidebar--icon-collapse {
+    transition: transform 0.25s ease-out, visibility 0.25s ease-out;
+  }
+  body.loaded::before {
     transition: opacity 0.25s ease-out, visibility 0.25s ease-out;
   }
-  .sidebar-visible {
+  body.sidebar-visible {
     overflow: hidden;
   }
-  .sidebar-visible .pc-layout__sidebar,
-  .sidebar-visible .pc-layout__sidebar--icon-collapse {
+  body.sidebar-visible .pc-layout__sidebar,
+  body.sidebar-visible .pc-layout__sidebar--icon-collapse {
     transform: translateX(0);
     visibility: visible;
   }
-  .sidebar-visible::before {
+  body.sidebar-visible::before {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
   }
-  .pc-sidebar-resize {
+  body .pc-sidebar-resize {
     display: none;
   }
   .pc-navbar__inner {
@@ -3029,6 +3029,69 @@ body.pc-layout--sticky .pc-layout__inner {
     display: none;
   }
   .theme-switcher label {
+    display: none;
+  }
+}
+@media (min-width: 769px) {
+  body.sidebar-overlay .pc-layout__sidebar,
+  body.sidebar-overlay .pc-layout__sidebar--icon-collapse {
+    position: fixed;
+    top: 4.8rem;
+    inset-inline-start: 0;
+    bottom: 0;
+    width: 28.8rem;
+    z-index: 1050;
+    background-color: var(--pc-sidebar-bg, var(--base-page-bg));
+    opacity: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-inline-end: none;
+    transform: translateX(-100%);
+    visibility: hidden;
+  }
+  [dir=rtl] body.sidebar-overlay .pc-layout__sidebar,
+  [dir=rtl] body.sidebar-overlay .pc-layout__sidebar--icon-collapse {
+    transform: translateX(100%);
+  }
+  body.sidebar-overlay .pc-layout__sidebar--icon-collapse .pc-sidebar__label {
+    opacity: 1 !important;
+    width: auto !important;
+    overflow: visible !important;
+    position: static !important;
+  }
+  body.sidebar-overlay::before {
+    content: "";
+    position: fixed;
+    top: 4.8rem;
+    inset-inline: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  body.sidebar-overlay.loaded .pc-layout__sidebar,
+  body.sidebar-overlay.loaded .pc-layout__sidebar--icon-collapse {
+    transition: transform 0.25s ease-out, visibility 0.25s ease-out;
+  }
+  body.sidebar-overlay.loaded::before {
+    transition: opacity 0.25s ease-out, visibility 0.25s ease-out;
+  }
+  body.sidebar-overlay.sidebar-visible {
+    overflow: hidden;
+  }
+  body.sidebar-overlay.sidebar-visible .pc-layout__sidebar,
+  body.sidebar-overlay.sidebar-visible .pc-layout__sidebar--icon-collapse {
+    transform: translateX(0);
+    visibility: visible;
+  }
+  body.sidebar-overlay.sidebar-visible::before {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  body.sidebar-overlay .pc-sidebar-resize {
     display: none;
   }
 }
@@ -5732,6 +5795,71 @@ body.pc-layout--sticky .pc-layout__inner {
 
 .text-info {
   color: var(--pc-info-text) !important;
+}
+
+.bg-primary {
+  background-color: var(--pc-accent) !important;
+}
+
+.text-on-primary {
+  color: var(--base-text-on-primary) !important;
+}
+
+.surface-primary {
+  background-color: var(--pc-accent) !important;
+  color: var(--base-text-on-primary) !important;
+}
+
+.bg-success {
+  background-color: var(--pc-success) !important;
+}
+
+.text-on-success {
+  color: var(--base-text-on-success) !important;
+}
+
+.surface-success {
+  background-color: var(--pc-success) !important;
+  color: var(--base-text-on-success) !important;
+}
+
+.bg-warning {
+  background-color: var(--pc-warning) !important;
+}
+
+.text-on-warning {
+  color: var(--base-text-on-warning) !important;
+}
+
+.surface-warning {
+  background-color: var(--pc-warning) !important;
+  color: var(--base-text-on-warning) !important;
+}
+
+.bg-danger {
+  background-color: var(--pc-danger) !important;
+}
+
+.text-on-danger {
+  color: var(--base-text-on-danger) !important;
+}
+
+.surface-danger {
+  background-color: var(--pc-danger) !important;
+  color: var(--base-text-on-danger) !important;
+}
+
+.bg-info {
+  background-color: var(--pc-info) !important;
+}
+
+.text-on-info {
+  color: var(--base-text-on-info) !important;
+}
+
+.surface-info {
+  background-color: var(--pc-info) !important;
+  color: var(--base-text-on-info) !important;
 }
 
 .text-body {

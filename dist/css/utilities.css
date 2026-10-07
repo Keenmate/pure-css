@@ -2583,6 +2583,71 @@
   color: var(--pc-info-text) !important;
 }
 
+.bg-primary {
+  background-color: var(--pc-accent) !important;
+}
+
+.text-on-primary {
+  color: var(--base-text-on-primary) !important;
+}
+
+.surface-primary {
+  background-color: var(--pc-accent) !important;
+  color: var(--base-text-on-primary) !important;
+}
+
+.bg-success {
+  background-color: var(--pc-success) !important;
+}
+
+.text-on-success {
+  color: var(--base-text-on-success) !important;
+}
+
+.surface-success {
+  background-color: var(--pc-success) !important;
+  color: var(--base-text-on-success) !important;
+}
+
+.bg-warning {
+  background-color: var(--pc-warning) !important;
+}
+
+.text-on-warning {
+  color: var(--base-text-on-warning) !important;
+}
+
+.surface-warning {
+  background-color: var(--pc-warning) !important;
+  color: var(--base-text-on-warning) !important;
+}
+
+.bg-danger {
+  background-color: var(--pc-danger) !important;
+}
+
+.text-on-danger {
+  color: var(--base-text-on-danger) !important;
+}
+
+.surface-danger {
+  background-color: var(--pc-danger) !important;
+  color: var(--base-text-on-danger) !important;
+}
+
+.bg-info {
+  background-color: var(--pc-info) !important;
+}
+
+.text-on-info {
+  color: var(--base-text-on-info) !important;
+}
+
+.surface-info {
+  background-color: var(--pc-info) !important;
+  color: var(--base-text-on-info) !important;
+}
+
 .text-body {
   color: var(--pc-text-color-1) !important;
 }
