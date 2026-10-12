@@ -38,9 +38,21 @@
       display: none;
     }
 
-    // Hide submenus when collapsed (but allow hover override)
+    // Collapsed submenus become hover flyouts. Hidden via visibility/opacity
+    // (NOT display) and positioned out of flow, so the HIDE can be DELAYED —
+    // giving hover-intent grace: when the cursor leaves the item the flyout
+    // lingers ~0.4s so you can travel back onto it before it disappears.
+    // (display can't transition, so the old `display: none` made the flyout
+    // vanish the instant hover was lost — too harsh.) The :hover rules below
+    // flip it visible with zero delay.
     .pc-sidebar__submenu {
-      display: none;
+      position: absolute;
+      inset-inline-start: 100%; // RTL: flips to right: 100%
+      top: 0;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity $transition-fast $easing-snappy,
+                  visibility 0s linear 0.4s;
     }
 
     // Icon stays in same position (no changes needed - already fixed width)
@@ -68,14 +80,12 @@
         top: 0;
         bottom: 0;
         padding: $spacing-sm $spacing-base;
-        background-color: var(--pc-sidebar-bg, var(--base-page-bg));
+        background-color: var(--pc-sidebar-flyout-bg, var(--base-main-bg));
+        background-image: linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)); // elevation film: on dark themes (where main-bg is close to the rail) this lifts the panel clearly above it; negligible on light themes
+        color: var(--pc-sidebar-flyout-text, var(--base-text-color-1)); // paired with main-bg, like the submenu flyout
         border: $border-width-base solid var(--pc-border-color);
-        border-inline-start: none; // RTL: flips to border-right: none
-        border-start-start-radius: 0;
-        border-start-end-radius: var(--pc-border-radius);
-        border-end-end-radius: var(--pc-border-radius);
-        border-end-start-radius: 0;
-        box-shadow: $shadow-md;
+        border-radius: var(--pc-border-radius); // full rounded card (was attached: no inline-start border, square start corners)
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
         white-space: nowrap;
         z-index: 10; // Relative to parent
         display: flex;
@@ -83,10 +93,15 @@
       }
     }
 
-    // Show submenu flyout on hover (for items with submenus)
+    // Show submenu flyout on hover (for items with submenus). Visible with NO
+    // delay (the hide delay lives on the base rule above = the grace period).
+    // Hovering the flyout itself (`&:hover`) also keeps it open, so you can
+    // travel from the icon onto the menu.
     .pc-sidebar__item:hover > .pc-sidebar__submenu,
     .pc-sidebar__submenu:hover {
-      display: block !important;
+      visibility: visible;
+      opacity: 1;
+      transition-delay: 0s;
       max-height: none !important;
       overflow: visible !important;
       position: absolute;
@@ -96,14 +111,17 @@
       margin: 0;
       padding: 0;
       list-style: none;
-      background-color: var(--pc-sidebar-submenu-bg, var(--base-subtle-bg));
+      background-color: var(--pc-sidebar-flyout-bg, var(--base-main-bg));
+      background-image: linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)); // elevation film: on dark themes (where main-bg is close to the rail) this lifts the panel clearly above it; negligible on light themes
+      // Flyout is an ELEVATED content-surface popup (like a dropdown), not part
+      // of the sidebar rail — so it reads on the main surface tone, and its text
+      // must use the PAIRED main-surface text colour (sidebar text is tuned for
+      // the darker rail bg and would lose contrast on main-bg). Cascades to the
+      // nested level-3 flyout links + masked icons (currentColor).
+      color: var(--pc-sidebar-flyout-text, var(--base-text-color-1));
       border: $border-width-base solid var(--pc-border-color);
-      border-inline-start: none; // RTL: flips to border-right: none
-      border-start-start-radius: 0;
-      border-start-end-radius: var(--pc-border-radius);
-      border-end-end-radius: var(--pc-border-radius);
-      border-end-start-radius: 0;
-      box-shadow: $shadow-md;
+      border-radius: var(--pc-border-radius); // full rounded card (was attached: no inline-start border, square start corners)
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
       z-index: 1001; // Higher than parent
 
       // Reset submenu styling for flyout
@@ -116,7 +134,12 @@
         padding: $spacing-sm $spacing-base;
         justify-content: flex-start;
         gap: $sidebar-item-gap;
-        font-size: $font-size-sm;
+        font-size: $font-size-base; // Flyout is a popup menu — keep it readable, don't shrink
+        // Links set their OWN colour in the base (--base-text-color-2, the dim
+        // rail-nav tone), which beats the container's inherited colour — so set
+        // the paired bright flyout text here (matches the label flyout). The
+        // masked icons follow via currentColor.
+        color: var(--pc-sidebar-flyout-text, var(--base-text-color-1));
         width: 100%;
 
         &:hover {
@@ -151,14 +174,14 @@
         transform: none !important; // Always point end direction in flyout menus
       }
 
-      // Nested submenu flyout (level 3)
-      .pc-sidebar__submenu {
-        display: none;
-      }
-
+      // Nested submenu flyout (level 3). The base rule above already hides every
+      // submenu (visibility:hidden) with the grace delay, so no re-hide is needed
+      // here — just flip it visible on hover, same mechanism as level 2.
       .pc-sidebar__item:hover > .pc-sidebar__submenu,
       .pc-sidebar__submenu .pc-sidebar__submenu:hover {
-        display: block !important;
+        visibility: visible;
+        opacity: 1;
+        transition-delay: 0s;
         max-height: none !important;
         overflow: visible !important;
         position: absolute;
@@ -168,19 +191,17 @@
         margin: 0;
         padding: 0;
         list-style: none;
-        background-color: var(--pc-sidebar-submenu-bg, var(--base-subtle-bg));
+        background-color: var(--pc-sidebar-flyout-bg, var(--base-main-bg));
+        background-image: linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)); // elevation film: on dark themes (where main-bg is close to the rail) this lifts the panel clearly above it; negligible on light themes
         border: $border-width-base solid var(--pc-border-color);
-        border-inline-start: none; // RTL: flips to border-right: none
-        border-start-start-radius: 0;
-        border-start-end-radius: var(--pc-border-radius);
-        border-end-end-radius: var(--pc-border-radius);
-        border-end-start-radius: 0;
-        box-shadow: $shadow-md;
+        border-radius: var(--pc-border-radius); // full rounded card (was attached: no inline-start border, square start corners)
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
         z-index: 1002; // Higher than parent submenu
 
         .pc-sidebar__link,
         .pc-sidebar__toggle {
-          font-size: $font-size-xs;
+          font-size: $font-size-base; // Nested flyout stays readable too — no per-level shrink
+          color: var(--pc-sidebar-flyout-text, var(--base-text-color-1)); // bright paired text, like level 2
         }
 
         .pc-sidebar__chevron {

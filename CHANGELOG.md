@@ -3,6 +3,52 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.3.0-rc01] — 2026-10-12 [PUBLISHED]
+
+### Added
+
+- **`sidebar-flyout.js` — viewport-aware positioning for collapsed submenu
+  flyouts.** In icon-collapse mode the submenu flyouts were pure CSS
+  (`position:absolute; top:0`) with no collision detection, so a flyout on an
+  item low in a tall menu opened downward off the bottom edge and was clipped /
+  unreachable. The new engine (no Floating-UI dependency — hand-positioned with
+  `getBoundingClientRect`, like `fit.js`) shifts a flyout up so its bottom stays
+  on-screen, caps + scrolls it when taller than the viewport, and flips it to the
+  start side (RTL-aware) if it would overflow the end edge. Event-delegated on
+  `document`, so it survives SPA / LiveView DOM swaps; self-inits, acts only in
+  collapsed mode. Registered at `pureCss.components.sidebarFlyout`.
+
+### Changed
+
+- **Sidebar submenus no longer shrink the font per nesting level.** Levels 2 and
+  3 (and the collapsed-rail hover flyouts, incl. the nested level-3 flyout) were
+  stepping the text down `base → md → sm → xs` (16 → 15 → 14 → 12px), which made
+  collapsed-mode multilevel flyouts hard to read. Depth is already conveyed by
+  indentation, so every submenu level now uses `$font-size-base` — a popup menu
+  stays at full reading size regardless of depth. (`_sidebar.scss`,
+  `_sidebar-states.scss`.)
+- **Collapsed-rail flyouts now read as elevated floating cards, not more sidebar.**
+  They were painted with the *sunken* `--base-subtle-bg` tone (on dark themes that
+  was actually DARKER than the rail) + a weak shadow + an attached 3-sided border,
+  so they looked muted. They now float: `--pc-sidebar-flyout-bg` (default
+  `--base-main-bg`) with an 8% white **elevation film** so the panel is reliably
+  lighter than the rail even when the theme's surface tones are close; the paired
+  `--pc-sidebar-flyout-text` (default `--base-text-color-1`, so text stays readable
+  on the lifted surface in every theme — the rail's own text colour would not); a
+  full rounded border (detached card, was square-cornered + no inline-start border);
+  and a pronounced `0 12px 32px rgba(0,0,0,.5)` shadow that reads on dark themes
+  too. (`_sidebar-states.scss`.)
+
+### Fixed
+
+- **Collapsed-rail submenu flyouts no longer vanish the instant the cursor
+  leaves the item.** The icon-rail hover flyouts toggled with `display:none ↔
+  block`, which can't be transitioned — so leaving the trigger's hitbox hid the
+  menu immediately, with no chance to travel back to it. They now hide via
+  `visibility`/`opacity` with a ~0.4s hide delay (shown with zero delay), giving
+  hover-intent grace; hovering the flyout itself still keeps it open.
+  (`_sidebar-states.scss`.)
+
 ## [1.2.0] — 2026-10-07 [PUBLISHED]
 
 ### Added

@@ -12,6 +12,13 @@ It's the shared layer the whole Keenmate stack agrees on:
 top of it, and every Keenmate web/Svelte component reads its colours from the same `--base-*`
 variables.
 
+## What's New in 1.3.0-rc01
+
+- **Shell — `sidebar-flyout.js`, viewport-aware positioning for collapsed submenu flyouts** — in icon-collapse mode the rail's submenu flyouts were pure CSS (`position: absolute; top: 0` relative to their item) with no collision detection, so a flyout on an item low in a tall menu always opened downward and its lower entries were clipped off the bottom of the viewport. The new engine measures the flyout with `getBoundingClientRect` (no Floating-UI dependency, the same hand-positioning approach as `fit.js`) and shifts it up so its bottom edge stays on-screen. When it's taller than the viewport it caps the height and lets the flyout scroll, and when it would overflow the end edge it flips to the start side, honouring RTL via the computed `direction`. It's event-delegated on `document`, so it survives SPA route changes and LiveView DOM patches. It self-inits, only acts while `body.sidebar-hidden` is set, and is registered at `pureCss.components.sidebarFlyout` (`init` / `position` / `clearAll`).
+- **Shell — collapsed-rail flyouts read as elevated floating cards** — the flyouts used the sunken `--base-subtle-bg` tone, which on dark themes was actually darker than the rail, plus a weak shadow and an attached three-sided border, so they looked like a muted extension of the sidebar. They now float: two new opt-in tokens, `--pc-sidebar-flyout-bg` (falls back to `--base-main-bg`) and `--pc-sidebar-flyout-text` (falls back to `--base-text-color-1`), give a lifted surface with paired readable text. An 8% white elevation film keeps the panel lighter than the rail even when theme surface tones are close. A full rounded border and a pronounced `0 12px 32px rgba(0,0,0,.5)` shadow make it read as a detached card on dark themes too.
+- **Shell — hover-intent grace on collapsed flyouts** — flyouts toggled `display: none ↔ block`, which can't transition, so the menu vanished the instant the cursor left the trigger's hitbox and there was no way to travel onto it. They now hide via `visibility` / `opacity` with a ~0.4s hide delay and show with zero delay, and hovering the flyout itself still keeps it open (`_sidebar-states.scss`).
+- **Shell — submenus keep full reading size at every depth** — levels 2 and 3 (and the collapsed-rail flyouts, including the nested level-3 flyout) stepped the text down `base → md → sm → xs` (16 → 15 → 14 → 12px), which made multilevel flyouts hard to read. Indentation already conveys depth, so every submenu level now uses `$font-size-base` (`_sidebar.scss`, `_sidebar-states.scss`).
+
 ## What's New in 1.2.0
 
 > **Upgrade note — additive for pure-css, a coordinated rename downstream.** Every
@@ -28,10 +35,6 @@ variables.
 - **Shell — opt-in desktop overlay sidebar (`.sidebar-overlay`)** — the mobile off-canvas drawer was refactored into a shared `sidebar-drawer-overlay` mixin, and a new `body.sidebar-overlay` caller reuses it on desktop at the normal 288px `$sidebar-width`: a burger opens a temporary floating sidebar (fixed sheet sliding in with a fading backdrop) over usable content, rather than reflowing the layout. RTL and the `body.loaded` first-paint transition gate are preserved.
 - **Tooling — foundation component catalog (`COMPONENTS.md` / `components.json`)** — a new `npm run catalog` (`scripts/build-catalog.mjs`) generates a human- and machine-readable manifest of the `pc-*` components and unprefixed utilities from the compiled bundles, so the svelte / phoenix wrappers have a source of truth to validate their emitted DOM against. It assigns every `pc-*` class to a component by longest-prefix match against a hand-authored taxonomy and fails the build on any unclassified class or unused prefix, so coverage can't drift; it's wired into `prepublishOnly` and both files ship in the package.
 - **Theming — `--base-checkbox-scale` bridge token** — a new `$base-checkbox-scale` (default `1`) mirrored from `@keenmate/base-css-variables`, emitted as `--base-checkbox-scale`. It multiplies a checkbox's own box width/height (`calc(<base-size> * var(--base-checkbox-scale))`) rather than a `transform: scale()` that would pixel-snap the mask glyph off-centre, so one knob resizes every checkbox in lockstep (paired with `--base-icon-check-size`).
-
-## What's New in 1.1.1
-
-- **Theming — downstream themes can finally override `$base-*` at compile time** — `_base-css-variables.scss` loaded its `$`-vocabulary with `@use 'variables/index' as *`, but Sass won't re-expose a member that already exists in the importing global scope, so any theme that set `$base-*` values *before* importing (the whole point of the `!default` contract) crashed with *"both define a variable named $base-accent-color"* — the workflow documented in that file compiled only when the theme overrode nothing, and the first real theme (`keen-docs-themes/cobalt2`) couldn't build. Switching to `@import 'variables/index'` shares the single global scope the `!default` mechanism relies on (the same reason `variables/_index.scss` uses `@import`), so `$base-*` overrides now land. It's behaviour-preserving for the prebuilt CSS — all seven artifacts rebuilt with every emitted `--base-*` name and value identical — and pure-css's own `@use … as bcv` entry points are unchanged. This landed just after the 1.1.0 tarball was cut, so 1.1.1 is the first release to actually ship it.
 
 ## Why
 
@@ -111,6 +114,7 @@ bundler required, drop it in with a `<script>` and call `initAll`:
 <script src="node_modules/@keenmate/pure-css/src/js/fit.js"></script>
 <script src="node_modules/@keenmate/pure-css/src/js/navbar-dropdown.js"></script>
 <script src="node_modules/@keenmate/pure-css/src/js/sidebar-resize.js"></script>
+<script src="node_modules/@keenmate/pure-css/src/js/sidebar-flyout.js"></script>
 <script>window.pureCss.components.initAll(document);</script>
 ```
 

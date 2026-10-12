@@ -379,7 +379,7 @@ body.pc-layout--sticky .pc-layout__sidebar {
   // Level 2 submenu links
   &__submenu > &__item > &__link {
     padding-inline-start: $sidebar-submenu-indent; // RTL: flips to padding-right
-    font-size: $font-size-md;
+    font-size: $font-size-base; // Depth is conveyed by indentation, not by shrinking text
     border-inline-end: $border-width-medium solid transparent; // RTL: flips to border-left
 
     &:hover {
@@ -396,13 +396,13 @@ body.pc-layout--sticky .pc-layout__sidebar {
   // Level 2 submenu toggles (for third level)
   &__submenu > &__item > &__toggle {
     padding-inline-start: $sidebar-submenu-indent; // RTL: flips to padding-right
-    font-size: $font-size-md;
+    font-size: $font-size-base; // Match level 2 links — no per-level shrink
   }
 
   // Level 3 submenu links
   &__submenu &__submenu > &__item > &__link {
     padding-inline-start: calc($sidebar-submenu-indent * $sidebar-submenu-indent-multiplier); // RTL: flips
-    font-size: $font-size-sm;
+    font-size: $font-size-base; // Depth is conveyed by indentation, not by shrinking text
     border-inline-end: $border-width-base solid transparent; // RTL: flips to border-left
 
     &--active {
