@@ -212,6 +212,7 @@
   --pc-link-color-hover: color-mix(in srgb, var(--pc-link-color), currentColor 50%);
   --pc-link-color-visited: var(--pc-link-color);
   --pc-border-color: var(--base-border-color, #e2e8f0);
+  --pc-secondary: var(--base-secondary-color, #6c757d);
   --pc-success: #10b981;
   --pc-warning: #f59e0b;
   --pc-danger: #ef4444;

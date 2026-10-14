@@ -2567,6 +2567,10 @@
   color: var(--pc-accent) !important;
 }
 
+.text-secondary {
+  color: var(--pc-secondary) !important;
+}
+
 .text-success {
   color: var(--pc-success-text) !important;
 }
@@ -2594,6 +2598,19 @@
 .surface-primary {
   background-color: var(--pc-accent) !important;
   color: var(--base-text-on-primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--pc-secondary) !important;
+}
+
+.text-on-secondary {
+  color: var(--base-text-on-secondary) !important;
+}
+
+.surface-secondary {
+  background-color: var(--pc-secondary) !important;
+  color: var(--base-text-on-secondary) !important;
 }
 
 .bg-success {
@@ -2652,7 +2669,7 @@
   color: var(--pc-text-color-1) !important;
 }
 
-.text-secondary {
+.text-muted {
   color: var(--pc-text-color-2) !important;
 }
 

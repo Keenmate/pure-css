@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run `npm run catalog` (after `npm run build`) when any `pc-*` class or utility changes.
 > Machine-readable form: [`components.json`](./components.json).
 
-Package version **1.3.0-rc01** · **11** pc-* components · **381** pc-* selectors · **718** utility classes.
+Package version **1.3.0-rc01** · **11** pc-* components · **381** pc-* selectors · **722** utility classes.
 
 This is the pure-css half of the wrapper-fidelity contract: the foundation (`pc-*` grid + app-shell + engines, and the unprefixed utility classes) that the pure-admin catalog intentionally does **not** track. The svelte / phoenix wrappers validate the non-`pa-*` classes they emit against this catalog.
 
@@ -122,12 +122,12 @@ Per-set icon hover strategy hooks: pc-icon-hover with -fill / -highlight variant
 
 ## Utilities
 
-**718** unprefixed utility classes across **21** families (harvested from compiled `dist/css/utilities.css`). Full per-class list in [`components.json`](./components.json) → `utilities.classes`.
+**722** unprefixed utility classes across **21** families (harvested from compiled `dist/css/utilities.css`). Full per-class list in [`components.json`](./components.json) → `utilities.classes`.
 
 | Family | Count | Examples |
 |---|--:|---|
 | background (palette) | 9 | `bg-color-1`, `bg-color-2`, `bg-color-3`, `bg-color-4`, `bg-color-5`, `bg-color-6` … |
-| background (role / named) | 5 | `bg-danger`, `bg-info`, `bg-primary`, `bg-success`, `bg-warning` |
+| background (role / named) | 6 | `bg-danger`, `bg-info`, `bg-primary`, `bg-secondary`, `bg-success`, `bg-warning` |
 | border (width / side / style / colour) | 14 | `border`, `border-0`, `border-bottom`, `border-bottom-0`, `border-dashed`, `border-dotted` … |
 | border colour (palette) | 9 | `border-color-1`, `border-color-2`, `border-color-3`, `border-color-4`, `border-color-5`, `border-color-6` … |
 | border radius | 8 | `rounded`, `rounded-0`, `rounded-bottom`, `rounded-circle`, `rounded-left`, `rounded-lg` … |
@@ -141,9 +141,9 @@ Per-set icon hover strategy hooks: pc-icon-hover with -fill / -highlight variant
 | padding | 133 | `p-0`, `p-1`, `p-10`, `p-12`, `p-16`, `p-2` … |
 | position | 5 | `position-absolute`, `position-fixed`, `position-relative`, `position-static`, `position-sticky` |
 | surface (palette) | 9 | `surface-color-1`, `surface-color-2`, `surface-color-3`, `surface-color-4`, `surface-color-5`, `surface-color-6` … |
-| surface (role / named) | 5 | `surface-danger`, `surface-info`, `surface-primary`, `surface-success`, `surface-warning` |
-| text (colour / alignment / wrap) | 12 | `text-body`, `text-caption`, `text-center`, `text-danger`, `text-info`, `text-lead` … |
+| surface (role / named) | 6 | `surface-danger`, `surface-info`, `surface-primary`, `surface-secondary`, `surface-success`, `surface-warning` |
+| text (colour / alignment / wrap) | 13 | `text-body`, `text-caption`, `text-center`, `text-danger`, `text-info`, `text-lead` … |
 | text colour (palette) | 9 | `text-color-1`, `text-color-2`, `text-color-3`, `text-color-4`, `text-color-5`, `text-color-6` … |
 | text-on (palette contrast) | 9 | `text-on-color-1`, `text-on-color-2`, `text-on-color-3`, `text-on-color-4`, `text-on-color-5`, `text-on-color-6` … |
-| text-on (role contrast) | 5 | `text-on-danger`, `text-on-info`, `text-on-primary`, `text-on-success`, `text-on-warning` |
+| text-on (role contrast) | 6 | `text-on-danger`, `text-on-info`, `text-on-primary`, `text-on-secondary`, `text-on-success`, `text-on-warning` |
 | width (incl. min / max, rem variants) | 146 | `maxw-1-2`, `maxw-1-3`, `maxw-1-4`, `maxw-10`, `maxw-100`, `maxw-15` … |

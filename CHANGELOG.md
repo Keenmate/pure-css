@@ -3,6 +3,24 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [Unreleased]
+
+### Added
+
+- **Secondary is now a full role.** New `--pc-secondary` token (live reference
+  to `--base-secondary-color`) plus `.bg-secondary`, `.text-on-secondary` and
+  `.surface-secondary`, matching primary / success / warning / danger / info.
+- **`.text-muted`** — the muted / subdued body-text utility
+  (`--pc-text-color-2`).
+
+### Changed
+
+- **BREAKING: `.text-secondary` is now the secondary role colour**
+  (`--pc-secondary`, `#6c757d`), not muted text. Migrate muted usages
+  `.text-secondary` → `.text-muted`. Visually the two greys are close in the
+  default light theme, but `.text-muted` follows the theme's text hierarchy
+  (dark mode) while the role colour does not.
+
 ## [1.3.0-rc01] — 2026-10-12 [PUBLISHED]
 
 ### Added

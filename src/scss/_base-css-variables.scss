@@ -441,9 +441,10 @@
   // override cascades), with the build-time value as the literal fallback.
   --pc-border-color: var(--base-border-color, #{$border-color});
 
-  // Semantic role identities — the single source for the four roles. Component
-  // surfaces (--pc-*-bg, alerts, buttons) derive from these via var() in
-  // pure-admin, so retuning a role here cascades everywhere.
+  // Semantic role identities — the single source for the roles (primary is
+  // --pc-accent above). Component surfaces (--pc-*-bg, alerts, buttons) derive
+  // from these via var() in pure-admin, so retuning a role here cascades everywhere.
+  --pc-secondary: var(--base-secondary-color, #{$base-secondary-color});
   --pc-success: #{$base-success-color};
   --pc-warning: #{$base-warning-color};
   --pc-danger:  #{$base-danger-color};

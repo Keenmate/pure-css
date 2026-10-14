@@ -5781,6 +5781,10 @@ body.pc-layout--sticky .pc-layout__inner {
   color: var(--pc-accent) !important;
 }
 
+.text-secondary {
+  color: var(--pc-secondary) !important;
+}
+
 .text-success {
   color: var(--pc-success-text) !important;
 }
@@ -5808,6 +5812,19 @@ body.pc-layout--sticky .pc-layout__inner {
 .surface-primary {
   background-color: var(--pc-accent) !important;
   color: var(--base-text-on-primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--pc-secondary) !important;
+}
+
+.text-on-secondary {
+  color: var(--base-text-on-secondary) !important;
+}
+
+.surface-secondary {
+  background-color: var(--pc-secondary) !important;
+  color: var(--base-text-on-secondary) !important;
 }
 
 .bg-success {
@@ -5866,7 +5883,7 @@ body.pc-layout--sticky .pc-layout__inner {
   color: var(--pc-text-color-1) !important;
 }
 
-.text-secondary {
+.text-muted {
   color: var(--pc-text-color-2) !important;
 }
 
@@ -6474,6 +6491,7 @@ body.pc-layout--sticky .pc-layout__inner {
   --pc-link-color-hover: color-mix(in srgb, var(--pc-link-color), currentColor 50%);
   --pc-link-color-visited: var(--pc-link-color);
   --pc-border-color: var(--base-border-color, #e2e8f0);
+  --pc-secondary: var(--base-secondary-color, #6c757d);
   --pc-success: #10b981;
   --pc-warning: #f59e0b;
   --pc-danger: #ef4444;
