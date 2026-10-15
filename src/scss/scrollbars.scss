@@ -29,11 +29,11 @@
   border: $border-width-base solid var(--pc-page-bg);
 
   &:hover {
-    background: var(--pc-accent);
+    background: var(--pc-primary);
   }
 
   &:active {
-    background: var(--pc-accent-hover);
+    background: var(--pc-primary-active);
   }
 }
 

@@ -409,11 +409,11 @@ test('text — alignment and truncation', async ({ page }) => {
 
 test('text — semantic colours resolve to their tokens', async ({ page }) => {
     const map: Record<string, string> = {
-        'text-primary': 'rgb(0, 123, 255)',   // --pc-accent
-        'text-success': 'rgb(21, 87, 36)',    // --pc-success-text #155724
-        'text-danger': 'rgb(114, 28, 36)',    // --pc-danger-text #721c24
-        'text-warning': 'rgb(133, 100, 4)',   // --pc-warning-text #856404
-        'text-info': 'rgb(12, 84, 96)'        // --pc-info-text #0c5460
+        'text-primary': 'rgb(0, 123, 255)',   // --pc-primary
+        'text-success': 'rgb(21, 87, 36)',    // --pc-success-text-color #155724
+        'text-danger': 'rgb(114, 28, 36)',    // --pc-danger-text-color #721c24
+        'text-warning': 'rgb(133, 100, 4)',   // --pc-warning-text-color #856404
+        'text-info': 'rgb(12, 84, 96)'        // --pc-info-text-color #0c5460
     };
     const items = Object.keys(map).map((cls) => ({ cls, prop: 'color' }));
     const actual = await measure(page, items);
@@ -423,7 +423,7 @@ test('text — semantic colours resolve to their tokens', async ({ page }) => {
 test('text — .text-color-1..9 default to the transparent palette slots', async ({ page }) => {
     const items = Array.from({ length: 9 }, (_, i) => ({ cls: `text-color-${i + 1}`, prop: 'color' }));
     const actual = await measure(page, items);
-    // --pc-color-N default transparent -> computed color rgba(0, 0, 0, 0)
+    // --pc-palette-N default transparent -> computed color rgba(0, 0, 0, 0)
     expect(actual).toEqual(items.map(() => 'rgba(0, 0, 0, 0)'));
 });
 

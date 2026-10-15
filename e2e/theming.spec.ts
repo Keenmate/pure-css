@@ -15,8 +15,8 @@ test('base.css emits the default accent tokens at :root', async ({ page }) => {
     const { pc, base } = await page.evaluate(() => {
         const cs = getComputedStyle(document.documentElement);
         return {
-            pc: cs.getPropertyValue('--pc-accent').trim(),
-            base: cs.getPropertyValue('--base-accent-color').trim()
+            pc: cs.getPropertyValue('--pc-primary').trim(),
+            base: cs.getPropertyValue('--base-primary-color').trim()
         };
     });
     expect(pc).toBe('#007bff');
@@ -29,7 +29,7 @@ test('base.css emits the default accent tokens at :root', async ({ page }) => {
     expect(color).toBe('rgb(0, 123, 255)');
 });
 
-test('overriding --pc-accent re-themes .text-primary live', async ({ page }) => {
+test('overriding --pc-primary re-themes .text-primary live', async ({ page }) => {
     const color = await page
         .locator('#accent-text')
         .evaluate((el) => getComputedStyle(el).color);

@@ -703,33 +703,32 @@ $spacers: (
 .border-none { border-style: none !important; }
 
 // Text color utilities (semantic colors)
-.text-primary { color: var(--pc-accent) !important; }
+.text-primary { color: var(--pc-primary) !important; }
 .text-secondary { color: var(--pc-secondary) !important; }
-.text-success { color: var(--pc-success-text) !important; }
-.text-danger { color: var(--pc-danger-text) !important; }
-.text-warning { color: var(--pc-warning-text) !important; }
-.text-info { color: var(--pc-info-text) !important; }
+.text-success { color: var(--pc-success-text-color) !important; }
+.text-danger { color: var(--pc-danger-text-color) !important; }
+.text-warning { color: var(--pc-warning-text-color) !important; }
+.text-info { color: var(--pc-info-text-color) !important; }
 
 // Role SURFACE utilities — the role parallel of the numeric
-// .{bg,text-on,surface}-color-N family below. Fill = --pc-{role} (primary →
-// --pc-accent); on-fill contrast text = --base-text-on-{role} (the only on-role
+// .{bg,text-on,surface}-color-N family below. Fill = --pc-{role}; on-fill contrast text = --base-text-on-{role} (the only on-role
 // contrast token — foreground .text-{role} above is a DIFFERENT colour). All
 // !important for cascade parity with the role text utilities.
 //
 //   .bg-{role}        role colour as background (no text change)
 //   .text-on-{role}   contrast text to sit on a role fill (pair with .bg-{role})
 //   .surface-{role}   role background + contrast text in one class
-@each $role, $fill in (primary: accent, secondary: secondary, success: success, warning: warning, danger: danger, info: info) {
-  .bg-#{$role} { background-color: var(--pc-#{$fill}) !important; }
-  .text-on-#{$role} { color: var(--base-text-on-#{$role}) !important; }
+@each $role in (primary, secondary, success, warning, danger, info) {
+  .bg-#{$role} { background-color: var(--pc-#{$role}) !important; }
+  .text-on-#{$role} { color: var(--base-on-#{$role}-text-color) !important; }
   .surface-#{$role} {
-    background-color: var(--pc-#{$fill}) !important;
-    color: var(--base-text-on-#{$role}) !important;
+    background-color: var(--pc-#{$role}) !important;
+    color: var(--base-on-#{$role}-text-color) !important;
   }
 }
 
 // Text colour — neutral hierarchy. Maps to --pc-text-color-N (text HIERARCHY),
-// a DIFFERENT scale from the numbered .text-color-N palette below (--pc-color-N
+// a DIFFERENT scale from the numbered .text-color-N palette below (--pc-palette-N
 // data colours). `.text-muted` is the flat muted/subdued text utility (it was
 // `.text-secondary` until 1.3.0 — that name now belongs to the secondary ROLE,
 // above); `.text-body` is the explicit default body colour. !important so the
@@ -749,7 +748,7 @@ $spacers: (
 }
 
 // Theme palette colour utilities (theme custom colors 1-9).
-// Two token layers per slot: --pc-color-N (the slot) + --pc-color-N-text (its
+// Two token layers per slot: --pc-palette-N (the slot) + --pc-on-palette-N-text-color (its
 // guaranteed-contrasting text). Each form applies the slot to one property;
 // `.surface-color-N` is the composite (slot background + readable text). All
 // !important for cascade parity with the role colours above.
@@ -760,13 +759,13 @@ $spacers: (
 //   .text-on-color-N  contrast text only (pair with .bg-color-N yourself)
 //   .surface-color-N  slot background + contrast text in one class
 @for $i from 1 through 9 {
-  .text-color-#{$i} { color: var(--pc-color-#{$i}) !important; }
-  .bg-color-#{$i} { background-color: var(--pc-color-#{$i}) !important; }
-  .border-color-#{$i} { border-color: var(--pc-color-#{$i}) !important; }
-  .text-on-color-#{$i} { color: var(--pc-color-#{$i}-text) !important; }
+  .text-color-#{$i} { color: var(--pc-palette-#{$i}) !important; }
+  .bg-color-#{$i} { background-color: var(--pc-palette-#{$i}) !important; }
+  .border-color-#{$i} { border-color: var(--pc-palette-#{$i}) !important; }
+  .text-on-color-#{$i} { color: var(--pc-on-palette-#{$i}-text-color) !important; }
   .surface-color-#{$i} {
-    background-color: var(--pc-color-#{$i}) !important;
-    color: var(--pc-color-#{$i}-text) !important;
+    background-color: var(--pc-palette-#{$i}) !important;
+    color: var(--pc-on-palette-#{$i}-text-color) !important;
   }
 }
 

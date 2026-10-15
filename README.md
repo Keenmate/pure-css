@@ -30,8 +30,8 @@ variables.
 > their `pa-` prefix — `.pa-bg-color-N` → `.bg-color-N`, `.pa-text-color-N` →
 > `.text-color-N`, etc. Any markup still using the prefixed names must be updated.
 
-- **Utilities — palette + neutral-text helpers graduated from pure-admin-core** — the flat colour-apply helpers that consume pure-css's palette (`--pc-color-N` / `--pc-color-N-text`) and text-hierarchy (`--pc-text-color-N`) tokens now live here beside `.text-color-N`: the property-forms `.bg-color-N` / `.border-color-N` / `.text-on-color-N` and the composite `.surface-color-N` for slots 1–9, plus neutral `.text-body` / `.text-secondary` and the `.text-caption` / `.text-lead` shorthands. They were temporarily homed in `pure-admin-core` so they were demo-able over the `file:` link without a release; this is their permanent home, and pure-admin-core now single-sources them from here (bump its dep to `^1.2.0`).
-- **Utilities — role surface helpers (`.bg-{role}` / `.text-on-{role}` / `.surface-{role}`)** — the role parallel of the numeric `-color-N` family, for primary / success / warning / danger / info. `.bg-{role}` paints the role fill (`--pc-{role}`, primary → `--pc-accent`), `.text-on-{role}` supplies the on-fill contrast text (`--base-text-on-{role}`, distinct from the foreground `.text-{role}`), and `.surface-{role}` combines both in one class — all `!important` for cascade parity with the role text utilities.
+- **Utilities — palette + neutral-text helpers graduated from pure-admin-core** — the flat colour-apply helpers that consume pure-css's palette (`--pc-palette-N` / `--pc-on-palette-N-text-color`) and text-hierarchy (`--pc-text-color-N`) tokens now live here beside `.text-color-N`: the property-forms `.bg-color-N` / `.border-color-N` / `.text-on-color-N` and the composite `.surface-color-N` for slots 1–9, plus neutral `.text-body` / `.text-secondary` and the `.text-caption` / `.text-lead` shorthands. They were temporarily homed in `pure-admin-core` so they were demo-able over the `file:` link without a release; this is their permanent home, and pure-admin-core now single-sources them from here (bump its dep to `^1.2.0`).
+- **Utilities — role surface helpers (`.bg-{role}` / `.text-on-{role}` / `.surface-{role}`)** — the role parallel of the numeric `-color-N` family, for primary / success / warning / danger / info. `.bg-{role}` paints the role fill (`--pc-{role}`, primary → `--pc-primary`), `.text-on-{role}` supplies the on-fill contrast text (`--base-text-on-{role}`, distinct from the foreground `.text-{role}`), and `.surface-{role}` combines both in one class — all `!important` for cascade parity with the role text utilities.
 - **Shell — opt-in desktop overlay sidebar (`.sidebar-overlay`)** — the mobile off-canvas drawer was refactored into a shared `sidebar-drawer-overlay` mixin, and a new `body.sidebar-overlay` caller reuses it on desktop at the normal 288px `$sidebar-width`: a burger opens a temporary floating sidebar (fixed sheet sliding in with a fading backdrop) over usable content, rather than reflowing the layout. RTL and the `body.loaded` first-paint transition gate are preserved.
 - **Tooling — foundation component catalog (`COMPONENTS.md` / `components.json`)** — a new `npm run catalog` (`scripts/build-catalog.mjs`) generates a human- and machine-readable manifest of the `pc-*` components and unprefixed utilities from the compiled bundles, so the svelte / phoenix wrappers have a source of truth to validate their emitted DOM against. It assigns every `pc-*` class to a component by longest-prefix match against a hand-authored taxonomy and fails the build on any unclassified class or unused prefix, so coverage can't drift; it's wired into `prepublishOnly` and both files ship in the package.
 - **Theming — `--base-checkbox-scale` bridge token** — a new `$base-checkbox-scale` (default `1`) mirrored from `@keenmate/base-css-variables`, emitted as `--base-checkbox-scale`. It multiplies a checkbox's own box width/height (`calc(<base-size> * var(--base-checkbox-scale))`) rather than a `transform: scale()` that would pixel-snap the mask glyph off-centre, so one knob resizes every checkbox in lockstep (paired with `--base-icon-check-size`).
@@ -83,7 +83,7 @@ or cherry-pick:
 
 ```scss
 // Override the source of truth; everything re-derives.
-$base-accent-color: #4f46e5;
+$base-primary-color: #4f46e5;
 $base-page-bg: #0b1020;
 
 @use '@keenmate/pure-css/scss/pure-css';
@@ -126,7 +126,7 @@ the styling stands on its own and the JS only adds the interactive behaviour.
 
 `--base-*` is the **single source of truth for theming**. Framework colors, component variables
 (`--pc-*`) and web/svelte components all derive from it via fallback chains
-(`--ms-accent-color: var(--base-accent-color, #3b82f6)`). Categories: accent, text, background,
+(`--ms-accent-color: var(--base-primary-color, #3b82f6)`). Categories: accent, text, background,
 border, input, dropdown, tooltip, contextual (success/danger/warning/info), interactive states,
 typography, border-radius, spacing/shadow/motion/z-index scales, and icons. The full list is
 `src/scss/variables/_base.scss`.
@@ -173,7 +173,7 @@ that redeclares them, loaded *after* `base.css`:
 
 ```css
 :root {
-  --base-accent-color: #4f46e5;
+  --base-primary-color: #4f46e5;
   --base-page-bg: #f6f8fb;
   --base-text-color-1: #1a2233;
 }

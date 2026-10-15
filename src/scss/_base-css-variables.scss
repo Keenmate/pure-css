@@ -11,7 +11,7 @@
 //   }
 //
 // Web components consume these via fallback chains:
-//   --ms-accent-color: var(--base-accent-color, #3b82f6);
+//   --ms-accent-color: var(--base-primary-color, #3b82f6);
 // ============================================================================
 
 // Make the $-vocabulary resolvable here.
@@ -20,7 +20,7 @@
 // $base-* BEFORE pulling this file in (the !default flags then keep those values) --
 // but `@use ... as *` REFUSES to expose a member whose name already exists in the
 // importing global scope, so every theme died on
-//   "This module and the new module both define a variable named $base-accent-color".
+//   "This module and the new module both define a variable named $base-primary-color".
 // That made the usage documented at the top of this file impossible: it worked only
 // for a theme that overrode nothing. @import shares one global scope and is what the
 // !default mechanism needs. pure-css's own `@use 'base-css-variables' as bcv` entries
@@ -29,21 +29,11 @@
 
 @mixin output-base-css-variables {
   // === Accent Colors ===
-  --base-accent-color: #{$base-accent-color};
-  --base-accent-color-hover: #{$base-accent-color-hover};
-  --base-accent-color-active: #{$base-accent-color-active};
-  --base-accent-color-light: #{$base-accent-color-light};
-  --base-accent-color-light-hover: #{$base-accent-color-light-hover};
-
-  // === Primary role — canonical name for accent (WS7.5) ===
-  // Accent stays the SOURCE themes override (including runtime .pc-mode-dark /
-  // colour-variant overrides), so primary tracks it live in every scope. New
-  // consumers should read --base-primary-*; --base-accent-* is the legacy name.
-  --base-primary-color: var(--base-accent-color, #{$base-accent-color});
-  --base-primary-color-hover: var(--base-accent-color-hover, #{$base-accent-color-hover});
-  --base-primary-color-active: var(--base-accent-color-active, #{$base-accent-color-active});
-  --base-primary-color-light: var(--base-accent-color-light, #{$base-accent-color-light});
-  --base-primary-color-light-hover: var(--base-accent-color-light-hover, #{$base-accent-color-light-hover});
+  --base-primary-color: #{$base-primary-color};
+  --base-primary-color-hover: #{$base-primary-color-hover};
+  --base-primary-color-active: #{$base-primary-color-active};
+  --base-primary-bg-subtle: #{$base-primary-bg-subtle};
+  --base-primary-bg-subtle-hover: #{$base-primary-bg-subtle-hover};
 
   // === Secondary role (promoted into the contract, WS7.5) ===
   --base-secondary-color: #{$base-secondary-color};
@@ -54,18 +44,15 @@
   --base-text-color-2: #{$base-text-color-2};
   --base-text-color-3: #{$base-text-color-3};
   --base-text-color-4: #{$base-text-color-4};
-  --base-text-color-on-accent: #{$base-text-color-on-accent};
-  // "foreground on a role" convention = --base-text-on-<role> (WS7.7). on-primary
-  // aliases the legacy on-accent; on-secondary is new; on-{success,danger,warning,
-  // info} are emitted in their role sections below.
-  --base-text-on-primary: var(--base-text-color-on-accent, #{$base-text-color-on-accent});
-  --base-text-on-secondary: #{$base-text-on-secondary};
+  --base-on-primary-text-color: #{$base-on-primary-text-color};
+  // "foreground on a role" convention = --base-on-<role>-text-color (WS7.7);
+  // on-{success,danger,warning,info} are emitted in their role sections below.
+  --base-on-secondary-text-color: #{$base-on-secondary-text-color};
 
   // === Background Colors (semantic) ===
   --base-main-bg: #{$base-main-bg};
   --base-page-bg: #{$base-page-bg};
   --base-subtle-bg: #{$base-subtle-bg};
-  --base-inverse-bg: #{$base-inverse-bg};
   --base-overlay-bg: #{$base-overlay-bg};
   --base-shadow-color: #{$base-shadow-color};
   --base-hover-bg: #{$base-hover-bg};
@@ -73,8 +60,20 @@
   --base-disabled-bg: #{$base-disabled-bg};
   --base-elevated-bg: #{$base-elevated-bg};
 
+  // === Item States (list options / tree rows / grid rows) ===
+  // focused = the one cursor item; highlighted = Ctrl/Shift-click set
+  // (selected = checkbox-checked, shown by the checkbox only — no row tokens)
+  // (*-ring is an outline shorthand drawn inset by consumers).
+  --base-outline-width: #{$base-outline-width};
+  --base-highlighted-bg: #{$base-highlighted-bg};
+  --base-highlighted-bg-hover: #{$base-highlighted-bg-hover};
+  --base-highlighted-text-color: #{$base-highlighted-text-color};
+  --base-highlighted-outline: #{$base-highlighted-outline};
+  --base-focused-bg: #{$base-focused-bg};
+  --base-focused-text-color: #{$base-focused-text-color};
+  --base-focused-outline: #{$base-focused-outline};
+
   // === Text on inverse surfaces ===
-  --base-text-inverted: #{$base-text-inverted};
 
   // === Border Colors ===
   // --base-border-width is a new additive knob for consumers composing their own
@@ -88,15 +87,15 @@
 
   // === Input Fields ===
   --base-input-bg: #{$base-input-bg};
-  --base-input-color: #{$base-input-color};
+  --base-input-text-color: #{$base-input-text-color};
   --base-input-border: #{$base-input-border};
   --base-input-border-color: #{$base-input-border-color};
   --base-input-border-hover: #{$base-input-border-hover};
   --base-input-border-focus: #{$base-input-border-focus};
   --base-input-placeholder-color: #{$base-input-placeholder-color};
   --base-input-bg-disabled: #{$base-input-bg-disabled};
-  --base-input-clear-color: #{$base-input-clear-color};
-  --base-input-clear-bg-hover: #{$base-input-clear-bg-hover};
+  --base-input-icon-color: #{$base-input-icon-color};
+  --base-input-icon-bg-hover: #{$base-input-icon-bg-hover};
 
   // === Input Size Heights ===
   --base-input-size-xs-height: #{$base-input-size-xs-height};
@@ -113,57 +112,34 @@
   // === Tooltip ===
   --base-tooltip-bg: #{$base-tooltip-bg};
   --base-tooltip-text-color: #{$base-tooltip-text-color};
-  --base-tooltip-color: #{$base-tooltip-text-color};  // alias consumed by web-grid
 
   // === Contextual Colors - Success ===
   --base-success-color: #{$base-success-color};
-  --base-success-bg: #{$base-success-bg};
   --base-success-color-hover: #{$base-success-color-hover};
-  --base-success-bg-light: #{$base-success-bg-light};
   --base-success-bg-subtle: #{$base-success-bg-subtle};
-  --base-success-border: #{$base-success-border};
-  --base-success-text: #{$base-success-text};
-  --base-success-text-light: #{$base-success-text-light};
-  --base-text-on-success: #{$base-text-on-success};
+  --base-success-text-color: #{$base-success-text-color};
+  --base-on-success-text-color: #{$base-on-success-text-color};
 
   // === Contextual Colors - Danger ===
   --base-danger-color: #{$base-danger-color};
-  --base-danger-bg: #{$base-danger-bg};
   --base-danger-color-hover: #{$base-danger-color-hover};
-  --base-danger-bg-light: #{$base-danger-bg-light};
   --base-danger-bg-subtle: #{$base-danger-bg-subtle};
-  --base-danger-border: #{$base-danger-border};
-  --base-danger-text: #{$base-danger-text};
-  --base-danger-text-light: #{$base-danger-text-light};
-  --base-text-on-danger: #{$base-text-on-danger};
+  --base-danger-text-color: #{$base-danger-text-color};
+  --base-on-danger-text-color: #{$base-on-danger-text-color};
 
   // === Contextual Colors - Warning ===
   --base-warning-color: #{$base-warning-color};
-  --base-warning-bg: #{$base-warning-bg};
   --base-warning-color-hover: #{$base-warning-color-hover};
-  --base-warning-bg-light: #{$base-warning-bg-light};
   --base-warning-bg-subtle: #{$base-warning-bg-subtle};
-  --base-warning-border: #{$base-warning-border};
-  --base-warning-text: #{$base-warning-text};
-  --base-warning-text-light: #{$base-warning-text-light};
-  --base-text-on-warning: #{$base-text-on-warning};
+  --base-warning-text-color: #{$base-warning-text-color};
+  --base-on-warning-text-color: #{$base-on-warning-text-color};
 
   // === Contextual Colors - Info ===
   --base-info-color: #{$base-info-color};
-  --base-info-bg: #{$base-info-bg};  // solid role fill — role symmetry (WS7.4)
   --base-info-color-hover: #{$base-info-color-hover};
-  --base-info-bg-light: #{$base-info-bg-light};
   --base-info-bg-subtle: #{$base-info-bg-subtle};
-  --base-info-border: #{$base-info-border};
-  --base-info-text: #{$base-info-text};
-  --base-info-text-light: #{$base-info-text-light};
-  --base-text-on-info: #{$base-text-on-info};
-
-  // === Interactive States ===
-  --base-hover-overlay: #{$base-hover-overlay};
-  --base-active-overlay: #{$base-active-overlay};
-  --base-focus-ring-color: #{$base-focus-ring-color};
-  --base-focus-ring-width: #{$base-focus-ring-width};
+  --base-info-text-color: #{$base-info-text-color};
+  --base-on-info-text-color: #{$base-on-info-text-color};
 
   // === Typography ===
   --base-font-family: #{$base-font-family};
@@ -276,25 +252,25 @@
 
   // === Theme palette slots (1–9) + paired contrast text (WS7.6) ===
   // Promoted into the --base-* contract so the branded/data-viz palette is
-  // themeable through the same namespace; --pc-color-N aliases these.
-  --base-color-1: #{$color-1};
-  --base-color-2: #{$color-2};
-  --base-color-3: #{$color-3};
-  --base-color-4: #{$color-4};
-  --base-color-5: #{$color-5};
-  --base-color-6: #{$color-6};
-  --base-color-7: #{$color-7};
-  --base-color-8: #{$color-8};
-  --base-color-9: #{$color-9};
-  --base-color-1-text: #{$color-1-text};
-  --base-color-2-text: #{$color-2-text};
-  --base-color-3-text: #{$color-3-text};
-  --base-color-4-text: #{$color-4-text};
-  --base-color-5-text: #{$color-5-text};
-  --base-color-6-text: #{$color-6-text};
-  --base-color-7-text: #{$color-7-text};
-  --base-color-8-text: #{$color-8-text};
-  --base-color-9-text: #{$color-9-text};
+  // themeable through the same namespace; --pc-palette-N aliases these.
+  --base-palette-1: #{$palette-1};
+  --base-palette-2: #{$palette-2};
+  --base-palette-3: #{$palette-3};
+  --base-palette-4: #{$palette-4};
+  --base-palette-5: #{$palette-5};
+  --base-palette-6: #{$palette-6};
+  --base-palette-7: #{$palette-7};
+  --base-palette-8: #{$palette-8};
+  --base-palette-9: #{$palette-9};
+  --base-on-palette-1-text-color: #{$on-palette-1-text-color};
+  --base-on-palette-2-text-color: #{$on-palette-2-text-color};
+  --base-on-palette-3-text-color: #{$on-palette-3-text-color};
+  --base-on-palette-4-text-color: #{$on-palette-4-text-color};
+  --base-on-palette-5-text-color: #{$on-palette-5-text-color};
+  --base-on-palette-6-text-color: #{$on-palette-6-text-color};
+  --base-on-palette-7-text-color: #{$on-palette-7-text-color};
+  --base-on-palette-8-text-color: #{$on-palette-8-text-color};
+  --base-on-palette-9-text-color: #{$on-palette-9-text-color};
 
   // === Spacing scale (WS7.9) ===
   // Unitless multipliers (same convention as font-size/radius); consume as
@@ -425,15 +401,20 @@
   --pc-text-color-1: var(--base-text-color-1, #{$text-color-1});
   --pc-text-color-2: var(--base-text-color-2, #{$text-color-2});
 
-  // Accent — -light derives from --pc-accent at runtime so theme overrides cascade.
-  --pc-accent: var(--base-accent-color, #{$accent-color});
-  --pc-accent-hover: #{$accent-hover};
-  --pc-accent-light: color-mix(in srgb, var(--pc-accent) 5%, transparent);
+  // Primary — the brand / interactive role. -hover / -active are the darker
+  // steps (text, borders, fills); -bg-subtle(-hover) are the low-alpha tints
+  // (selected / hovered backgrounds). -bg-subtle derives from --pc-primary at
+  // runtime so theme overrides cascade.
+  --pc-primary: var(--base-primary-color, #{$primary-color});
+  --pc-primary-hover: var(--base-primary-color-hover, #{$base-primary-color-hover});
+  --pc-primary-active: var(--base-primary-color-active, #{$base-primary-color-active});
+  --pc-primary-bg-subtle-hover: var(--base-primary-bg-subtle-hover, #{$primary-bg-subtle-hover});
+  --pc-primary-bg-subtle: var(--base-primary-bg-subtle, color-mix(in srgb, var(--pc-primary) 10%, transparent));
 
   // Links — derive from accent so theme overrides cascade automatically.
   // Hover mixes 50% toward currentColor (inherited text colour at the use site),
   // so it auto-darkens on light themes and auto-lightens on dark themes.
-  --pc-link-color: var(--pc-accent);
+  --pc-link-color: var(--pc-primary);
   --pc-link-color-hover: color-mix(in srgb, var(--pc-link-color), currentColor 50%);
   --pc-link-color-visited: var(--pc-link-color);
 
@@ -442,7 +423,7 @@
   --pc-border-color: var(--base-border-color, #{$border-color});
 
   // Semantic role identities — the single source for the roles (primary is
-  // --pc-accent above). Component surfaces (--pc-*-bg, alerts, buttons) derive
+  // --pc-primary above). Component surfaces (--pc-*-bg, alerts, buttons) derive
   // from these via var() in pure-admin, so retuning a role here cascades everywhere.
   --pc-secondary: var(--base-secondary-color, #{$base-secondary-color});
   --pc-success: #{$base-success-color};
@@ -452,33 +433,33 @@
 
   // Role text colours — consumed by the .text-{success,danger,warning,info}
   // utilities (utilities.scss). Kept in the base contract for that reason.
-  --pc-success-text: #{$success-text};
-  --pc-danger-text:  #{$danger-text};
-  --pc-warning-text: #{$warning-text};
-  --pc-info-text:    #{$info-text};
+  --pc-success-text-color: #{$success-text-color};
+  --pc-danger-text-color:  #{$danger-text-color};
+  --pc-warning-text-color: #{$warning-text-color};
+  --pc-info-text-color:    #{$info-text-color};
 
   // Theme palette slots (1–9) + paired contrast text. Consumed by the
-  // .text-color-* utilities; themes override $color-N for branded palettes.
+  // .text-color-* utilities; themes override $palette-N for branded palettes.
   // Alias the promoted --base-color-* palette (WS7.6) so overriding a slot in
   // either namespace cascades; the $literal is the build-time fallback.
-  --pc-color-1: var(--base-color-1, #{$color-1});
-  --pc-color-2: var(--base-color-2, #{$color-2});
-  --pc-color-3: var(--base-color-3, #{$color-3});
-  --pc-color-4: var(--base-color-4, #{$color-4});
-  --pc-color-5: var(--base-color-5, #{$color-5});
-  --pc-color-6: var(--base-color-6, #{$color-6});
-  --pc-color-7: var(--base-color-7, #{$color-7});
-  --pc-color-8: var(--base-color-8, #{$color-8});
-  --pc-color-9: var(--base-color-9, #{$color-9});
-  --pc-color-1-text: var(--base-color-1-text, #{$color-1-text});
-  --pc-color-2-text: var(--base-color-2-text, #{$color-2-text});
-  --pc-color-3-text: var(--base-color-3-text, #{$color-3-text});
-  --pc-color-4-text: var(--base-color-4-text, #{$color-4-text});
-  --pc-color-5-text: var(--base-color-5-text, #{$color-5-text});
-  --pc-color-6-text: var(--base-color-6-text, #{$color-6-text});
-  --pc-color-7-text: var(--base-color-7-text, #{$color-7-text});
-  --pc-color-8-text: var(--base-color-8-text, #{$color-8-text});
-  --pc-color-9-text: var(--base-color-9-text, #{$color-9-text});
+  --pc-palette-1: var(--base-palette-1, #{$palette-1});
+  --pc-palette-2: var(--base-palette-2, #{$palette-2});
+  --pc-palette-3: var(--base-palette-3, #{$palette-3});
+  --pc-palette-4: var(--base-palette-4, #{$palette-4});
+  --pc-palette-5: var(--base-palette-5, #{$palette-5});
+  --pc-palette-6: var(--base-palette-6, #{$palette-6});
+  --pc-palette-7: var(--base-palette-7, #{$palette-7});
+  --pc-palette-8: var(--base-palette-8, #{$palette-8});
+  --pc-palette-9: var(--base-palette-9, #{$palette-9});
+  --pc-on-palette-1-text-color: var(--base-on-palette-1-text-color, #{$on-palette-1-text-color});
+  --pc-on-palette-2-text-color: var(--base-on-palette-2-text-color, #{$on-palette-2-text-color});
+  --pc-on-palette-3-text-color: var(--base-on-palette-3-text-color, #{$on-palette-3-text-color});
+  --pc-on-palette-4-text-color: var(--base-on-palette-4-text-color, #{$on-palette-4-text-color});
+  --pc-on-palette-5-text-color: var(--base-on-palette-5-text-color, #{$on-palette-5-text-color});
+  --pc-on-palette-6-text-color: var(--base-on-palette-6-text-color, #{$on-palette-6-text-color});
+  --pc-on-palette-7-text-color: var(--base-on-palette-7-text-color, #{$on-palette-7-text-color});
+  --pc-on-palette-8-text-color: var(--base-on-palette-8-text-color, #{$on-palette-8-text-color});
+  --pc-on-palette-9-text-color: var(--base-on-palette-9-text-color, #{$on-palette-9-text-color});
 
   // Border-radius scale — derived from the --base-border-radius-* contract (the
   // same unitless rem-multipliers the web/svelte components read; e.g.

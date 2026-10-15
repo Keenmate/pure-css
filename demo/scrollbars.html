@@ -16,7 +16,7 @@
         .sb-y { height: 220px; padding: 1.2rem 1.6rem; }
         .sb-y p { color: var(--pc-text-color-1); }
         .sb-x { white-space: nowrap; padding: 1.2rem; }
-        .sb-x .sb-wide { display: inline-block; width: 1400px; height: 40px; background: color-mix(in srgb, var(--pc-accent) 14%, #fff); border-radius: 6px; }
+        .sb-x .sb-wide { display: inline-block; width: 1400px; height: 40px; background: color-mix(in srgb, var(--pc-primary) 14%, #fff); border-radius: 6px; }
         .sb-accent { appearance:none;-webkit-appearance:none;width:52px;height:34px;border:1px solid var(--pc-border-color);border-radius:8px;background:#fff;cursor:pointer;padding:3px; vertical-align: middle; }
     </style>
 </head>
@@ -35,7 +35,7 @@
             <p class="demo-lead reveal" data-reveal-delay="140">
                 A 0.7K layer that opts every overflow container into a thin scrollbar, coloured
                 from the theme — track from <code>--pc-main-bg</code>, thumb from
-                <code>--pc-border-color</code>, hover from <code>--pc-accent</code>.
+                <code>--pc-border-color</code>, hover from <code>--pc-primary</code>.
             </p>
         </div>
     </section>
@@ -46,7 +46,7 @@
             <h2>Vertical &amp; horizontal.</h2>
             <p class="demo-desc">
                 Hover the thumb — it picks up the accent. Change the accent here to see it live:
-                <input type="color" class="sb-accent" value="#007bff" data-theme-var="--pc-accent,--base-accent-color" aria-label="accent">
+                <input type="color" class="sb-accent" value="#007bff" data-theme-var="--pc-primary,--base-primary-color" aria-label="accent">
             </p>
             <div class="demo-split is-2">
                 <div class="demo-stage" data-stage-label="overflow-y">
@@ -66,7 +66,7 @@
                         <span style="font-family:var(--d-mono);font-size:12px;color:var(--pc-text-color-2)">← scroll horizontally →</span>
                         <div class="sb-wide mt-2"></div>
                     </div>
-                    <p class="demo-note" style="color:var(--pc-text-color-2);border-color:var(--pc-accent);font-size:1.4rem">
+                    <p class="demo-note" style="color:var(--pc-text-color-2);border-color:var(--pc-primary);font-size:1.4rem">
                         In Firefox the same layer maps to <code>scrollbar-width: thin</code> and
                         <code>scrollbar-color</code>; in WebKit it styles the
                         <code>::-webkit-scrollbar</code> pseudo-elements.

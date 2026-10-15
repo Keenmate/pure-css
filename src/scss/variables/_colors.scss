@@ -42,10 +42,10 @@ $sidebar-submenu-active-text: $sidebar-text !default;
 $footer-bg: $base-main-bg !default;
 $footer-border-color: $base-border-color !default;
 
-// Accent colors (derived from base)
-$accent-color: $base-accent-color !default;
-$accent-hover: $base-accent-color-light-hover !default;
-$accent-light: $base-accent-color-light !default;
+// Primary role colors (derived from base)
+$primary-color: $base-primary-color !default;
+$primary-bg-subtle-hover: $base-primary-bg-subtle-hover !default;
+$primary-bg-subtle: $base-primary-bg-subtle !default;
 
 // =============================================================================
 // CARD COLORS (derived from base surfaces)
@@ -65,7 +65,7 @@ $card-tabs-bg: $base-elevated-bg !default;
 
 $input-bg: $base-input-bg !default;
 $input-border: $base-input-border-color !default;  // single-sourced from base (was hardcoded #ced4da)
-$input-text: $base-input-color !default;
+$input-text: $base-input-text-color !default;
 
 // TABLE COLORS moved to pure-admin-core (variables/_components.scss): pure-css
 // renders no table CSS and tables aren't a universal primitive.
@@ -74,36 +74,36 @@ $input-text: $base-input-color !default;
 // BUTTON COLORS (derived from base contextual colors)
 // =============================================================================
 
-// Primary button (uses accent)
-$btn-primary-bg: $base-accent-color !default;
-$btn-primary-bg-hover: $base-accent-color-hover !default;
-$btn-primary-text: $base-text-color-on-accent !default;
+// Primary button (uses the primary role)
+$btn-primary-bg: $base-primary-color !default;
+$btn-primary-bg-hover: $base-primary-color-hover !default;
+$btn-primary-text: $base-on-primary-text-color !default;
 
 // Secondary button — now traces to the promoted $base-secondary-* role (WS7.5)
 $btn-secondary-bg: $base-secondary-color !default;
 $btn-secondary-bg-hover: $base-secondary-color-hover !default;
-$btn-secondary-text: $base-text-on-secondary !default;
+$btn-secondary-text: $base-on-secondary-text-color !default;
 
 // Success button (derived from base success)
 $btn-success-bg: $base-success-color !default;
 $btn-success-bg-hover: $base-success-color-hover !default;
-$btn-success-text: $base-text-on-success !default;
+$btn-success-text: $base-on-success-text-color !default;
 
 // Danger button (derived from base danger)
 $btn-danger-bg: $base-danger-color !default;
 $btn-danger-bg-hover: $base-danger-color-hover !default;
-$btn-danger-text: $base-text-on-danger !default;
+$btn-danger-text: $base-on-danger-text-color !default;
 
 // Warning button (derived from base warning)
 $btn-warning-bg: $base-warning-color !default;
 $btn-warning-bg-hover: $base-warning-color-hover !default;
-$btn-warning-text: $base-text-on-warning !default;
-$btn-warning-color: $base-text-on-warning !default;
+$btn-warning-text: $base-on-warning-text-color !default;
+$btn-warning-color: $base-on-warning-text-color !default;
 
 // Info button (derived from base info)
 $btn-info-bg: $base-info-color !default;
 $btn-info-bg-hover: $base-info-color-hover !default;
-$btn-info-text: $base-text-on-info !default;
+$btn-info-text: $base-on-info-text-color !default;
 
 // Light button
 $btn-light-bg: $base-page-bg !default;
@@ -122,38 +122,26 @@ $btn-dark-text: #ffffff !default;
 // Success colors
 $success-bg: $base-success-color !default;
 $success-bg-hover: $base-success-color-hover !default;
-$success-bg-light: $base-success-bg-light !default;
 $success-bg-subtle: $base-success-bg-subtle !default;
-$success-border: $base-success-border !default;
-$success-text: $base-success-text !default;
-$success-text-light: $base-success-text-light !default;
+$success-text-color: $base-success-text-color !default;
 
 // Danger colors
 $danger-bg: $base-danger-color !default;
 $danger-bg-hover: $base-danger-color-hover !default;
-$danger-bg-light: $base-danger-bg-light !default;
 $danger-bg-subtle: $base-danger-bg-subtle !default;
-$danger-border: $base-danger-border !default;
-$danger-text: $base-danger-text !default;
-$danger-text-light: $base-danger-text-light !default;
+$danger-text-color: $base-danger-text-color !default;
 
 // Warning colors
 $warning-bg: $base-warning-color !default;
 $warning-bg-hover: $base-warning-color-hover !default;
-$warning-bg-light: $base-warning-bg-light !default;
 $warning-bg-subtle: $base-warning-bg-subtle !default;
-$warning-border: $base-warning-border !default;
-$warning-text: $base-warning-text !default;
-$warning-text-light: $base-warning-text-light !default;
+$warning-text-color: $base-warning-text-color !default;
 
 // Info colors
 $info-bg: $base-info-color !default;
 $info-bg-hover: $base-info-color-hover !default;
-$info-bg-light: $base-info-bg-light !default;
 $info-bg-subtle: $base-info-bg-subtle !default;
-$info-border: $base-info-border !default;
-$info-text: $base-info-text !default;
-$info-text-light: $base-info-text-light !default;
+$info-text-color: $base-info-text-color !default;
 
 // Secondary colors
 $secondary-bg: $btn-secondary-bg !default;
@@ -184,25 +172,25 @@ $popover-content-bg: $base-dropdown-bg !default;  // floating surface → dropdo
 // =============================================================================
 
 // Derived from the $base-color-* source of truth (variables/_base.scss), like
-// every other token. A theme overrides $base-color-N (or $color-N directly).
-$color-1: $base-color-1 !default;
-$color-2: $base-color-2 !default;
-$color-3: $base-color-3 !default;
-$color-4: $base-color-4 !default;
-$color-5: $base-color-5 !default;
-$color-6: $base-color-6 !default;
-$color-7: $base-color-7 !default;
-$color-8: $base-color-8 !default;
-$color-9: $base-color-9 !default;
+// every other token. A theme overrides $base-palette-N (or $palette-N directly).
+$palette-1: $base-palette-1 !default;
+$palette-2: $base-palette-2 !default;
+$palette-3: $base-palette-3 !default;
+$palette-4: $base-palette-4 !default;
+$palette-5: $base-palette-5 !default;
+$palette-6: $base-palette-6 !default;
+$palette-7: $base-palette-7 !default;
+$palette-8: $base-palette-8 !default;
+$palette-9: $base-palette-9 !default;
 
 // Theme color slots - text/contrast colors
 // These define the text color to use when color-N is used as a background
-$color-1-text: $base-color-1-text !default;
-$color-2-text: $base-color-2-text !default;
-$color-3-text: $base-color-3-text !default;
-$color-4-text: $base-color-4-text !default;
-$color-5-text: $base-color-5-text !default;
-$color-6-text: $base-color-6-text !default;
-$color-7-text: $base-color-7-text !default;
-$color-8-text: $base-color-8-text !default;
-$color-9-text: $base-color-9-text !default;
+$on-palette-1-text-color: $base-on-palette-1-text-color !default;
+$on-palette-2-text-color: $base-on-palette-2-text-color !default;
+$on-palette-3-text-color: $base-on-palette-3-text-color !default;
+$on-palette-4-text-color: $base-on-palette-4-text-color !default;
+$on-palette-5-text-color: $base-on-palette-5-text-color !default;
+$on-palette-6-text-color: $base-on-palette-6-text-color !default;
+$on-palette-7-text-color: $base-on-palette-7-text-color !default;
+$on-palette-8-text-color: $base-on-palette-8-text-color !default;
+$on-palette-9-text-color: $base-on-palette-9-text-color !default;

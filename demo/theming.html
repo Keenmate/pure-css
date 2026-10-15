@@ -45,11 +45,11 @@
             padding: 6px 14px;
             transition: border-color 0.15s, color 0.15s;
         }
-        .pg-preset:hover { border-color: var(--pc-accent); color: var(--pc-accent); }
+        .pg-preset:hover { border-color: var(--pc-primary); color: var(--pc-primary); }
         .pg-preset[aria-pressed="true"] {
-            border-color: var(--pc-accent);
+            border-color: var(--pc-primary);
             color: #fff;
-            background: var(--pc-accent);
+            background: var(--pc-primary);
         }
         .pg-reset {
             font: inherit; font-size: 12px; cursor: pointer;
@@ -99,9 +99,9 @@
                 <div class="demo-split is-2">
                     <div>
                         <div class="pg-field">
-                            <label for="accent-input">Accent · --pc-accent</label>
+                            <label for="accent-input">Accent · --pc-primary</label>
                             <input type="color" id="accent-input" value="#007bff"
-                                   data-theme-var="--pc-accent,--base-accent-color">
+                                   data-theme-var="--pc-primary,--base-primary-color">
                         </div>
                         <div class="pg-field">
                             <label for="surface-input">Surface · --pc-main-bg</label>
@@ -132,21 +132,21 @@
                         <h3 class="text-primary m-0" data-theme-target style="font-size:2rem;">Aurora Dashboard</h3>
                         <p class="mt-2" style="color:var(--pc-text-color-2);">
                             A preview surface wired entirely to the pure-css token graph.
-                            Every colour below is a <code style="color:var(--pc-accent)">--pc-*</code> variable.
+                            Every colour below is a <code style="color:var(--pc-primary)">--pc-*</code> variable.
                         </p>
                         <div class="d-flex gap-2 flex-wrap mt-3">
                             <button class="demo-btn" type="button">Primary action</button>
                             <button class="demo-btn demo-btn--ghost" type="button">Ghost</button>
                         </div>
                         <div class="d-flex gap-2 flex-wrap mt-4">
-                            <span class="demo-tile" style="padding:0.6rem 1rem;color:var(--pc-success-text)">success</span>
-                            <span class="demo-tile" style="padding:0.6rem 1rem;color:var(--pc-danger-text)">danger</span>
-                            <span class="demo-tile" style="padding:0.6rem 1rem;color:var(--pc-warning-text)">warning</span>
-                            <span class="demo-tile" style="padding:0.6rem 1rem;color:var(--pc-info-text)">info</span>
+                            <span class="demo-tile" style="padding:0.6rem 1rem;color:var(--pc-success-text-color)">success</span>
+                            <span class="demo-tile" style="padding:0.6rem 1rem;color:var(--pc-danger-text-color)">danger</span>
+                            <span class="demo-tile" style="padding:0.6rem 1rem;color:var(--pc-warning-text-color)">warning</span>
+                            <span class="demo-tile" style="padding:0.6rem 1rem;color:var(--pc-info-text-color)">info</span>
                         </div>
                         <p class="mt-4 m-0">
                             A <a href="#" data-theme-target>themed link</a> inherits the accent too,
-                            because <code style="color:var(--pc-accent)">--pc-link-color: var(--pc-accent)</code>.
+                            because <code style="color:var(--pc-primary)">--pc-link-color: var(--pc-primary)</code>.
                         </p>
                     </div>
                 </div>
@@ -176,7 +176,7 @@
             </div>
             <div class="demo-code" style="margin-top:16px;"><pre><span class="tok-com">/* re-theme every pure-css surface at once */</span>
 :root {
-  <span class="tok-var">--pc-accent</span>: #10b981;
+  <span class="tok-var">--pc-primary</span>: #10b981;
   <span class="tok-var">--pc-main-bg</span>: #f6fbf8;
   <span class="tok-var">--base-border-color</span>: #cfe8dc; <span class="tok-com">/* → --pc-border-color */</span>
 }</pre></div>

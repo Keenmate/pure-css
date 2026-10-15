@@ -43,7 +43,7 @@
   // Outline-only sets (Lucide): recolour the stroke instead of filling. Works
   // because Lucide SVGs are stroke="currentColor".
   .pc-icon-hover-highlight {
-    color: var(--pc-icon-hover-color, var(--pc-accent));
+    color: var(--pc-icon-hover-color, var(--pc-primary));
   }
 }
 

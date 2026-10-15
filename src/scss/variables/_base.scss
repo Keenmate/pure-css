@@ -17,11 +17,11 @@
 
 // Default theme = pure-admin Corporate (sky-blue). Matches the canonical
 // --base-* contract in @keenmate/base-css-variables; a theme overrides these.
-$base-accent-color: #0ea5e9 !default;
-$base-accent-color-hover: #0284c7 !default;
-$base-accent-color-active: #0369a1 !default;
-$base-accent-color-light: rgba($base-accent-color, 0.05) !default;
-$base-accent-color-light-hover: rgba($base-accent-color, 0.08) !default;
+$base-primary-color: #0ea5e9 !default;
+$base-primary-color-hover: #0284c7 !default;
+$base-primary-color-active: #0369a1 !default;
+$base-primary-bg-subtle: light-dark(color-mix(in srgb, var(--base-primary-color, #{$base-primary-color}) 10%, transparent), color-mix(in srgb, var(--base-primary-color, #{$base-primary-color}) 20%, transparent)) !default;  // Primary tint: badges, chips, soft fills
+$base-primary-bg-subtle-hover: light-dark(color-mix(in srgb, var(--base-primary-color, #{$base-primary-color}) 15%, transparent), color-mix(in srgb, var(--base-primary-color, #{$base-primary-color}) 30%, transparent)) !default;
 
 // =============================================================================
 // TEXT COLORS
@@ -32,7 +32,7 @@ $base-text-color-1: #334155 !default;  // Primary text (strongest) — Corporate
 $base-text-color-2: #64748b !default;  // Secondary text (muted) — slate-500
 $base-text-color-3: #94a3b8 !default;  // Tertiary text (lighter) — slate-400
 $base-text-color-4: #cbd5e1 !default;  // Quaternary text (lightest) — slate-300
-$base-text-color-on-accent: #ffffff !default;  // Text on accent backgrounds
+$base-on-primary-text-color: #ffffff !default;  // Text on the primary fill
 
 // =============================================================================
 // BACKGROUND COLORS
@@ -49,17 +49,14 @@ $base-page-bg: #f8f9fa !default;          // Canvas/backdrop the content sits on
 // divider (see $base-border-color); one crisp job. Raised chrome (headers,
 // striped rows) uses $base-elevated-bg instead.
 $base-subtle-bg: #e9ecef !default;
-$base-inverse-bg: #2c3e50 !default;       // Inverse background (tooltips, dark elements)
 $base-overlay-bg: rgba(0, 0, 0, 0.5) !default;  // Modal/overlay background
-$base-shadow-color: rgba(0, 0, 0, 0.15) !default;  // Shadow color for elevation
+$base-shadow-color: light-dark(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.4)) !default;  // Shadow color for elevation (light / dark)
 // Elevated surface (header rows, striped rows, popovers/toolbars). Defaults to
 // the page background so the default theme's header appearance is unchanged, but
 // themes can override it independently to create a distinct raised tone.
 // Defaults to the page bg so it tracks a theme's canvas (dark themes stay dark);
 // Corporate overrides it to slate-100 (#f1f5f9) for a distinct header tint.
 $base-elevated-bg: $base-page-bg !default;
-// Text on inverse/dark surfaces (web-component bridge: --base-text-inverted).
-$base-text-inverted: #ffffff !default;
 
 // Interaction-STATE backgrounds (a separate axis from the elevation ladder).
 // These default to (derive from) $base-subtle-bg so unthemed hovers stay
@@ -72,6 +69,28 @@ $base-active-bg: color.adjust($base-subtle-bg, $lightness: -5%) !default;  // Ac
 // near-page tone) so it no longer collides with $base-hover-bg/$base-subtle-bg —
 // distinct purpose, distinct value. (WS7.3)
 $base-disabled-bg: #f1f3f5 !default;
+
+// ITEM STATES — list options, tree rows, grid rows (web-multiselect options,
+// svelte-/web-treeview rows). Explorer model: `focused` = the one cursor item;
+// `highlighted` = the Ctrl/Shift-click set; `selected` = checkbox-checked (shown
+// by the checkbox only — no row tokens). Each state is a bg / text / ring trio;
+// `*-ring` is an outline (not border) shorthand consumers draw INSET (outline-offset =
+// calc(-1 * var(--base-outline-width))) so it never shifts layout. Thicken
+// the ring via $base-outline-width, not a px inside *-ring, or the inset
+// offset no longer matches. Mirrors @keenmate/base-css-variables.
+// The primary-derived defaults are emitted as LIVE var() expressions so a
+// runtime --base-primary-color override re-tints them; the build-time primary
+// is the var() fallback. They are plain CSS values,
+// not Sass colours — override them with any CSS value, but don't feed them to
+// Sass colour functions.
+$base-outline-width: 1px !default;                         // Ring width for *-ring; consumers inset by −this
+$base-highlighted-bg: color-mix(in srgb, var(--base-primary-color, #{$base-primary-color}) 10%, transparent) !default;
+$base-highlighted-bg-hover: var(--base-highlighted-bg) !default;  // Highlighted row keeps its tint on hover
+$base-highlighted-text-color: currentColor !default;                 // Text on a highlighted item (currentColor = unchanged)
+$base-highlighted-outline: none !default;                        // Outline shorthand, e.g. var(--base-outline-width) solid …
+$base-focused-bg: transparent !default;                      // The ring alone marks focus
+$base-focused-text-color: currentColor !default;
+$base-focused-outline: var(--base-outline-width, #{$base-outline-width}) solid var(--base-primary-color, #{$base-primary-color}) !default;  // Keyboard-focus ring (drawn inset)
 
 // =============================================================================
 // BORDER COLORS
@@ -93,20 +112,20 @@ $base-checkbox-border-color: $base-border-color !default;
 // =============================================================================
 
 $base-input-bg: $base-main-bg !default;
-$base-input-color: #334155 !default;  // Corporate slate-700
+$base-input-text-color: #334155 !default;  // Corporate slate-700
 // Input border as a colour (single source) + the 1px shorthand web components
 // read via --base-input-border. Now equals --base-border-color (both Corporate
 // slate-200 #e2e8f0).
 $base-input-border-color: #e2e8f0 !default;  // = border-color (Corporate slate-200)
 $base-input-border: 1px solid $base-input-border-color !default;
-$base-input-border-hover: 1px solid $base-accent-color !default;  // Corporate: accent on hover
-$base-input-border-focus: 1px solid $base-accent-color !default;
+$base-input-border-hover: 1px solid $base-primary-color !default;  // Corporate: accent on hover
+$base-input-border-focus: 1px solid $base-primary-color !default;
 $base-input-placeholder-color: $base-text-color-4 !default;
 $base-input-bg-disabled: rgba($base-input-bg, 0.5) !default;
 // Inline clear ("×") affordance inside inputs (web-component bridge:
-// --base-input-clear-color / --base-input-clear-bg-hover).
-$base-input-clear-color: $base-text-color-3 !default;
-$base-input-clear-bg-hover: $base-hover-bg !default;
+// --base-input-icon-color / --base-input-icon-bg-hover).
+$base-input-icon-color: $base-text-color-3 !default;
+$base-input-icon-bg-hover: $base-hover-bg !default;
 
 // Input size heights (unitless multipliers for x10px base)
 // Neutral heights (Corporate bumps these +0.3 itself for its wider font — that's a
@@ -124,14 +143,14 @@ $base-input-size-xl-height: 4.1 !default;  // 41px
 
 $base-dropdown-bg: $base-main-bg !default;
 $base-dropdown-border: 1px solid $base-border-color !default;
-$base-dropdown-box-shadow: 0 8px 16px $base-shadow-color !default;
+$base-dropdown-box-shadow: 0 8px 16px var(--base-shadow-color, #{$base-shadow-color}) !default;
 
 // =============================================================================
 // TOOLTIP
 // Tooltip styling
 // =============================================================================
 
-$base-tooltip-bg: $base-inverse-bg !default;
+$base-tooltip-bg: #2c3e50 !default;
 $base-tooltip-text-color: #ffffff !default;
 
 // =============================================================================
@@ -140,14 +159,10 @@ $base-tooltip-text-color: #ffffff !default;
 // =============================================================================
 
 $base-success-color: #10b981 !default;  // Corporate emerald-500 — also --pa-positive in the sentiment scale
-$base-success-bg: $base-success-color !default;  // Solid role fill (web-component bridge: --base-success-bg)
 $base-success-color-hover: #059669 !default;  // Corporate emerald-600
-$base-success-bg-light: rgba($base-success-color, 0.1) !default;
-$base-success-bg-subtle: rgba($base-success-color, 0.08) !default;
-$base-success-border: rgba($base-success-color, 0.2) !default;
-$base-success-text: #155724 !default;
-$base-success-text-light: #d4edda !default;
-$base-text-on-success: #ffffff !default;
+$base-success-bg-subtle: light-dark(color-mix(in srgb, var(--base-success-color, #{$base-success-color}) 10%, transparent), color-mix(in srgb, var(--base-success-color, #{$base-success-color}) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-success-color
+$base-success-text-color: #155724 !default;
+$base-on-success-text-color: #ffffff !default;
 
 // =============================================================================
 // CONTEXTUAL COLORS - DANGER
@@ -155,14 +170,10 @@ $base-text-on-success: #ffffff !default;
 // =============================================================================
 
 $base-danger-color: #ef4444 !default;  // Tailwind red-500 — aligns with --pa-negative in the sentiment scale
-$base-danger-bg: $base-danger-color !default;  // Solid role fill (web-component bridge: --base-danger-bg)
 $base-danger-color-hover: #dc2626 !default;  // Corporate red-600
-$base-danger-bg-light: rgba($base-danger-color, 0.1) !default;
-$base-danger-bg-subtle: rgba($base-danger-color, 0.08) !default;
-$base-danger-border: rgba($base-danger-color, 0.2) !default;
-$base-danger-text: #721c24 !default;
-$base-danger-text-light: #f8d7da !default;
-$base-text-on-danger: #ffffff !default;
+$base-danger-bg-subtle: light-dark(color-mix(in srgb, var(--base-danger-color, #{$base-danger-color}) 10%, transparent), color-mix(in srgb, var(--base-danger-color, #{$base-danger-color}) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-danger-color
+$base-danger-text-color: #721c24 !default;
+$base-on-danger-text-color: #ffffff !default;
 
 // =============================================================================
 // CONTEXTUAL COLORS - WARNING
@@ -170,14 +181,10 @@ $base-text-on-danger: #ffffff !default;
 // =============================================================================
 
 $base-warning-color: #f59e0b !default;  // Corporate amber-500 — also the off-target axis in KPI components
-$base-warning-bg: $base-warning-color !default;  // Solid role fill (web-component bridge: --base-warning-bg)
 $base-warning-color-hover: #d97706 !default;  // Corporate amber-600
-$base-warning-bg-light: rgba($base-warning-color, 0.1) !default;
-$base-warning-bg-subtle: rgba($base-warning-color, 0.08) !default;
-$base-warning-border: rgba($base-warning-color, 0.2) !default;
-$base-warning-text: #856404 !default;
-$base-warning-text-light: #fff3cd !default;
-$base-text-on-warning: #ffffff !default;  // Corporate uses white on amber
+$base-warning-bg-subtle: light-dark(color-mix(in srgb, var(--base-warning-color, #{$base-warning-color}) 10%, transparent), color-mix(in srgb, var(--base-warning-color, #{$base-warning-color}) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-warning-color
+$base-warning-text-color: #856404 !default;
+$base-on-warning-text-color: #ffffff !default;  // Corporate uses white on amber
 
 // =============================================================================
 // CONTEXTUAL COLORS - INFO
@@ -185,14 +192,10 @@ $base-text-on-warning: #ffffff !default;  // Corporate uses white on amber
 // =============================================================================
 
 $base-info-color: #06b6d4 !default;  // Corporate cyan-500
-$base-info-bg: $base-info-color !default;  // Solid role fill — role symmetry with success/danger/warning (WS7.4)
 $base-info-color-hover: #0891b2 !default;  // Corporate cyan-600
-$base-info-bg-light: rgba($base-info-color, 0.1) !default;
-$base-info-bg-subtle: rgba($base-info-color, 0.08) !default;
-$base-info-border: rgba($base-info-color, 0.2) !default;
-$base-info-text: #0c5460 !default;
-$base-info-text-light: #d1ecf1 !default;
-$base-text-on-info: #ffffff !default;
+$base-info-bg-subtle: light-dark(color-mix(in srgb, var(--base-info-color, #{$base-info-color}) 10%, transparent), color-mix(in srgb, var(--base-info-color, #{$base-info-color}) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-info-color
+$base-info-text-color: #0c5460 !default;
+$base-on-info-text-color: #ffffff !default;
 
 // =============================================================================
 // SECONDARY ROLE
@@ -204,7 +207,7 @@ $base-text-on-info: #ffffff !default;
 
 $base-secondary-color: #6c757d !default;
 $base-secondary-color-hover: #545b62 !default;
-$base-text-on-secondary: #ffffff !default;
+$base-on-secondary-text-color: #ffffff !default;
 
 // =============================================================================
 // SENTIMENT SCALE — 5-step direction-of-change
@@ -220,40 +223,30 @@ $base-neutral:       #9ca3af !default;  // Tailwind gray-400 — "no meaningful 
 
 // =============================================================================
 // THEME PALETTE SLOTS (1–9) + paired contrast text
-// Arbitrary branded / data-viz slots. These are the SOURCE for $color-1..9
-// (variables/_colors.scss derives `$color-N: $base-color-N`) and the emitted
-// --base-color-N / --pc-color-N, so the palette follows the same $base-* → $X
+// Arbitrary branded / data-viz slots. These are the SOURCE for $palette-1..9
+// (variables/_colors.scss derives `$palette-N: $base-palette-N`) and the emitted
+// --base-palette-N / --pc-palette-N, so the palette follows the same $base-* → $X
 // chain as every other token. Default = Corporate palette.
 // =============================================================================
 
-$base-color-1: #f59e0b !default;  // Amber
-$base-color-2: #ec4899 !default;  // Pink
-$base-color-3: #10b981 !default;  // Emerald
-$base-color-4: #0ea5e9 !default;  // Sky blue
-$base-color-5: #8b5cf6 !default;  // Violet
-$base-color-6: #6366f1 !default;  // Indigo
-$base-color-7: #64748b !default;  // Slate
-$base-color-8: #0284c7 !default;  // Corporate blue
-$base-color-9: #334155 !default;  // Dark slate
-$base-color-1-text: #1a1a1a !default;  // dark on amber
-$base-color-2-text: #ffffff !default;
-$base-color-3-text: #ffffff !default;
-$base-color-4-text: #ffffff !default;
-$base-color-5-text: #ffffff !default;
-$base-color-6-text: #ffffff !default;
-$base-color-7-text: #ffffff !default;
-$base-color-8-text: #ffffff !default;
-$base-color-9-text: #ffffff !default;
-
-// =============================================================================
-// INTERACTIVE STATES
-// Generic interaction feedback colors
-// =============================================================================
-
-$base-hover-overlay: rgba(0, 0, 0, 0.04) !default;
-$base-active-overlay: rgba(0, 0, 0, 0.08) !default;
-$base-focus-ring-color: $base-accent-color !default;
-$base-focus-ring-width: 3px !default;
+$base-palette-1: #f59e0b !default;  // Amber
+$base-palette-2: #ec4899 !default;  // Pink
+$base-palette-3: #10b981 !default;  // Emerald
+$base-palette-4: #0ea5e9 !default;  // Sky blue
+$base-palette-5: #8b5cf6 !default;  // Violet
+$base-palette-6: #6366f1 !default;  // Indigo
+$base-palette-7: #64748b !default;  // Slate
+$base-palette-8: #0284c7 !default;  // Corporate blue
+$base-palette-9: #334155 !default;  // Dark slate
+$base-on-palette-1-text-color: #1a1a1a !default;  // dark on amber
+$base-on-palette-2-text-color: #ffffff !default;
+$base-on-palette-3-text-color: #ffffff !default;
+$base-on-palette-4-text-color: #ffffff !default;
+$base-on-palette-5-text-color: #ffffff !default;
+$base-on-palette-6-text-color: #ffffff !default;
+$base-on-palette-7-text-color: #ffffff !default;
+$base-on-palette-8-text-color: #ffffff !default;
+$base-on-palette-9-text-color: #ffffff !default;
 
 // =============================================================================
 // TYPOGRAPHY

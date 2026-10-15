@@ -71,6 +71,6 @@ $resize-knob-radius-lg: 6px !default;
 
 // Dragging / hovering / focused: accent the knob (border + grip glyph).
 @mixin pa-resize-knob-active {
-  border-color: var(--pc-accent);
-  color: var(--pc-accent);
+  border-color: var(--pc-primary);
+  color: var(--pc-primary);
 }

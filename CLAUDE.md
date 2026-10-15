@@ -67,7 +67,7 @@ The core idea: **one block of variable overrides re-themes everything.**
      **NOT emitted by pure-css's own bundles** — `base.scss` / `pure-css.scss`
      don't call them. Consumers that ship the components opt in.
 4. Downstream web/svelte components read them through fallback chains
-   (`--ms-accent-color: var(--base-accent-color, #3b82f6)`).
+   (`--ms-accent-color: var(--base-primary-color, #3b82f6)`).
 
 A **theme** is nothing more than a set of `--base-*` values (or `$base-*`
 overrides compiled in). Because pure-admin-core, its `--pc-*` component

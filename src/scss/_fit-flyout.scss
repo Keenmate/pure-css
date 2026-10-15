@@ -26,7 +26,7 @@
   cursor: pointer;
 
   &:hover { background: var(--pc-hover-bg, var(--base-hover-bg, rgba(0, 0, 0, 0.05))); }
-  &:focus-visible { outline: 2px solid var(--pc-accent, var(--base-accent-color)); outline-offset: 1px; }
+  &:focus-visible { outline: 2px solid var(--pc-primary, var(--base-primary-color)); outline-offset: 1px; }
   &[aria-expanded='true'] { background: var(--pc-hover-bg, var(--base-hover-bg, rgba(0, 0, 0, 0.08))); }
 }
 

@@ -34,15 +34,6 @@ const parentCandidates = [
 ].filter(Boolean);
 const PARENT = parentCandidates.find(existsSync);
 
-// pure-css emits these, the canonical contract intentionally omits them (dead —
-// consumed by nobody; candidates to drop from pure-css rather than propagate).
-const ALLOWED_PURECSS_ONLY = new Set([
-  '--base-hover-overlay',
-  '--base-active-overlay',
-  '--base-focus-ring-color',
-  '--base-focus-ring-width',
-]);
-
 // Declaration names only: a --base-* immediately followed by `:` (skips the var()
 // references inside fallback chains, which are followed by `,` or `)`).
 const tokenNames = (file) => {
@@ -64,14 +55,14 @@ if (!PARENT) {
 const pc = tokenNames(PURE_CSS);
 const parent = tokenNames(PARENT);
 
-const pcOnly = [...pc].filter((n) => !parent.has(n) && !ALLOWED_PURECSS_ONLY.has(n)).sort();
+const pcOnly = [...pc].filter((n) => !parent.has(n)).sort();
 const parentOnly = [...parent].filter((n) => !pc.has(n)).sort();
 
 let drift = false;
 if (pcOnly.length) {
   drift = true;
   console.error('✗ DRIFT — pure-css emits --base-* tokens the canonical contract LACKS:');
-  console.error('  → add them to base-css-variables/base-variables.css (or mark dead in this script)');
+  console.error('  → add them to base-css-variables/base-variables.css, or drop them from pure-css');
   pcOnly.forEach((n) => console.error(`      + ${n}`));
 }
 if (parentOnly.length) {
@@ -82,13 +73,12 @@ if (parentOnly.length) {
 }
 
 if (drift) {
-  console.error(`\npure-css: ${pc.size} · parent: ${parent.size} · allowed-dead: ${ALLOWED_PURECSS_ONLY.size}`);
+  console.error(`\npure-css: ${pc.size} · parent: ${parent.size}`);
   console.error('Rule: new --base-* tokens are authored in base-css-variables FIRST, then mirrored into pure-css.');
   process.exit(1);
 }
 
 console.log(
-  `✓ --base-* parity OK — ${pc.size} pure-css tokens match the canonical contract ` +
-    `(+${ALLOWED_PURECSS_ONLY.size} allowed-dead).`,
+  `✓ --base-* parity OK — ${pc.size} pure-css tokens match the canonical contract.`,
 );
 console.log(`  parent: ${PARENT}`);

@@ -328,7 +328,7 @@ main.demo-main { padding: 40px 0 40px; }
     border: 1px solid transparent;
     border-radius: var(--pc-border-radius, 4px);
     padding: 0.8rem 1.6rem;
-    background: var(--pc-accent, #007bff);
+    background: var(--pc-primary, #007bff);
     color: #fff;
     transition: filter 0.15s ease, transform 0.05s ease;
 }
@@ -336,7 +336,7 @@ main.demo-main { padding: 40px 0 40px; }
 .demo-btn:active { transform: translateY(1px); }
 .demo-btn--ghost {
     background: transparent;
-    color: var(--pc-accent, #007bff);
+    color: var(--pc-primary, #007bff);
     border-color: var(--pc-border-color, #e1e5e9);
 }
 

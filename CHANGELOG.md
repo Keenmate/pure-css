@@ -12,6 +12,13 @@ All notable changes to `@keenmate/pure-css` are documented here. Format based on
   `.surface-secondary`, matching primary / success / warning / danger / info.
 - **`.text-muted`** — the muted / subdued body-text utility
   (`--pc-text-color-2`).
+- **Item-state `--base-*` tokens** mirrored from `@keenmate/base-css-variables`:
+  `--base-highlighted-bg` / `-bg-hover` / `-text` / `-ring` and
+  `--base-focused-bg` / `-text` / `-ring`, plus `--base-ring-width` (the ring
+  thickness consumers inset the outline by) (`$base-highlighted-*` / `$base-focused-*` /
+  `$base-ring-width`) — the shared highlighted (Ctrl/Shift-click set) and
+  focused (keyboard-cursor, inset outline ring) look for list options, tree rows
+  and grid rows. Primary-derived defaults track `--base-primary-color` live.
 
 ### Changed
 
@@ -20,6 +27,73 @@ All notable changes to `@keenmate/pure-css` are documented here. Format based on
   `.text-secondary` → `.text-muted`. Visually the two greys are close in the
   default light theme, but `.text-muted` follows the theme's text hierarchy
   (dark mode) while the role colour does not.
+- **BREAKING: palette slots renamed `color-N` → `palette-N`** in every layer, in
+  sync with `@keenmate/base-css-variables` 2.0.0: `$base-color-N` → `$base-palette-N`,
+  `$color-N` → `$palette-N`, `--base-color-N` → `--base-palette-N`, `--pc-color-N` →
+  `--pc-palette-N`; the text pair is now `$base-on-palette-N-text-color` / `$on-palette-N-text-color` /
+  `--base-on-palette-N-text-color` / `--pc-on-palette-N-text-color` (was `…color-N-text`). The numbered slots are unordered
+  categorical colours, not a scale like `--pc-text-color-1…4`. No aliases — themes
+  that set `$color-N` / `$base-color-N` must rename (an old name is silently ignored
+  and the slot falls back to the Corporate default). Utility class names
+  (`.text-color-N`, `.bg-color-N`, `.surface-color-N`, …) are unchanged.
+
+- **BREAKING: `$base-<role>-bg-light` / `$<role>-bg-light` / `--base-<role>-bg-light` removed —
+  `-bg-subtle` is the single role tint** (base-css-variables 2.0.0). `$base-<role>-bg-subtle`
+  and `$base-<role>-border` now default to `color-mix(var(--base-<role>-color, …))` (tint 10% light
+  / 20% dark via `light-dark()`), so they track a runtime role-color override. Themes set
+  `$base-<role>-bg-subtle` instead of `-bg-light`.
+- **BREAKING: names state their type** (base-css-variables 2.0.0): `$base-ring-width` →
+  `$base-outline-width`, `$base-highlighted-ring` / `$base-focused-ring` → `-outline`,
+  `$base-highlighted-text` / `$base-focused-text` → `-text-color`, `$base-input-color` →
+  `$base-input-text-color`, `$base-input-clear-color` / `-clear-bg-hover` → `$base-input-icon-color` /
+  `-icon-bg-hover`, `$base-<role>-text` → `$base-<role>-text-color`, `$base-text-on-<role>` →
+  `$base-on-<role>-text-color`; framework `$<role>-text` → `$<role>-text-color`; emitted
+  `--pc-<role>-text` → `--pc-<role>-text-color`. `--base-tooltip-color` (a duplicate) is gone.
+- **BREAKING: `accent` → `primary`** (base-css-variables 2.0.0): `$base-accent-color[-hover|-active]`
+  → `$base-primary-color[-hover|-active]`, `$base-accent-color-light[-hover]` →
+  `$base-primary-bg-subtle[-hover]`, `$base-text-color-on-accent` → `$base-on-primary-text-color`;
+  framework vars `$accent-color` → `$primary-color`, `$accent-light` → `$primary-bg-subtle`,
+  `$accent-hover` → `$primary-bg-subtle-hover`; emitted `--pc-accent` → `--pc-primary`,
+  `--pc-accent-light` → `--pc-primary-bg-subtle`, `--pc-accent-hover` →
+  `--pc-primary-bg-subtle-hover`. The `--base-primary-*` alias emission is gone. Renamed by
+  *meaning*: `--pc-accent-hover` was always the low-alpha tint, not a darker hover.
+- **`--pc-primary-bg-subtle[-hover]` read `--base-primary-bg-subtle[-hover]`** (base-css-variables
+  2.0.0), whose default is now mode-aware 10% / 20% (hover 15% / 30%) — was a private
+  `color-mix(--pc-primary 5%)` that ignored a theme's `$base-primary-bg-subtle`. pure-admin and the
+  web components now show the same primary tint.
+- **`$base-shadow-color` defaults to `light-dark(15%, 40% black)`** and `$base-dropdown-box-shadow`
+  to `0 8px 16px var(--base-shadow-color, …)`, so a shadow-color override reaches the dropdown.
+- **New `--pc-primary-hover` / `--pc-primary-active`** — the darker primary steps (live
+  `var(--base-primary-color-hover/-active)`), for text, borders and fills.
+- **Fixed: scrollbar thumb `:active`** faded to the low-alpha tint (it read `--pc-accent-hover`);
+  it now reads `--pc-primary-active`.
+- **BREAKING: `$base-inverse-bg` / `--base-inverse-bg` and `$base-text-inverted` /
+  `--base-text-inverted` removed** (base-css-variables 2.0.0) — no runtime reader; the tooltip has its
+  own `--base-tooltip-bg` / `--base-tooltip-text-color`. `$base-tooltip-bg` now defaults to `#2c3e50`
+  (the value it used to inherit from `$base-inverse-bg`).
+- **`.bg-primary` / `.surface-primary`** now read `--pc-primary` (the role-utility loop no
+  longer needs the `primary: accent` mapping).
+
+### Removed
+
+- **BREAKING: `$base-<role>-bg` / `--base-<role>-bg`** for success, danger, warning, info
+  (in sync with base-css-variables 2.0.0). They were copies of `$base-<role>-color`; nothing
+  in pure-css, pure-admin-core or the themes read them. Use `-color` for the fill.
+- **BREAKING: `$base-<role>-text-light` / `$<role>-text-light` / `--base-<role>-text-light`**
+  (base-css-variables 2.0.0). Their only reader was pure-admin-core's `$badge-<role>-bg`, which
+  nothing used.
+- **BREAKING: `$base-<role>-border` / `$<role>-border` / `--base-<role>-border`** — nothing read
+  them (alerts use their own border token).
+- **Dead `--base-*` tokens: `--base-hover-overlay`, `--base-active-overlay`,
+  `--base-focus-ring-color`, `--base-focus-ring-width`** (and their `$base-*`).
+  Left over from the pure-admin-core extraction: never part of the canonical
+  `@keenmate/base-css-variables` contract, and no component read them (only the
+  `scripts/query-editor-cm.html` prototype, with fallbacks). pure-admin's input/checkbox focus halos use
+  `$focus-ring-width` / `$checkbox-focus-shadow`, which are unchanged. Themes that
+  set `$base-focus-ring-color` keep compiling; it's now just a theme-local Sass
+  variable. `scripts/check-base-parity.mjs` drops its allow-list, so pure-css and
+  the canonical contract must now match exactly.
+
 
 ## [1.3.0-rc01] — 2026-10-12 [PUBLISHED]
 
