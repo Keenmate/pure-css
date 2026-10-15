@@ -89,6 +89,11 @@ All notable changes to `@keenmate/pure-css` are documented here. Format based on
   `$sidebar-submenu-hover-bg` / `-active-bg` (now OKLCH relative colors of `--base-subtle-bg`)
   were the only in-tree uses.
 - `$base-overlay-bg` defaults to `rgba(30, 41, 59, .5)` (the contract value, was black 50%).
+- **`--pc-*` all follow `--base-*` at runtime.** `--pc-main-bg`, `--pc-subtle-bg`, `--pc-success` /
+  `-warning` / `-danger` / `-info` and their `-text-color` tokens were emitted as build-time
+  literals, so a runtime `--base-*` override (or a mode block that only re-sets `--base-*`) reached
+  the web components but not pure-admin. They are now `var(--base-*, <build value>)` like the rest.
+  Compiled values are unchanged in all 16 themes (light + dark).
 - **One shadow tone.** Every shadow now takes its colour from `--base-shadow-color` (15% black
   light / 40% dark by default) — the `$shadow-sm…2xl` / `$shadow-sidebar[-open]` presets, the
   `.shadow-sm` / `.shadow` / `.shadow-lg` utilities and the collapsed-sidebar flyouts. Sizes are

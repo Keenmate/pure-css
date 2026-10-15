@@ -381,13 +381,13 @@
   // to the `.pc-mode-dark` block.
   color-scheme: #{$theme-color-scheme};
 
-  // Surfaces. NOTE: pure-admin's --pc-main-bg is the *page* surface and
-  // --pc-subtle-bg the *card* surface — a legacy naming inversion vs the
-  // --base-* model (--base-main-bg = card), so those two stay compile-time to
-  // avoid a value flip. --pc-page-bg maps cleanly and is relinked.
-  --pc-main-bg: #{$main-bg};
+  // Surfaces — live references to the --base-* surfaces (same names, same
+  // meaning: main = content surface, page = canvas, subtle = recessed), so a
+  // runtime / per-mode --base-* override reaches pure-admin without each theme
+  // re-pointing them by hand. The $value is the build-time fallback.
+  --pc-main-bg: var(--base-main-bg, #{$main-bg});
   --pc-page-bg: var(--base-page-bg, #{$page-bg});
-  --pc-subtle-bg: #{$subtle-bg};
+  --pc-subtle-bg: var(--base-subtle-bg, #{$subtle-bg});
 
   // Interaction-STATE surfaces — a distinct axis from the elevation ladder
   // above (page/main/subtle). Track --base-hover/active-bg live so they follow
@@ -426,17 +426,17 @@
   // --pc-primary above). Component surfaces (--pc-*-bg, alerts, buttons) derive
   // from these via var() in pure-admin, so retuning a role here cascades everywhere.
   --pc-secondary: var(--base-secondary-color, #{$base-secondary-color});
-  --pc-success: #{$base-success-color};
-  --pc-warning: #{$base-warning-color};
-  --pc-danger:  #{$base-danger-color};
-  --pc-info:    #{$base-info-color};
+  --pc-success: var(--base-success-color, #{$base-success-color});
+  --pc-warning: var(--base-warning-color, #{$base-warning-color});
+  --pc-danger:  var(--base-danger-color, #{$base-danger-color});
+  --pc-info:    var(--base-info-color, #{$base-info-color});
 
   // Role text colours — consumed by the .text-{success,danger,warning,info}
   // utilities (utilities.scss). Kept in the base contract for that reason.
-  --pc-success-text-color: #{$success-text-color};
-  --pc-danger-text-color:  #{$danger-text-color};
-  --pc-warning-text-color: #{$warning-text-color};
-  --pc-info-text-color:    #{$info-text-color};
+  --pc-success-text-color: var(--base-success-text-color, #{$success-text-color});
+  --pc-danger-text-color:  var(--base-danger-text-color, #{$danger-text-color});
+  --pc-warning-text-color: var(--base-warning-text-color, #{$warning-text-color});
+  --pc-info-text-color:    var(--base-info-text-color, #{$info-text-color});
 
   // Theme palette slots (1–9) + paired contrast text. Consumed by the
   // .text-color-* utilities; themes override $palette-N for branded palettes.
