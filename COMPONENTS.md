@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run `npm run catalog` (after `npm run build`) when any `pc-*` class or utility changes.
 > Machine-readable form: [`components.json`](./components.json).
 
-Package version **1.3.0-rc01** · **11** pc-* components · **381** pc-* selectors · **722** utility classes.
+Package version **2.0.0-rc01** · **11** pc-* components · **381** pc-* selectors · **722** utility classes.
 
 This is the pure-css half of the wrapper-fidelity contract: the foundation (`pc-*` grid + app-shell + engines, and the unprefixed utility classes) that the pure-admin catalog intentionally does **not** track. The svelte / phoenix wrappers validate the non-`pa-*` classes they emit against this catalog.
 

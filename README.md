@@ -12,29 +12,28 @@ It's the shared layer the whole Keenmate stack agrees on:
 top of it, and every Keenmate web/Svelte component reads its colours from the same `--base-*`
 variables.
 
+## What's New in 2.0.0-rc01
+
+> **Upgrade note: breaking. This release syncs pure-css with `@keenmate/base-css-variables` 2.0.0.**
+> Many `$base-*` / `--base-*` / `--pc-*` names changed, and none of the old names still work as
+> aliases. If a theme sets an old name, Sass silently ignores it and that token falls back to the
+> Corporate default. Before upgrading, grep your themes and markup for `accent`, `color-N`,
+> `-bg-light`, `-text-light`, `ring` and `.text-secondary`.
+
+- **Theming — `accent` → `primary`, `color-N` → `palette-N`, names state their type** — this release mirrors the base-css-variables 2.0.0 renames in every layer (`$base-*`, framework `$*`, `--base-*`, `--pc-*`). `$base-accent-color` becomes `$base-primary-color`, and `--pc-accent` / `--pc-accent-light` / `--pc-accent-hover` become `--pc-primary` / `--pc-primary-bg-subtle` / `--pc-primary-bg-subtle-hover`. The last one is renamed by what it actually was: a low-alpha tint, not a darker hover. Palette slots go from `--base-color-N` to `--base-palette-N`, with the text pair `--base-on-palette-N-text-color`. Text and outline tokens now say what kind of value they hold (`-text-color`, `-outline`, `$base-outline-width`, `$base-input-text-color`, `$base-on-<role>-text-color`). Utility class names (`.text-color-N`, `.bg-color-N`, …) are unchanged.
+- **Theming — derived defaults are the contract formulas** — only the inputs are still Sass colours: surfaces, `text-color-1`, role colours, on-fill text, overlay, shadow and the palette. Every other `$base-*` now defaults to the same CSS formula `base-variables.css` uses. Examples: `text-color-2…4` are mixed from `text-color-1`, the `subtle` / `elevated` / `disabled` / `border-color` surfaces are OKLCH lightness shifts, and role hover/active steps are `color-mix` values that go lighter in dark mode. So a theme that only sets the inputs gets every derived token computed per mode scope. Before this, every dark theme inherited light-mode literals such as `--base-input-border-color: #e2e8f0`. One Sass-level break: derived defaults are now CSS strings, so you can't pass them to `color.adjust()` / `rgba()`.
+- **Theming — `--pc-*` follow `--base-*` at runtime** — `--pc-main-bg`, `--pc-subtle-bg`, the status roles and their `-text-color` tokens used to be emitted as build-time literals. A runtime `--base-*` override therefore reached the web components but not pure-admin. They are now `var(--base-*, <build value>)` like the rest of the tokens. The new `--pc-primary-hover` / `--pc-primary-active` are live steps too, and `--pc-primary-bg-subtle` now reads `--base-primary-bg-subtle` (10% / 20% light/dark), so pure-admin and the web components show the same primary tint. Compiled values are unchanged across all 16 themes.
+- **Theming — one shadow tone** — every shadow now takes its colour from `--base-shadow-color` (`light-dark()` 15% / 40% black). That covers the `$shadow-sm…2xl` / `$shadow-sidebar*` presets, the `.shadow*` utilities, the collapsed-sidebar flyouts and `$base-dropdown-box-shadow`. A theme sets the tone once per mode, and pure-css, pure-admin and the web components all match. Dark-mode shadows were nearly invisible at 10–15%.
+- **Utilities — secondary is a full role; `.text-muted` for muted text** — the new `--pc-secondary` adds `.bg-secondary` / `.text-on-secondary` / `.surface-secondary`, matching the other roles. **Breaking:** `.text-secondary` is now the secondary role colour, so muted text moves to the new `.text-muted` (`--pc-text-color-2`). `.text-muted` follows the theme's text hierarchy in dark mode; the role colour doesn't.
+- **Theming — item-state tokens** — new `--base-highlighted-*` (bg / bg-hover / text-color / outline) and `--base-focused-*` tokens, plus `--base-outline-width`, mirrored from the contract. They give one shared look for the selected set and the keyboard cursor in list options, tree rows and grid rows. The primary-derived defaults track `--base-primary-color` live.
+- **Theming — dead and duplicate tokens removed** — removed: `--base-<role>-bg` (copies of `-color`), `-text-light`, `-border`, `-bg-light` (the single role tint is now `-bg-subtle`), `--base-inverse-bg`, `--base-text-inverted`, `--base-tooltip-color`, and the four extraction leftovers `--base-hover-overlay` / `--base-active-overlay` / `--base-focus-ring-*`. `scripts/check-base-parity.mjs` no longer needs an allow-list: pure-css's emitted `--base-*` now matches the canonical contract exactly.
+
 ## What's New in 1.3.0-rc01
 
 - **Shell — `sidebar-flyout.js`, viewport-aware positioning for collapsed submenu flyouts** — in icon-collapse mode the rail's submenu flyouts were pure CSS (`position: absolute; top: 0` relative to their item) with no collision detection, so a flyout on an item low in a tall menu always opened downward and its lower entries were clipped off the bottom of the viewport. The new engine measures the flyout with `getBoundingClientRect` (no Floating-UI dependency, the same hand-positioning approach as `fit.js`) and shifts it up so its bottom edge stays on-screen. When it's taller than the viewport it caps the height and lets the flyout scroll, and when it would overflow the end edge it flips to the start side, honouring RTL via the computed `direction`. It's event-delegated on `document`, so it survives SPA route changes and LiveView DOM patches. It self-inits, only acts while `body.sidebar-hidden` is set, and is registered at `pureCss.components.sidebarFlyout` (`init` / `position` / `clearAll`).
 - **Shell — collapsed-rail flyouts read as elevated floating cards** — the flyouts used the sunken `--base-subtle-bg` tone, which on dark themes was actually darker than the rail, plus a weak shadow and an attached three-sided border, so they looked like a muted extension of the sidebar. They now float: two new opt-in tokens, `--pc-sidebar-flyout-bg` (falls back to `--base-main-bg`) and `--pc-sidebar-flyout-text` (falls back to `--base-text-color-1`), give a lifted surface with paired readable text. An 8% white elevation film keeps the panel lighter than the rail even when theme surface tones are close. A full rounded border and a pronounced `0 12px 32px rgba(0,0,0,.5)` shadow make it read as a detached card on dark themes too.
 - **Shell — hover-intent grace on collapsed flyouts** — flyouts toggled `display: none ↔ block`, which can't transition, so the menu vanished the instant the cursor left the trigger's hitbox and there was no way to travel onto it. They now hide via `visibility` / `opacity` with a ~0.4s hide delay and show with zero delay, and hovering the flyout itself still keeps it open (`_sidebar-states.scss`).
 - **Shell — submenus keep full reading size at every depth** — levels 2 and 3 (and the collapsed-rail flyouts, including the nested level-3 flyout) stepped the text down `base → md → sm → xs` (16 → 15 → 14 → 12px), which made multilevel flyouts hard to read. Indentation already conveys depth, so every submenu level now uses `$font-size-base` (`_sidebar.scss`, `_sidebar-states.scss`).
-
-## What's New in 1.2.0
-
-> **Upgrade note — additive for pure-css, a coordinated rename downstream.** Every
-> change here is purely additive to pure-css itself (new classes and one new token;
-> nothing removed), so a pure-css-only upgrade is drop-in. The breaking part is
-> downstream: `pure-admin-core` must bump its `@keenmate/pure-css` dependency to
-> `^1.2.0` and drop its own copies of the palette / neutral-text helpers (now
-> single-sourced here), and in that same cycle the numbered colour utilities lost
-> their `pa-` prefix — `.pa-bg-color-N` → `.bg-color-N`, `.pa-text-color-N` →
-> `.text-color-N`, etc. Any markup still using the prefixed names must be updated.
-
-- **Utilities — palette + neutral-text helpers graduated from pure-admin-core** — the flat colour-apply helpers that consume pure-css's palette (`--pc-palette-N` / `--pc-on-palette-N-text-color`) and text-hierarchy (`--pc-text-color-N`) tokens now live here beside `.text-color-N`: the property-forms `.bg-color-N` / `.border-color-N` / `.text-on-color-N` and the composite `.surface-color-N` for slots 1–9, plus neutral `.text-body` / `.text-secondary` and the `.text-caption` / `.text-lead` shorthands. They were temporarily homed in `pure-admin-core` so they were demo-able over the `file:` link without a release; this is their permanent home, and pure-admin-core now single-sources them from here (bump its dep to `^1.2.0`).
-- **Utilities — role surface helpers (`.bg-{role}` / `.text-on-{role}` / `.surface-{role}`)** — the role parallel of the numeric `-color-N` family, for primary / success / warning / danger / info. `.bg-{role}` paints the role fill (`--pc-{role}`, primary → `--pc-primary`), `.text-on-{role}` supplies the on-fill contrast text (`--base-text-on-{role}`, distinct from the foreground `.text-{role}`), and `.surface-{role}` combines both in one class — all `!important` for cascade parity with the role text utilities.
-- **Shell — opt-in desktop overlay sidebar (`.sidebar-overlay`)** — the mobile off-canvas drawer was refactored into a shared `sidebar-drawer-overlay` mixin, and a new `body.sidebar-overlay` caller reuses it on desktop at the normal 288px `$sidebar-width`: a burger opens a temporary floating sidebar (fixed sheet sliding in with a fading backdrop) over usable content, rather than reflowing the layout. RTL and the `body.loaded` first-paint transition gate are preserved.
-- **Tooling — foundation component catalog (`COMPONENTS.md` / `components.json`)** — a new `npm run catalog` (`scripts/build-catalog.mjs`) generates a human- and machine-readable manifest of the `pc-*` components and unprefixed utilities from the compiled bundles, so the svelte / phoenix wrappers have a source of truth to validate their emitted DOM against. It assigns every `pc-*` class to a component by longest-prefix match against a hand-authored taxonomy and fails the build on any unclassified class or unused prefix, so coverage can't drift; it's wired into `prepublishOnly` and both files ship in the package.
-- **Theming — `--base-checkbox-scale` bridge token** — a new `$base-checkbox-scale` (default `1`) mirrored from `@keenmate/base-css-variables`, emitted as `--base-checkbox-scale`. It multiplies a checkbox's own box width/height (`calc(<base-size> * var(--base-checkbox-scale))`) rather than a `transform: scale()` that would pixel-snap the mask glyph off-centre, so one knob resizes every checkbox in lockstep (paired with `--base-icon-check-size`).
 
 ## Why
 
@@ -46,6 +45,11 @@ Its heart is a single **`--base-*` theming contract**: override one block of cus
 everything re-themes at once — the grid, the utilities, the optional app shell, and any component
 that reads the same variables. Light and dark are built in via `light-dark()`, there's no build step
 to consume it (just link the prebuilt CSS), and it pulls in no runtime dependencies.
+
+The canonical `--base-*` list is owned by
+[`@keenmate/base-css-variables`](https://github.com/Keenmate/base-css-variables) (the plain-CSS
+contract standalone web components ship with); pure-css mirrors it exactly, so the same theme block
+works whether a page loads pure-css, the web components, or both.
 
 ```
 @keenmate/pure-css  (this package)
@@ -75,19 +79,35 @@ npm install @keenmate/pure-css
 or cherry-pick:
 
 ```html
-<link rel="stylesheet" href="…/pure-css/dist/css/base.css">   <!-- variables only -->
-<link rel="stylesheet" href="…/pure-css/dist/css/grid.css">   <!-- + grid          -->
+<link rel="stylesheet" href="…/pure-css/dist/css/base.css">     <!-- variables only      -->
+<link rel="stylesheet" href="…/pure-css/dist/css/reboot.css">   <!-- 10px rem base       -->
+<link rel="stylesheet" href="…/pure-css/dist/css/grid.css">     <!-- + grid              -->
 ```
 
-**SCSS (customize before compiling):**
+> **Keep `reboot.css` when cherry-picking.** Every `rem` in pure-css assumes
+> `html { font-size: 10px }` (`1rem` = 10px; `.m-4` = 1rem, grid gutters 0.8rem). Without the
+> reboot the grid and utilities render 1.6× too large on a default 16px root.
+
+**SCSS theme layer (compile `$base-*` overrides into the variables):**
 
 ```scss
-// Override the source of truth; everything re-derives.
+// Set the inputs BEFORE importing — the !default flags keep them, and every
+// derived token (text tiers, hover/active steps, borders…) is computed from them.
 $base-primary-color: #4f46e5;
-$base-page-bg: #0b1020;
+$base-page-bg: #f6f8fb;
 
-@use '@keenmate/pure-css/scss/pure-css';
+@import '@keenmate/pure-css/scss/base-css-variables';
+
+:root {
+  @include output-base-css-variables;   // --base-*
+  @include output-pc-css-variables;     // --pc-*
+}
 ```
+
+Load the compiled layer **after** `pure-css.css` (or `base.css`). This must be `@import`, not
+`@use` — the override relies on one shared global scope. Setting `$base-*` before
+`@use '@keenmate/pure-css/scss/pure-css'` does **not** re-theme the bundle; the entry points load
+their variables in their own module scope and keep the defaults.
 
 ## What's in it
 
@@ -95,18 +115,24 @@ $base-page-bg: #0b1020;
 | --- | --- | --- |
 | `dist/css/pure-css.css` | everything below, in one file | the common case |
 | `dist/css/base.css` | only `:root { --base-*; --pc-*; }` | you just need the theming contract (e.g. to theme embedded web components) or a base for a theme override |
+| `dist/css/reboot.css` | `html { font-size: 10px }` + box-sizing reset + neutral element styling (headings, paragraphs, links) | always, unless you link the bundle — it's the rem contract everything else assumes |
+| `dist/css/scrollbars.css` | thin themed scrollbars, coloured from `--pc-*` | you want the browser chrome to match the theme |
 | `dist/css/component-reset.css` | a `:host` reset (box-sizing + inherited typography pinned to `--base-*`) — the Shadow-DOM counterpart to reboot | building a web component: adopt it into the shadow root (e.g. `import '@keenmate/pure-css/component-reset?inline'`) so the host page can't bleed styles in; pair with `base` |
 | `dist/css/grid.css` | `.pc-row` / `.pc-col-*` (percentage + fraction columns, container-query responsive) | layout only |
-| `dist/css/utilities.css` | spacing / flex / display / width-height utilities (`.m-4`, `.d-flex`, `.w-50`, …) | utilities only |
+| `dist/css/utilities.css` | spacing / flex / display / width-height, borders / rounded / shadows, role and palette colour helpers (`.text-primary`, `.bg-success`, `.surface-color-3`, `.text-muted`, …) and `.font-family-*` | utilities only |
 
-The `pure-css.css` bundle also includes the **app shell** (navbar, sidebar,
-layout container) — `base.css` / `grid.css` / `utilities.css` do not.
+The `pure-css.css` bundle is base + reboot + scrollbars + grid + utilities, plus the **app shell**
+(navbar, sidebar, layout container), which ships in no other artifact. `component-reset.css` is
+standalone and not part of the bundle.
+
+Every class the package emits is listed in [`COMPONENTS.md`](./COMPONENTS.md) (machine-readable:
+`components.json`), regenerated from the built CSS on each publish.
 
 ### The app-shell runtime (`./js`)
 
 The shell's behaviour (nav fit/collapse, dropdowns, drag-to-resize, container
 breakpoints) ships as dependency-free source JS via the `./js` export — no
-bundler required, drop it in with a `<script>` and call `initAll`:
+bundler required, drop it in with `<script>` tags (`pure-css.js` first):
 
 ```html
 <link rel="stylesheet" href="node_modules/@keenmate/pure-css/dist/css/pure-css.css">
@@ -115,8 +141,11 @@ bundler required, drop it in with a `<script>` and call `initAll`:
 <script src="node_modules/@keenmate/pure-css/src/js/navbar-dropdown.js"></script>
 <script src="node_modules/@keenmate/pure-css/src/js/sidebar-resize.js"></script>
 <script src="node_modules/@keenmate/pure-css/src/js/sidebar-flyout.js"></script>
-<script>window.pureCss.components.initAll(document);</script>
+<script src="node_modules/@keenmate/pure-css/src/js/container-breakpoint.js"></script>
 ```
+
+Each engine self-initialises on `DOMContentLoaded`. After injecting shell markup later (SPA route
+change, server-rendered patch), re-wire it with `window.pureCss.components.initAll(scope)`.
 
 `window.pureCss` also exposes an event bus and live `viewport` / `colorScheme` /
 `device` sources. The runtime is optional — shell CSS is authored no-JS-safe, so
@@ -126,10 +155,16 @@ the styling stands on its own and the JS only adds the interactive behaviour.
 
 `--base-*` is the **single source of truth for theming**. Framework colors, component variables
 (`--pc-*`) and web/svelte components all derive from it via fallback chains
-(`--ms-accent-color: var(--base-primary-color, #3b82f6)`). Categories: accent, text, background,
-border, input, dropdown, tooltip, contextual (success/danger/warning/info), interactive states,
-typography, border-radius, spacing/shadow/motion/z-index scales, and icons. The full list is
-`src/scss/variables/_base.scss`.
+(`--ms-accent-color: var(--base-primary-color, #3b82f6)`). Categories: primary / secondary roles,
+text, background, border, input, dropdown, tooltip, contextual roles (success/danger/warning/info),
+interactive and item states (hover, active, highlighted, focused), shadow, palette slots, typography,
+border-radius, and icons. The canonical list is `@keenmate/base-css-variables`; pure-css's mirror is
+`src/scss/variables/_base.scss`, and `scripts/check-base-parity.mjs` fails if the two drift.
+
+Only the **inputs** are fixed values (surfaces, `--base-text-color-1`, role colours, on-fill text,
+overlay, shadow, palette). Every other token defaults to a CSS formula over them — text tiers mixed
+from `--base-text-color-1`, hover/active steps via `color-mix`, borders and subtle surfaces as OKLCH
+lightness shifts — so a theme that sets only the inputs gets a coherent, mode-aware result.
 
 #### Icons
 
@@ -155,6 +190,13 @@ swap the icon set.
 | `--base-icon-copy` | two overlapping sheets | copy-to-clipboard |
 | `--base-icon-ellipsis` | three dots `⋯` | "more / overflow" affordance — **rotate-one-glyph** for the vertical `⋮` variant (rotate 90°) |
 | `--base-icon-save` | floppy disk | persist / commit |
+| `--base-icon-download` | arrow into tray | download / export |
+| `--base-icon-link` / `--base-icon-external-link` | chain links / box with arrow | in-app link vs. opens elsewhere (new tab, other site) |
+| `--base-icon-settings` / `--base-icon-user` / `--base-icon-bell` | gear / person / bell | shell chrome: settings, account menu, notifications |
+| `--base-icon-info` / `--base-icon-success` / `--base-icon-warning` / `--base-icon-danger` | circled `i` / circled `✓` / triangle `!` / circled `✕` | status marks for alerts, toasts and validation messages, one per role |
+
+`--base-icon-check-size` (default `68%`) sizes the check glyph inside its box, paired with
+`--base-checkbox-scale`, which resizes the checkbox itself.
 
 Three intentional distinctions:
 
@@ -184,10 +226,21 @@ re-themes all of them at once. This is the same model as
 [`@keenmate/pure-admin-themes`](https://github.com/Keenmate/pure-admin-themes), so the same CLI and
 publishing infrastructure applies.
 
+### Light / dark
+
+The defaults are `light-dark()` pairs keyed off the CSS `color-scheme`. `base.css` sets
+`color-scheme: light`, so with pure-css alone dark mode is one declaration:
+
+```css
+:root { color-scheme: dark; }        /* always dark            */
+:root { color-scheme: light dark; }  /* follow the OS setting  */
+```
+
 ### Mode & variant class placement
 
-Light/dark and colour-variant switching is done by toggling a class — `.pc-mode-light` /
-`.pc-mode-dark` and `.pa-color-*`. **Apply these to the `:root` element (`<html>`), not `<body>`.**
+Themes (and pure-admin) switch light/dark and colour variants by toggling a class — `.pc-mode-light` /
+`.pc-mode-dark`, and pure-admin's `.pa-color-*`. **Apply these to the `:root` element (`<html>`), not
+`<body>`.**
 
 The mode/variant blocks override input tokens (`--pc-*` / `--base-*`). Many themed tokens are
 *derived* from those inputs and emitted once at `:root` — e.g. core emits
@@ -208,9 +261,13 @@ remove it).
 ## Build
 
 ```bash
-make install   # sass
-make build     # src/scss -> dist/css (bundle + base + grid + utilities)
-make sizes     # show artifact sizes
+make install                      # npm install (sass; vite + playwright for the demo and tests)
+make build                        # src/scss -> dist/css (all 7 artifacts)
+make sizes                        # show artifact sizes
+npm run dev                       # demo site on http://localhost:12500
+npm test                          # Playwright e2e suite (first run: npm run test:e2e:install)
+npm run catalog                   # regenerate COMPONENTS.md / components.json
+node scripts/check-base-parity.mjs  # --base-* names match @keenmate/base-css-variables
 ```
 
 `dist/` is committed so consumers can vendor the built CSS without a Sass toolchain.
@@ -229,4 +286,4 @@ One intentional difference: `utilities.scss` here `@use`s `_fonts.scss` so the g
 
 ## License
 
-MIT © Keenmate. The grid is derived from [Pure](https://purecss.io/) (Yahoo!, BSD).
+MIT © Keenmate s.r.o. The grid is derived from [Pure](https://purecss.io/) (Yahoo!, BSD).
