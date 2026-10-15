@@ -19,14 +19,14 @@ test('base.css emits the default accent tokens at :root', async ({ page }) => {
             base: cs.getPropertyValue('--base-primary-color').trim()
         };
     });
-    expect(pc).toBe('#007bff');
-    expect(base).toBe('#007bff');
+    expect(pc).toBe('#0ea5e9');
+    expect(base).toBe('#0ea5e9');
 
     // ...and it renders: default .text-primary is the accent colour.
     const color = await page
         .locator('#default-primary')
         .evaluate((el) => getComputedStyle(el).color);
-    expect(color).toBe('rgb(0, 123, 255)');
+    expect(color).toBe('rgb(14, 165, 233)');
 });
 
 test('overriding --pc-primary re-themes .text-primary live', async ({ page }) => {

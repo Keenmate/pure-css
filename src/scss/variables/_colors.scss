@@ -34,8 +34,8 @@ $sidebar-bg: $base-page-bg !default;
 $sidebar-text: $base-text-color-1 !default;
 $sidebar-text-secondary: $base-text-color-2 !default;
 $sidebar-submenu-bg: $base-subtle-bg !default;
-$sidebar-submenu-hover-bg: color.adjust($base-subtle-bg, $lightness: -5%) !default;
-$sidebar-submenu-active-bg: color.adjust($base-subtle-bg, $lightness: -10%) !default;
+$sidebar-submenu-hover-bg: oklch(from var(--base-subtle-bg) calc(l - 0.05) c h) !default;
+$sidebar-submenu-active-bg: oklch(from var(--base-subtle-bg) calc(l - 0.1) c h) !default;
 $sidebar-submenu-active-text: $sidebar-text !default;
 
 // Footer colors

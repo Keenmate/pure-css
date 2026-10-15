@@ -69,8 +69,30 @@ All notable changes to `@keenmate/pure-css` are documented here. Format based on
   it now reads `--pc-primary-active`.
 - **BREAKING: `$base-inverse-bg` / `--base-inverse-bg` and `$base-text-inverted` /
   `--base-text-inverted` removed** (base-css-variables 2.0.0) — no runtime reader; the tooltip has its
-  own `--base-tooltip-bg` / `--base-tooltip-text-color`. `$base-tooltip-bg` now defaults to `#2c3e50`
-  (the value it used to inherit from `$base-inverse-bg`).
+  own `--base-tooltip-bg` / `--base-tooltip-text-color`.
+- **Derived defaults = the contract formulas** (base-css-variables 2.0.0 derived contract). Only
+  the inputs stay Sass colours (main/page bg, `text-color-1`, role colors + role text colors,
+  on-fill text, overlay, shadow, palette). Every other color `$base-*` now defaults to the same
+  CSS formula as `base-variables.css` — `text-color-2…4` mixed from `text-color-1` into main-bg;
+  `subtle` / `elevated` / `disabled` / `border-color` as OKLCH lightness shifts; `hover` /
+  `active` as overlays; role `-hover` / `-active` as black/white mixes (lighter in dark mode);
+  input / dropdown / checkbox / tooltip tokens as `var()` of their sources. A theme that sets only
+  the inputs gets the rest calculated from them, per mode scope; a theme that sets a derived
+  `$base-*` keeps its value. Previously these were baked Corporate/Bootstrap literals, so a theme
+  that didn't set one inherited a light-mode value — e.g. every dark theme's
+  `--base-input-border-color` was `#e2e8f0`, and `--base-input-icon-bg-hover` /
+  `--base-checkbox-border-color` / `--base-input-bg-disabled` were the compile-time Sass value
+  instead of the theme's runtime one.
+- **BREAKING (Sass):** derived `$base-*` defaults are CSS strings, not Sass colours — don't pass
+  them to `color.adjust()` / `rgba()`. `$base-active-bg` (was `color.adjust($base-subtle-bg)`),
+  `$base-input-bg-disabled` (was `rgba($base-input-bg, .5)`, now `var(--base-disabled-bg)`) and
+  `$sidebar-submenu-hover-bg` / `-active-bg` (now OKLCH relative colors of `--base-subtle-bg`)
+  were the only in-tree uses.
+- `$base-overlay-bg` defaults to `rgba(30, 41, 59, .5)` (the contract value, was black 50%).
+- **Fixed:** the collapsed sidebar's border read the compile-time `$border-color`; it now reads
+  `--pc-border-color`.
+- e2e: expectations updated to the Corporate defaults (`#0ea5e9`, 6px radius, palette slots,
+  derived border) — the 5 specs that still expected Bootstrap values pass again.
 - **`.bg-primary` / `.surface-primary`** now read `--pc-primary` (the role-utility loop no
   longer needs the `primary: accent` mapping).
 

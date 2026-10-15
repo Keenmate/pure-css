@@ -6,6 +6,16 @@
 // Web components consume these via --base-* CSS custom properties.
 //
 // To create a theme: Override these variables, everything else auto-derives.
+//
+// INPUTS vs DERIVED (mirrors @keenmate/base-css-variables 2.0.0): the hand-set
+// inputs (main/page bg, text-color-1, role colors, role text colors, on-fill
+// text, overlay, shadow, palette) are plain Sass colours. Every other color
+// token defaults to the SAME CSS formula as the contract (color-mix / OKLCH
+// relative color over var(--base-*)), emitted verbatim, so a theme that sets
+// only the inputs gets the rest calculated from them — in each mode scope that
+// re-sets the inputs. Set any derived $base-* to a literal to hand-tune it.
+// Derived defaults are CSS strings, not Sass colours: don't feed them to Sass
+// colour functions (color.adjust, rgba(), …) — derive in CSS instead.
 // ============================================================================
 
 @use 'sass:color';
@@ -18,20 +28,20 @@
 // Default theme = pure-admin Corporate (sky-blue). Matches the canonical
 // --base-* contract in @keenmate/base-css-variables; a theme overrides these.
 $base-primary-color: #0ea5e9 !default;
-$base-primary-color-hover: #0284c7 !default;
-$base-primary-color-active: #0369a1 !default;
-$base-primary-bg-subtle: light-dark(color-mix(in srgb, var(--base-primary-color, #{$base-primary-color}) 10%, transparent), color-mix(in srgb, var(--base-primary-color, #{$base-primary-color}) 20%, transparent)) !default;  // Primary tint: badges, chips, soft fills
-$base-primary-bg-subtle-hover: light-dark(color-mix(in srgb, var(--base-primary-color, #{$base-primary-color}) 15%, transparent), color-mix(in srgb, var(--base-primary-color, #{$base-primary-color}) 30%, transparent)) !default;
+$base-primary-color-hover: light-dark(color-mix(in srgb, black 15%, var(--base-primary-color)), color-mix(in srgb, white 15%, var(--base-primary-color))) !default;
+$base-primary-color-active: light-dark(color-mix(in srgb, black 30%, var(--base-primary-color)), color-mix(in srgb, white 30%, var(--base-primary-color))) !default;
+$base-primary-bg-subtle: light-dark(color-mix(in srgb, var(--base-primary-color) 10%, transparent), color-mix(in srgb, var(--base-primary-color) 20%, transparent)) !default;  // Primary tint: badges, chips, soft fills
+$base-primary-bg-subtle-hover: light-dark(color-mix(in srgb, var(--base-primary-color) 15%, transparent), color-mix(in srgb, var(--base-primary-color) 30%, transparent)) !default;
 
 // =============================================================================
 // TEXT COLORS
 // Hierarchical text colors for different emphasis levels
 // =============================================================================
 
-$base-text-color-1: #334155 !default;  // Primary text (strongest) — Corporate slate-700
-$base-text-color-2: #64748b !default;  // Secondary text (muted) — slate-500
-$base-text-color-3: #94a3b8 !default;  // Tertiary text (lighter) — slate-400
-$base-text-color-4: #cbd5e1 !default;  // Quaternary text (lightest) — slate-300
+$base-text-color-1: #334155 !default;  // Primary text (strongest) — Corporate slate-700 (input)
+$base-text-color-2: color-mix(in srgb, var(--base-text-color-1) 75%, var(--base-main-bg)) !default;  // Secondary — muted labels, supporting text
+$base-text-color-3: color-mix(in srgb, var(--base-text-color-1) 55%, var(--base-main-bg)) !default;  // Tertiary — icons, metadata, paths
+$base-text-color-4: color-mix(in srgb, var(--base-text-color-1) 40%, var(--base-main-bg)) !default;  // Faint — hints, placeholders, disabled
 $base-on-primary-text-color: #ffffff !default;  // Text on the primary fill
 
 // =============================================================================
@@ -48,49 +58,38 @@ $base-page-bg: #f8f9fa !default;          // Canvas/backdrop the content sits on
 // inset panels, pills, tiles. NOT a hover state (see $base-hover-bg) and NOT a
 // divider (see $base-border-color); one crisp job. Raised chrome (headers,
 // striped rows) uses $base-elevated-bg instead.
-$base-subtle-bg: #e9ecef !default;
-$base-overlay-bg: rgba(0, 0, 0, 0.5) !default;  // Modal/overlay background
+// Derived from page-bg by a lightness shift that keeps the hue.
+$base-subtle-bg: light-dark(oklch(from var(--base-page-bg) calc(l - 0.024) c h), oklch(from var(--base-page-bg) calc(l + 0.048) c h)) !default;
+$base-overlay-bg: rgba(30, 41, 59, 0.5) !default;  // Modal/overlay background
 $base-shadow-color: light-dark(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.4)) !default;  // Shadow color for elevation (light / dark)
-// Elevated surface (header rows, striped rows, popovers/toolbars). Defaults to
-// the page background so the default theme's header appearance is unchanged, but
-// themes can override it independently to create a distinct raised tone.
-// Defaults to the page bg so it tracks a theme's canvas (dark themes stay dark);
-// Corporate overrides it to slate-100 (#f1f5f9) for a distinct header tint.
-$base-elevated-bg: $base-page-bg !default;
+// Elevated surface (header rows, striped rows, popovers/toolbars) — a lightness
+// shift of main-bg (darker in light mode, lighter in dark).
+$base-elevated-bg: light-dark(oklch(from var(--base-main-bg) calc(l - 0.03) c h), oklch(from var(--base-main-bg) calc(l + 0.06) c h)) !default;
 
 // Interaction-STATE backgrounds (a separate axis from the elevation ladder).
-// These default to (derive from) $base-subtle-bg so unthemed hovers stay
-// sensible, but they are their OWN tokens: override them to decouple hover/
-// active from the recessed-surface tone. Components read --pc-hover-bg /
-// --pc-active-bg for :hover/:active fills — never --pc-subtle-bg.
-$base-hover-bg: $base-subtle-bg !default;         // Hover state background
-$base-active-bg: color.adjust($base-subtle-bg, $lightness: -5%) !default;  // Active/pressed state
-// Disabled element background. Given its OWN lower-contrast default (an inert,
-// near-page tone) so it no longer collides with $base-hover-bg/$base-subtle-bg —
-// distinct purpose, distinct value. (WS7.3)
-$base-disabled-bg: #f1f3f5 !default;
+// hover/active are translucent overlays of a contrasting tone of main-bg, so
+// they work on any surface; disabled is a solid inert tone. Components read
+// --pc-hover-bg / --pc-active-bg for :hover/:active fills — never --pc-subtle-bg.
+$base-hover-bg: light-dark(color-mix(in oklch, oklch(from var(--base-main-bg) calc(l - 0.45) c h) 14%, transparent), color-mix(in oklch, oklch(from var(--base-main-bg) calc(l + 0.45) c h) 28%, transparent)) !default;         // Hover state background
+$base-active-bg: light-dark(color-mix(in oklch, oklch(from var(--base-main-bg) calc(l - 0.45) c h) 24%, transparent), color-mix(in oklch, oklch(from var(--base-main-bg) calc(l + 0.45) c h) 48%, transparent)) !default;  // Active/pressed state
+$base-disabled-bg: light-dark(oklch(from var(--base-main-bg) calc(l - 0.024) c h), oklch(from var(--base-main-bg) calc(l + 0.048) c h)) !default;
 
 // ITEM STATES — list options, tree rows, grid rows (web-multiselect options,
 // svelte-/web-treeview rows). Explorer model: `focused` = the one cursor item;
 // `highlighted` = the Ctrl/Shift-click set; `selected` = checkbox-checked (shown
-// by the checkbox only — no row tokens). Each state is a bg / text / ring trio;
-// `*-ring` is an outline (not border) shorthand consumers draw INSET (outline-offset =
+// by the checkbox only — no row tokens). Each state is a bg / text / outline trio;
+// `*-outline` is an outline (not border) shorthand consumers draw INSET (outline-offset =
 // calc(-1 * var(--base-outline-width))) so it never shifts layout. Thicken
-// the ring via $base-outline-width, not a px inside *-ring, or the inset
-// offset no longer matches. Mirrors @keenmate/base-css-variables.
-// The primary-derived defaults are emitted as LIVE var() expressions so a
-// runtime --base-primary-color override re-tints them; the build-time primary
-// is the var() fallback. They are plain CSS values,
-// not Sass colours — override them with any CSS value, but don't feed them to
-// Sass colour functions.
-$base-outline-width: 1px !default;                         // Ring width for *-ring; consumers inset by −this
-$base-highlighted-bg: color-mix(in srgb, var(--base-primary-color, #{$base-primary-color}) 10%, transparent) !default;
+// it via $base-outline-width, not a px inside *-outline, or the inset
+// offset no longer matches.
+$base-outline-width: 1px !default;                         // Width for *-outline; consumers inset by −this
+$base-highlighted-bg: var(--base-primary-bg-subtle) !default;
 $base-highlighted-bg-hover: var(--base-highlighted-bg) !default;  // Highlighted row keeps its tint on hover
 $base-highlighted-text-color: currentColor !default;                 // Text on a highlighted item (currentColor = unchanged)
 $base-highlighted-outline: none !default;                        // Outline shorthand, e.g. var(--base-outline-width) solid …
-$base-focused-bg: transparent !default;                      // The ring alone marks focus
+$base-focused-bg: transparent !default;                      // The outline alone marks focus
 $base-focused-text-color: currentColor !default;
-$base-focused-outline: var(--base-outline-width, #{$base-outline-width}) solid var(--base-primary-color, #{$base-primary-color}) !default;  // Keyboard-focus ring (drawn inset)
+$base-focused-outline: var(--base-outline-width) solid var(--base-primary-color) !default;  // Keyboard-focus outline (drawn inset)
 
 // =============================================================================
 // BORDER COLORS
@@ -101,31 +100,29 @@ $base-focused-outline: var(--base-outline-width, #{$base-outline-width}) solid v
 // a theme can retune stroke weight in one place (web-component bridge:
 // --base-border-width). (WS7.1)
 $base-border-width: 1px !default;
-$base-border-color: #e2e8f0 !default;  // Corporate slate-200
-$base-border: $base-border-width solid $base-border-color !default;
+$base-border-color: light-dark(oklch(from var(--base-main-bg) calc(l - 0.096) c h), oklch(from var(--base-main-bg) calc(l + 0.192) c h)) !default;  // Dividers — a lightness shift of main-bg
+$base-border: var(--base-border-width) solid var(--base-border-color) !default;
 // Checkbox/radio border (web-component bridge: --base-checkbox-border-color).
-$base-checkbox-border-color: $base-border-color !default;
+$base-checkbox-border-color: var(--base-border-color) !default;
 
 // =============================================================================
 // INPUT FIELDS
 // Input field styling and states
 // =============================================================================
 
-$base-input-bg: $base-main-bg !default;
-$base-input-text-color: #334155 !default;  // Corporate slate-700
-// Input border as a colour (single source) + the 1px shorthand web components
-// read via --base-input-border. Now equals --base-border-color (both Corporate
-// slate-200 #e2e8f0).
-$base-input-border-color: #e2e8f0 !default;  // = border-color (Corporate slate-200)
-$base-input-border: 1px solid $base-input-border-color !default;
-$base-input-border-hover: 1px solid $base-primary-color !default;  // Corporate: accent on hover
-$base-input-border-focus: 1px solid $base-primary-color !default;
-$base-input-placeholder-color: $base-text-color-4 !default;
-$base-input-bg-disabled: rgba($base-input-bg, 0.5) !default;
-// Inline clear ("×") affordance inside inputs (web-component bridge:
+$base-input-bg: var(--base-main-bg) !default;
+$base-input-text-color: var(--base-text-color-1) !default;
+// Input border as a colour + the shorthand web components read via --base-input-border.
+$base-input-border-color: var(--base-border-color) !default;
+$base-input-border: var(--base-border-width) solid var(--base-input-border-color) !default;
+$base-input-border-hover: var(--base-border-width) solid var(--base-primary-color) !default;
+$base-input-border-focus: var(--base-border-width) solid var(--base-primary-color) !default;
+$base-input-placeholder-color: var(--base-text-color-4) !default;
+$base-input-bg-disabled: var(--base-disabled-bg) !default;
+// Inline icons inside inputs — clear ✕, chevrons (web-component bridge:
 // --base-input-icon-color / --base-input-icon-bg-hover).
-$base-input-icon-color: $base-text-color-3 !default;
-$base-input-icon-bg-hover: $base-hover-bg !default;
+$base-input-icon-color: var(--base-text-color-3) !default;
+$base-input-icon-bg-hover: var(--base-hover-bg) !default;
 
 // Input size heights (unitless multipliers for x10px base)
 // Neutral heights (Corporate bumps these +0.3 itself for its wider font — that's a
@@ -141,17 +138,17 @@ $base-input-size-xl-height: 4.1 !default;  // 41px
 // Floating element styling
 // =============================================================================
 
-$base-dropdown-bg: $base-main-bg !default;
-$base-dropdown-border: 1px solid $base-border-color !default;
-$base-dropdown-box-shadow: 0 8px 16px var(--base-shadow-color, #{$base-shadow-color}) !default;
+$base-dropdown-bg: var(--base-main-bg) !default;
+$base-dropdown-border: var(--base-border-width) solid var(--base-border-color) !default;
+$base-dropdown-box-shadow: 0 8px 16px var(--base-shadow-color) !default;
 
 // =============================================================================
 // TOOLTIP
 // Tooltip styling
 // =============================================================================
 
-$base-tooltip-bg: #2c3e50 !default;
-$base-tooltip-text-color: #ffffff !default;
+$base-tooltip-bg: light-dark(color-mix(in srgb, var(--base-text-color-1) 85%, var(--base-main-bg)), oklch(from var(--base-main-bg) calc(l + 0.15) c h)) !default;
+$base-tooltip-text-color: light-dark(var(--base-main-bg), var(--base-text-color-1)) !default;
 
 // =============================================================================
 // CONTEXTUAL COLORS - SUCCESS
@@ -159,8 +156,8 @@ $base-tooltip-text-color: #ffffff !default;
 // =============================================================================
 
 $base-success-color: #10b981 !default;  // Corporate emerald-500 — also --pa-positive in the sentiment scale
-$base-success-color-hover: #059669 !default;  // Corporate emerald-600
-$base-success-bg-subtle: light-dark(color-mix(in srgb, var(--base-success-color, #{$base-success-color}) 10%, transparent), color-mix(in srgb, var(--base-success-color, #{$base-success-color}) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-success-color
+$base-success-color-hover: light-dark(color-mix(in srgb, black 15%, var(--base-success-color)), color-mix(in srgb, white 15%, var(--base-success-color))) !default;  // Corporate emerald-600
+$base-success-bg-subtle: light-dark(color-mix(in srgb, var(--base-success-color) 10%, transparent), color-mix(in srgb, var(--base-success-color) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-success-color
 $base-success-text-color: #155724 !default;
 $base-on-success-text-color: #ffffff !default;
 
@@ -170,8 +167,8 @@ $base-on-success-text-color: #ffffff !default;
 // =============================================================================
 
 $base-danger-color: #ef4444 !default;  // Tailwind red-500 — aligns with --pa-negative in the sentiment scale
-$base-danger-color-hover: #dc2626 !default;  // Corporate red-600
-$base-danger-bg-subtle: light-dark(color-mix(in srgb, var(--base-danger-color, #{$base-danger-color}) 10%, transparent), color-mix(in srgb, var(--base-danger-color, #{$base-danger-color}) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-danger-color
+$base-danger-color-hover: light-dark(color-mix(in srgb, black 15%, var(--base-danger-color)), color-mix(in srgb, white 15%, var(--base-danger-color))) !default;  // Corporate red-600
+$base-danger-bg-subtle: light-dark(color-mix(in srgb, var(--base-danger-color) 10%, transparent), color-mix(in srgb, var(--base-danger-color) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-danger-color
 $base-danger-text-color: #721c24 !default;
 $base-on-danger-text-color: #ffffff !default;
 
@@ -181,8 +178,8 @@ $base-on-danger-text-color: #ffffff !default;
 // =============================================================================
 
 $base-warning-color: #f59e0b !default;  // Corporate amber-500 — also the off-target axis in KPI components
-$base-warning-color-hover: #d97706 !default;  // Corporate amber-600
-$base-warning-bg-subtle: light-dark(color-mix(in srgb, var(--base-warning-color, #{$base-warning-color}) 10%, transparent), color-mix(in srgb, var(--base-warning-color, #{$base-warning-color}) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-warning-color
+$base-warning-color-hover: light-dark(color-mix(in srgb, black 15%, var(--base-warning-color)), color-mix(in srgb, white 15%, var(--base-warning-color))) !default;  // Corporate amber-600
+$base-warning-bg-subtle: light-dark(color-mix(in srgb, var(--base-warning-color) 10%, transparent), color-mix(in srgb, var(--base-warning-color) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-warning-color
 $base-warning-text-color: #856404 !default;
 $base-on-warning-text-color: #ffffff !default;  // Corporate uses white on amber
 
@@ -192,8 +189,8 @@ $base-on-warning-text-color: #ffffff !default;  // Corporate uses white on amber
 // =============================================================================
 
 $base-info-color: #06b6d4 !default;  // Corporate cyan-500
-$base-info-color-hover: #0891b2 !default;  // Corporate cyan-600
-$base-info-bg-subtle: light-dark(color-mix(in srgb, var(--base-info-color, #{$base-info-color}) 10%, transparent), color-mix(in srgb, var(--base-info-color, #{$base-info-color}) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-info-color
+$base-info-color-hover: light-dark(color-mix(in srgb, black 15%, var(--base-info-color)), color-mix(in srgb, white 15%, var(--base-info-color))) !default;  // Corporate cyan-600
+$base-info-bg-subtle: light-dark(color-mix(in srgb, var(--base-info-color) 10%, transparent), color-mix(in srgb, var(--base-info-color) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-info-color
 $base-info-text-color: #0c5460 !default;
 $base-on-info-text-color: #ffffff !default;
 
@@ -206,7 +203,7 @@ $base-on-info-text-color: #ffffff !default;
 // =============================================================================
 
 $base-secondary-color: #6c757d !default;
-$base-secondary-color-hover: #545b62 !default;
+$base-secondary-color-hover: light-dark(color-mix(in srgb, black 15%, var(--base-secondary-color)), color-mix(in srgb, white 15%, var(--base-secondary-color))) !default;
 $base-on-secondary-text-color: #ffffff !default;
 
 // =============================================================================

@@ -282,7 +282,7 @@ test('radius — .rounded* read the token scale and target the right corners', a
         { cls: 'rounded', prop: 'borderTopLeftRadius' },
         { cls: 'rounded-lg', prop: 'borderTopLeftRadius' },
         { cls: 'rounded-0', prop: 'borderTopLeftRadius' },
-        // corner-scoped variants: the named corner is 4px, the opposite is 0
+        // corner-scoped variants: the named corner is 6px, the opposite is 0
         { cls: 'rounded-top', prop: 'borderTopLeftRadius' },
         { cls: 'rounded-top', prop: 'borderBottomLeftRadius' },
         { cls: 'rounded-bottom', prop: 'borderBottomLeftRadius' },
@@ -293,7 +293,7 @@ test('radius — .rounded* read the token scale and target the right corners', a
         { cls: 'rounded-right', prop: 'borderTopLeftRadius' }
     ];
     const actual = await measure(page, items);
-    expect(collectNumeric(items, actual, [4, 8, 0, 4, 0, 4, 0, 4, 0, 4, 0], 0.05).join('\n')).toBe('');
+    expect(collectNumeric(items, actual, [6, 8, 0, 6, 0, 6, 0, 6, 0, 6, 0], 0.05).join('\n')).toBe('');
 
     // .rounded-circle is a percentage — reported as the "%" string
     const [circle] = await measure(page, [{ cls: 'rounded-circle', prop: 'borderTopLeftRadius' }]);
@@ -328,8 +328,18 @@ test('borders — width, per-side and style utilities', async ({ page }) => {
         { cls: 'border-dotted', prop: 'borderTopStyle' },
         { cls: 'border-none', prop: 'borderTopStyle' }
     ]);
+    // Colour = the derived --base-border-color (a lightness shift of main-bg),
+    // compared against the contract formula resolved in the same scope.
+    const derived = await page.evaluate(() => {
+        const el = document.createElement('div');
+        el.style.borderTop = '1px solid light-dark(oklch(from var(--base-main-bg) calc(l - 0.096) c h), oklch(from var(--base-main-bg) calc(l + 0.192) c h))';
+        document.body.appendChild(el);
+        const c = getComputedStyle(el).borderTopColor;
+        el.remove();
+        return c;
+    });
     expect(exact).toEqual([
-        'solid', 'rgb(225, 229, 233)', 'solid', 'dashed', 'dotted', 'none'
+        'solid', derived, 'solid', 'dashed', 'dotted', 'none'
     ]);
 });
 
@@ -409,7 +419,7 @@ test('text — alignment and truncation', async ({ page }) => {
 
 test('text — semantic colours resolve to their tokens', async ({ page }) => {
     const map: Record<string, string> = {
-        'text-primary': 'rgb(0, 123, 255)',   // --pc-primary
+        'text-primary': 'rgb(14, 165, 233)',  // --pc-primary #0ea5e9
         'text-success': 'rgb(21, 87, 36)',    // --pc-success-text-color #155724
         'text-danger': 'rgb(114, 28, 36)',    // --pc-danger-text-color #721c24
         'text-warning': 'rgb(133, 100, 4)',   // --pc-warning-text-color #856404
@@ -420,11 +430,15 @@ test('text — semantic colours resolve to their tokens', async ({ page }) => {
     expect(collectExact(items, actual, Object.values(map)).join('\n')).toBe('');
 });
 
-test('text — .text-color-1..9 default to the transparent palette slots', async ({ page }) => {
+test('text — .text-color-1..9 default to the Corporate palette slots', async ({ page }) => {
     const items = Array.from({ length: 9 }, (_, i) => ({ cls: `text-color-${i + 1}`, prop: 'color' }));
     const actual = await measure(page, items);
-    // --pc-palette-N default transparent -> computed color rgba(0, 0, 0, 0)
-    expect(actual).toEqual(items.map(() => 'rgba(0, 0, 0, 0)'));
+    // --pc-palette-N → --base-palette-N (amber, pink, emerald, sky, violet, indigo, slate, blue, dark slate)
+    expect(actual).toEqual([
+        'rgb(245, 158, 11)', 'rgb(236, 72, 153)', 'rgb(16, 185, 129)',
+        'rgb(14, 165, 233)', 'rgb(139, 92, 246)', 'rgb(99, 102, 241)',
+        'rgb(100, 116, 139)', 'rgb(2, 132, 199)', 'rgb(51, 65, 85)'
+    ]);
 });
 
 // =============================================================================

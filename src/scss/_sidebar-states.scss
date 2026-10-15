@@ -19,7 +19,7 @@
     opacity: 1; // Override parent opacity: 0 to make icons visible
     overflow: visible !important; // Allow flyout to show outside sidebar
     z-index: 1050; // Higher than content area (950) for flyouts
-    border-inline-end: $border-width-base solid $border-color; // RTL: flips to border-left
+    border-inline-end: $border-width-base solid var(--pc-border-color); // RTL: flips to border-left
 
     // Enable positioning for flyouts
     .pc-sidebar__item {
