@@ -85,7 +85,7 @@
         color: var(--pc-sidebar-flyout-text, var(--base-text-color-1)); // paired with main-bg, like the submenu flyout
         border: $border-width-base solid var(--pc-border-color);
         border-radius: var(--pc-border-radius); // full rounded card (was attached: no inline-start border, square start corners)
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 12px 32px var(--base-shadow-color);
         white-space: nowrap;
         z-index: 10; // Relative to parent
         display: flex;
@@ -121,7 +121,7 @@
       color: var(--pc-sidebar-flyout-text, var(--base-text-color-1));
       border: $border-width-base solid var(--pc-border-color);
       border-radius: var(--pc-border-radius); // full rounded card (was attached: no inline-start border, square start corners)
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 12px 32px var(--base-shadow-color);
       z-index: 1001; // Higher than parent
 
       // Reset submenu styling for flyout
@@ -195,7 +195,7 @@
         background-image: linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)); // elevation film: on dark themes (where main-bg is close to the rail) this lifts the panel clearly above it; negligible on light themes
         border: $border-width-base solid var(--pc-border-color);
         border-radius: var(--pc-border-radius); // full rounded card (was attached: no inline-start border, square start corners)
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 12px 32px var(--base-shadow-color);
         z-index: 1002; // Higher than parent submenu
 
         .pc-sidebar__link,

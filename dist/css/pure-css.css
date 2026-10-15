@@ -2077,7 +2077,7 @@ body.pc-container-2xl .pc-navbar {
   background-color: var(--base-main-bg);
   border: 1px solid var(--pc-border-color);
   border-radius: var(--pc-border-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--base-shadow-color);
   z-index: 1100;
   padding: 0.4rem 0;
   margin-top: 0;
@@ -2329,7 +2329,7 @@ body.pc-container-2xl .pc-navbar {
   color: var(--pc-text-color-2);
   font-size: 1.8rem;
   line-height: 1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--base-shadow-color);
   pointer-events: none;
   transition: border-color 0.1s ease-out, color 0.1s ease-out;
 }
@@ -2652,7 +2652,7 @@ body.loaded .pc-sidebar__chevron {
   color: var(--pc-sidebar-flyout-text, var(--base-text-color-1));
   border: 1px solid var(--pc-border-color);
   border-radius: var(--pc-border-radius);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 32px var(--base-shadow-color);
   white-space: nowrap;
   z-index: 10;
   display: flex;
@@ -2677,7 +2677,7 @@ body.loaded .pc-sidebar__chevron {
   color: var(--pc-sidebar-flyout-text, var(--base-text-color-1));
   border: 1px solid var(--pc-border-color);
   border-radius: var(--pc-border-radius);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 32px var(--base-shadow-color);
   z-index: 1001;
 }
 .sidebar-hidden .pc-layout__sidebar--icon-collapse .pc-sidebar__item:hover > .pc-sidebar__submenu .pc-sidebar__item,
@@ -2750,7 +2750,7 @@ body.loaded .pc-sidebar__chevron {
   background-image: linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
   border: 1px solid var(--pc-border-color);
   border-radius: var(--pc-border-radius);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 32px var(--base-shadow-color);
   z-index: 1002;
 }
 .sidebar-hidden .pc-layout__sidebar--icon-collapse .pc-sidebar__item:hover > .pc-sidebar__submenu .pc-sidebar__item:hover > .pc-sidebar__submenu .pc-sidebar__link,
@@ -2819,35 +2819,35 @@ body.pc-layout--sticky {
 
 body.pc-container-sm .pc-layout {
   max-width: 76.8rem;
-  box-shadow: 0 0 80px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 80px var(--base-shadow-color);
   border-left: 1px solid var(--pc-border-color);
   border-right: 1px solid var(--pc-border-color);
 }
 
 body.pc-container-md .pc-layout {
   max-width: 102.4rem;
-  box-shadow: 0 0 80px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 80px var(--base-shadow-color);
   border-left: 1px solid var(--pc-border-color);
   border-right: 1px solid var(--pc-border-color);
 }
 
 body.pc-container-lg .pc-layout {
   max-width: 128rem;
-  box-shadow: 0 0 80px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 80px var(--base-shadow-color);
   border-left: 1px solid var(--pc-border-color);
   border-right: 1px solid var(--pc-border-color);
 }
 
 body.pc-container-xl .pc-layout {
   max-width: 160rem;
-  box-shadow: 0 0 60px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 60px var(--base-shadow-color);
   border-left: 1px solid var(--pc-border-color);
   border-right: 1px solid var(--pc-border-color);
 }
 
 body.pc-container-2xl .pc-layout {
   max-width: 192rem;
-  box-shadow: 0 0 60px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 60px var(--base-shadow-color);
   border-left: 1px solid var(--pc-border-color);
   border-right: 1px solid var(--pc-border-color);
 }
@@ -3174,7 +3174,7 @@ body.pc-layout--sticky .pc-layout__inner {
   background: var(--base-main-bg);
   border: 1px solid var(--pc-border-color);
   border-radius: var(--pc-border-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--base-shadow-color);
 }
 .pc-fit-flyout__panel--open {
   display: block;
@@ -6128,15 +6128,15 @@ body.pc-layout--sticky .pc-layout__inner {
 }
 
 .shadow-sm {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) !important;
+  box-shadow: 0 1px 2px var(--base-shadow-color) !important;
 }
 
 .shadow {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 2px 4px var(--base-shadow-color) !important;
 }
 
 .shadow-lg {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 4px 8px var(--base-shadow-color) !important;
 }
 
 .gap-0 {

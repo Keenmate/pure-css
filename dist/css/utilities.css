@@ -2914,15 +2914,15 @@
 }
 
 .shadow-sm {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) !important;
+  box-shadow: 0 1px 2px var(--base-shadow-color) !important;
 }
 
 .shadow {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 2px 4px var(--base-shadow-color) !important;
 }
 
 .shadow-lg {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 4px 8px var(--base-shadow-color) !important;
 }
 
 .gap-0 {

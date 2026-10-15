@@ -59,13 +59,13 @@ $opacity-shadow-md: 0.15 !default;
 // not a generic scale. The generic $opacity-* set above stays foundation.
 
 // Shadow system
-$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1) !default;
-$shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1) !default;
-$shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15) !default;
-$shadow-xl: 0 0 60px rgba(0, 0, 0, 0.12) !default;
-$shadow-2xl: 0 0 80px rgba(0, 0, 0, 0.15) !default;
-$shadow-sidebar: -2px 2px 10px rgba(0, 0, 0, 0.1) !default;
-$shadow-sidebar-open: -5px 0 20px rgba(0, 0, 0, 0.1) !default;
+$shadow-sm: 0 1px 3px var(--base-shadow-color) !default;
+$shadow-md: 0 2px 8px var(--base-shadow-color) !default;
+$shadow-lg: 0 4px 12px var(--base-shadow-color) !default;
+$shadow-xl: 0 0 60px var(--base-shadow-color) !default;
+$shadow-2xl: 0 0 80px var(--base-shadow-color) !default;
+$shadow-sidebar: -2px 2px 10px var(--base-shadow-color) !default;
+$shadow-sidebar-open: -5px 0 20px var(--base-shadow-color) !default;
 // $shadow-profile-panel moved to pure-admin-core (variables/_components.scss) —
 // a pure-admin panel shadow, not a foundation surface.
 
