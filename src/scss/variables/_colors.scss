@@ -5,8 +5,7 @@
 // ============================================================================
 
 @use 'sass:color';
-// NOTE: Base variables are available in global scope via @import in _index.scss
-// No @use 'base' needed since we use @import for proper !default cascading
+@use 'base' as *;
 
 // =============================================================================
 // LAYOUT COLORS (derived from base)

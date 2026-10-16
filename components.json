@@ -3,7 +3,7 @@
   "packageVersion": "2.0.0-rc01",
   "totals": {
     "components": 11,
-    "pcSelectors": 381,
+    "pcSelectors": 382,
     "utilityClasses": 722,
     "utilityFamilies": 21
   },
@@ -782,12 +782,14 @@
         "pc-footer__center",
         "pc-footer__end",
         "pc-footer__end--vertical",
+        "pc-footer__muted",
         "pc-footer__start"
       ],
       "base": [],
       "elements": [
         "pc-footer__center",
         "pc-footer__end",
+        "pc-footer__muted",
         "pc-footer__start"
       ],
       "modifiers": [

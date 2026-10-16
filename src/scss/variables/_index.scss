@@ -7,19 +7,22 @@
 // 1. Base variables are the SOURCE OF TRUTH (standalone, no imports)
 // 2. All other modules can import from base and derive their values
 //
-// NOTE: We use @import (not @forward) to ensure variables share the global
-// scope. This allows themes to set variables BEFORE importing, and the
-// !default flags will skip already-defined variables.
+// Module system: each module `@use`s what it derives from and this index
+// `@forward`s them all, so the whole vocabulary is ONE configurable module.
+// A theme configures it once, before anything else loads it:
+//   @use '@keenmate/pure-css/scss/variables' with ($base-primary-color: #4f46e5);
+// Every later `@use` of this index (the entry points, pure-admin-core) gets that
+// same configured instance, and derived `!default`s compute from the overrides.
 
 // Base variables FIRST - single source of truth for theming
-@import 'base';
+@forward 'base';
 
 // Derived framework variables (can use base values)
-@import 'typography';
-@import 'spacing';
-@import 'colors';
-@import 'layout';
-@import 'system';
+@forward 'typography';
+@forward 'spacing';
+@forward 'colors';
+@forward 'layout';
+@forward 'system';
 // NOTE: pure-admin's COMPONENT vocabulary (badge/card/table/modal/tabs/stats/
 // timeline/dataviz/command-palette/… — formerly variables/_components.scss) now
 // lives in pure-admin-core, next to the component CSS that consumes it. pure-css

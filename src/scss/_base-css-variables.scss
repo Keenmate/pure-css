@@ -4,28 +4,22 @@
 // This mixin outputs all $base-* SCSS variables as --base-* CSS custom properties.
 // Include this in themes to enable web component theming.
 //
-// Usage in theme file:
-//   @import '../base-css-variables';
+// Usage in a theme file:
+//   @use '@keenmate/pure-css/scss/variables' with ($base-primary-color: #4f46e5);
+//   @use '@keenmate/pure-css/scss/base-css-variables' as bcv;
 //   :root {
-//     @include output-base-css-variables;
+//     @include bcv.output-base-css-variables;
+//     @include bcv.output-pc-css-variables;
 //   }
 //
 // Web components consume these via fallback chains:
 //   --ms-accent-color: var(--base-primary-color, #3b82f6);
 // ============================================================================
 
-// Make the $-vocabulary resolvable here.
-//
-// MUST be @import, not `@use 'variables/index' as *`. A theme's whole job is to set
-// $base-* BEFORE pulling this file in (the !default flags then keep those values) --
-// but `@use ... as *` REFUSES to expose a member whose name already exists in the
-// importing global scope, so every theme died on
-//   "This module and the new module both define a variable named $base-primary-color".
-// That made the usage documented at the top of this file impossible: it worked only
-// for a theme that overrode nothing. @import shares one global scope and is what the
-// !default mechanism needs. pure-css's own `@use 'base-css-variables' as bcv` entries
-// are unaffected -- a module that @imports still exports its members normally.
-@import 'variables/index';
+// The $-vocabulary. The mixins below read the variables module's members, so a
+// theme that configured it (`@use '…/variables' with (…)`) before loading this
+// file gets its overrides emitted — modules are singletons, configured once.
+@use 'variables/index' as *;
 
 @mixin output-base-css-variables {
   // === Accent Colors ===
@@ -92,6 +86,8 @@
   --base-input-border-color: #{$base-input-border-color};
   --base-input-border-hover: #{$base-input-border-hover};
   --base-input-border-focus: #{$base-input-border-focus};
+  --base-input-shadow-color-focus: #{$base-input-shadow-color-focus};
+  --base-input-box-shadow-focus: #{$base-input-box-shadow-focus};
   --base-input-placeholder-color: #{$base-input-placeholder-color};
   --base-input-bg-disabled: #{$base-input-bg-disabled};
   --base-input-icon-color: #{$base-input-icon-color};

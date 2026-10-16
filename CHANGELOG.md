@@ -3,7 +3,7 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [2.0.0-rc01] — 2026-10-15 [PUBLISHED]
+## [2.0.0-rc01] — 2026-10-16 [PUBLISHED]
 
 ### Added
 
@@ -19,9 +19,41 @@ All notable changes to `@keenmate/pure-css` are documented here. Format based on
   `$base-ring-width`) — the shared highlighted (Ctrl/Shift-click set) and
   focused (keyboard-cursor, inset outline ring) look for list options, tree rows
   and grid rows. Primary-derived defaults track `--base-primary-color` live.
+- **Input focus halo tokens** mirrored from `@keenmate/base-css-variables` 2.0.0-rc02:
+  `--base-input-shadow-color-focus` (5% of `--base-primary-color`) and `--base-input-box-shadow-focus`
+  (`0 0 0 3px` of it), via `$base-input-shadow-color-focus` / `$base-input-box-shadow-focus`. The
+  halo around a focused field no longer has to borrow the `--base-primary-bg-subtle` fill tint.
+- **Footer text tokens + `.pc-footer__muted`.** The shell footer had a background and border
+  token but nothing for text, so secondary lines borrowed page utilities (`.text-secondary` /
+  `.text-muted`) tuned for the page surface — grey on a coloured footer (1.3–2.7:1 in several
+  themes). `.pc-layout__footer` now reads optional `--pc-footer-text` (falls back to
+  `--base-text-color-1`, as before), and `.pc-footer__muted` gives secondary footer text
+  (version, build) `--pc-footer-text-secondary`, falling back to 80% of the footer's own text
+  colour — readable on any footer background without theme changes.
+- **Fit: `data-pc-fit-group="name"`** — slots sharing a group name degrade together, in one
+  step, so a mirrored pair (a pager's First + Last, toolbar ends) never ends up lopsided.
 
 ### Changed
 
+- **BREAKING (Sass): the variable vocabulary is one configurable module — no more `@import`.**
+  `variables/_index.scss` `@forward`s `base` / `typography` / `spacing` / `colors` / `layout` /
+  `system`; `_colors` and `_typography` `@use 'base'`; `_base-css-variables.scss`
+  `@use 'variables/index' as *`. Sass deprecated `@import` (Dart Sass 3 removes it); pure-css now
+  compiles with zero deprecation warnings, and every `dist/css` artifact is byte-identical. A theme
+  configures it once, before anything else loads it:
+  `@use '@keenmate/pure-css/scss/variables' with ($base-primary-color: #4f46e5);` — every later
+  `@use` gets that configured instance, and the derived `!default`s compute from the overrides.
+  The old layer recipe — `$base-*` set, then `@import 'base-css-variables'` — now fails to compile
+  ("both define a variable"), and `@import`-ing the bundle ignores the override: themes must move
+  to `@use … with` (keen-docs themes included). Fixes a silent bug of the `@import`
+  pipeline: the shell partials (navbar, sidebar, layout) loaded the variables as a separate module
+  and ignored theme overrides, so e.g. a theme's sidebar width, footer height or primary colour
+  never reached them.
+- **Control outlines are no longer the divider** (base-css-variables 2.0.0-rc02):
+  `$base-input-border-color` / `--base-input-border-color` mixes `--base-text-color-1` 45% (light) /
+  35% (dark) into `--base-main-bg` — about 2–3.4:1 against the surface, was the 1.2–1.9:1
+  `--base-border-color` hairline — and `--base-checkbox-border-color` follows it.
+  `--base-border-color` stays the quiet divider. Visible change: field outlines get darker.
 - **BREAKING: `.text-secondary` is now the secondary role colour**
   (`--pc-secondary`, `#6c757d`), not muted text. Migrate muted usages
   `.text-secondary` → `.text-muted`. Visually the two greys are close in the

@@ -2887,6 +2887,7 @@ body.pc-layout--sticky .pc-layout__inner {
 .pc-layout__footer {
   min-height: 4.8rem;
   background-color: var(--pc-footer-bg, var(--base-main-bg));
+  color: var(--pc-footer-text, var(--base-text-color-1));
   border-top: 1px solid var(--pc-footer-border-color, var(--base-border-color));
   display: flex;
   align-items: center;
@@ -2920,6 +2921,10 @@ body.pc-layout--sticky .pc-layout__inner {
   flex-direction: column;
   align-items: flex-end;
   gap: 0.4rem;
+}
+
+.pc-footer__muted {
+  color: var(--pc-footer-text-secondary, color-mix(in srgb, currentColor 80%, transparent));
 }
 
 @media (max-width: 768px) {
@@ -6321,13 +6326,15 @@ body.pc-layout--sticky .pc-layout__inner {
   --base-border-width: 1px;
   --base-border-color: light-dark(oklch(from var(--base-main-bg) calc(l - 0.096) c h), oklch(from var(--base-main-bg) calc(l + 0.192) c h));
   --base-border: var(--base-border-width) solid var(--base-border-color);
-  --base-checkbox-border-color: var(--base-border-color);
+  --base-checkbox-border-color: var(--base-input-border-color);
   --base-input-bg: var(--base-main-bg);
   --base-input-text-color: var(--base-text-color-1);
   --base-input-border: var(--base-border-width) solid var(--base-input-border-color);
-  --base-input-border-color: var(--base-border-color);
+  --base-input-border-color: light-dark(color-mix(in srgb, var(--base-text-color-1) 45%, var(--base-main-bg)), color-mix(in srgb, var(--base-text-color-1) 35%, var(--base-main-bg)));
   --base-input-border-hover: var(--base-border-width) solid var(--base-primary-color);
   --base-input-border-focus: var(--base-border-width) solid var(--base-primary-color);
+  --base-input-shadow-color-focus: color-mix(in srgb, var(--base-primary-color) 5%, transparent);
+  --base-input-box-shadow-focus: 0 0 0 3px var(--base-input-shadow-color-focus);
   --base-input-placeholder-color: var(--base-text-color-4);
   --base-input-bg-disabled: var(--base-disabled-bg);
   --base-input-icon-color: var(--base-text-color-3);

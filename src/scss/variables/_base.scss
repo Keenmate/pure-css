@@ -103,7 +103,7 @@ $base-border-width: 1px !default;
 $base-border-color: light-dark(oklch(from var(--base-main-bg) calc(l - 0.096) c h), oklch(from var(--base-main-bg) calc(l + 0.192) c h)) !default;  // Dividers — a lightness shift of main-bg
 $base-border: var(--base-border-width) solid var(--base-border-color) !default;
 // Checkbox/radio border (web-component bridge: --base-checkbox-border-color).
-$base-checkbox-border-color: var(--base-border-color) !default;
+$base-checkbox-border-color: var(--base-input-border-color) !default;  // a control, like the input
 
 // =============================================================================
 // INPUT FIELDS
@@ -113,10 +113,12 @@ $base-checkbox-border-color: var(--base-border-color) !default;
 $base-input-bg: var(--base-main-bg) !default;
 $base-input-text-color: var(--base-text-color-1) !default;
 // Input border as a colour + the shorthand web components read via --base-input-border.
-$base-input-border-color: var(--base-border-color) !default;
+$base-input-border-color: light-dark(color-mix(in srgb, var(--base-text-color-1) 45%, var(--base-main-bg)), color-mix(in srgb, var(--base-text-color-1) 35%, var(--base-main-bg))) !default;  // control outline, stronger than the divider
 $base-input-border: var(--base-border-width) solid var(--base-input-border-color) !default;
 $base-input-border-hover: var(--base-border-width) solid var(--base-primary-color) !default;
 $base-input-border-focus: var(--base-border-width) solid var(--base-primary-color) !default;
+$base-input-shadow-color-focus: color-mix(in srgb, var(--base-primary-color) 5%, transparent) !default;  // focus halo tone; set this to tune it
+$base-input-box-shadow-focus: 0 0 0 3px var(--base-input-shadow-color-focus) !default;  // soft halo around a focused field
 $base-input-placeholder-color: var(--base-text-color-4) !default;
 $base-input-bg-disabled: var(--base-disabled-bg) !default;
 // Inline icons inside inputs — clear ✕, chevrons (web-component bridge:

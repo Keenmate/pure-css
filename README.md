@@ -18,7 +18,8 @@ variables.
 > Many `$base-*` / `--base-*` / `--pc-*` names changed, and none of the old names still work as
 > aliases. If a theme sets an old name, Sass silently ignores it and that token falls back to the
 > Corporate default. Before upgrading, grep your themes and markup for `accent`, `color-N`,
-> `-bg-light`, `-text-light`, `ring` and `.text-secondary`.
+> `-bg-light`, `-text-light`, `ring` and `.text-secondary` — and move Sass themes from `@import` to
+> `@use '…/variables' with (…)` (see Quick Start).
 
 - **Theming — `accent` → `primary`, `color-N` → `palette-N`, names state their type** — this release mirrors the base-css-variables 2.0.0 renames in every layer (`$base-*`, framework `$*`, `--base-*`, `--pc-*`). `$base-accent-color` becomes `$base-primary-color`, and `--pc-accent` / `--pc-accent-light` / `--pc-accent-hover` become `--pc-primary` / `--pc-primary-bg-subtle` / `--pc-primary-bg-subtle-hover`. The last one is renamed by what it actually was: a low-alpha tint, not a darker hover. Palette slots go from `--base-color-N` to `--base-palette-N`, with the text pair `--base-on-palette-N-text-color`. Text and outline tokens now say what kind of value they hold (`-text-color`, `-outline`, `$base-outline-width`, `$base-input-text-color`, `$base-on-<role>-text-color`). Utility class names (`.text-color-N`, `.bg-color-N`, …) are unchanged.
 - **Theming — derived defaults are the contract formulas** — only the inputs are still Sass colours: surfaces, `text-color-1`, role colours, on-fill text, overlay, shadow and the palette. Every other `$base-*` now defaults to the same CSS formula `base-variables.css` uses. Examples: `text-color-2…4` are mixed from `text-color-1`, the `subtle` / `elevated` / `disabled` / `border-color` surfaces are OKLCH lightness shifts, and role hover/active steps are `color-mix` values that go lighter in dark mode. So a theme that only sets the inputs gets every derived token computed per mode scope. Before this, every dark theme inherited light-mode literals such as `--base-input-border-color: #e2e8f0`. One Sass-level break: derived defaults are now CSS strings, so you can't pass them to `color.adjust()` / `rgba()`.
@@ -26,6 +27,8 @@ variables.
 - **Theming — one shadow tone** — every shadow now takes its colour from `--base-shadow-color` (`light-dark()` 15% / 40% black). That covers the `$shadow-sm…2xl` / `$shadow-sidebar*` presets, the `.shadow*` utilities, the collapsed-sidebar flyouts and `$base-dropdown-box-shadow`. A theme sets the tone once per mode, and pure-css, pure-admin and the web components all match. Dark-mode shadows were nearly invisible at 10–15%.
 - **Utilities — secondary is a full role; `.text-muted` for muted text** — the new `--pc-secondary` adds `.bg-secondary` / `.text-on-secondary` / `.surface-secondary`, matching the other roles. **Breaking:** `.text-secondary` is now the secondary role colour, so muted text moves to the new `.text-muted` (`--pc-text-color-2`). `.text-muted` follows the theme's text hierarchy in dark mode; the role colour doesn't.
 - **Theming — item-state tokens** — new `--base-highlighted-*` (bg / bg-hover / text-color / outline) and `--base-focused-*` tokens, plus `--base-outline-width`, mirrored from the contract. They give one shared look for the selected set and the keyboard cursor in list options, tree rows and grid rows. The primary-derived defaults track `--base-primary-color` live.
+- **Sass — one configurable module, no `@import`** — the variable layer is loaded with `@use` / `@forward` (`variables/_index.scss` forwards `base`, `typography`, `spacing`, `colors`, `layout`, `system`), so pure-css builds with zero deprecation warnings and is ready for Dart Sass 3, which removes `@import`. A theme now configures the vocabulary once — `@use '…/variables' with (…)` — and every entry point, including the full `pure-css` bundle, gets those values. This also fixes a silent bug: under `@import`, the shell partials (navbar, sidebar, layout) loaded the variables as a separate module and ignored a theme's Sass overrides. **Breaking for Sass themes:** the old layer recipe (`$base-*` set, then `@import 'base-css-variables'`) now fails to compile ("both define a variable"), and `@import`-ing the bundle ignores the override — move to `@use … with`. The compiled `dist/css` is byte-identical.
+- **Theming — control outlines, focus halo, footer text** — `--base-input-border-color` is no longer the divider hairline: it mixes `--base-text-color-1` 45% / 35% (light / dark) into `--base-main-bg`, about 2–3.4:1 against the surface, and `--base-checkbox-border-color` follows it, so fields and outline buttons stay visible while `--base-border-color` stays the quiet divider. The new `--base-input-shadow-color-focus` / `--base-input-box-shadow-focus` give the focus halo its own 5% tone instead of the fill tint. In the shell, `.pc-layout__footer` reads an optional `--pc-footer-text`, and `.pc-footer__muted` (optional `--pc-footer-text-secondary`, else 80% of the footer's text) replaces page utilities for version and build lines on coloured footers.
 - **Theming — dead and duplicate tokens removed** — removed: `--base-<role>-bg` (copies of `-color`), `-text-light`, `-border`, `-bg-light` (the single role tint is now `-bg-subtle`), `--base-inverse-bg`, `--base-text-inverted`, `--base-tooltip-color`, and the four extraction leftovers `--base-hover-overlay` / `--base-active-overlay` / `--base-focus-ring-*`. `scripts/check-base-parity.mjs` no longer needs an allow-list: pure-css's emitted `--base-*` now matches the canonical contract exactly.
 
 ## What's New in 1.3.0-rc01
@@ -88,26 +91,24 @@ or cherry-pick:
 > `html { font-size: 10px }` (`1rem` = 10px; `.m-4` = 1rem, grid gutters 0.8rem). Without the
 > reboot the grid and utilities render 1.6× too large on a default 16px root.
 
-**SCSS theme layer (compile `$base-*` overrides into the variables):**
+**SCSS (compile `$base-*` overrides into the CSS):**
 
 ```scss
-// Set the inputs BEFORE importing — the !default flags keep them, and every
-// derived token (text tiers, hover/active steps, borders…) is computed from them.
-$base-primary-color: #4f46e5;
-$base-page-bg: #f6f8fb;
-
-@import '@keenmate/pure-css/scss/base-css-variables';
-
-:root {
-  @include output-base-css-variables;   // --base-*
-  @include output-pc-css-variables;     // --pc-*
-}
+// Configure the variables ONCE, before anything else loads them — every derived
+// token (text tiers, hover/active steps, borders, control outlines…) is computed
+// from these inputs. Then load the bundle: it gets the configured variables.
+@use '@keenmate/pure-css/src/scss/variables' with (
+  $base-primary-color: #4f46e5,
+  $base-page-bg: #f6f8fb,
+);
+@use '@keenmate/pure-css/src/scss/pure-css';
 ```
 
-Load the compiled layer **after** `pure-css.css` (or `base.css`). This must be `@import`, not
-`@use` — the override relies on one shared global scope. Setting `$base-*` before
-`@use '@keenmate/pure-css/scss/pure-css'` does **not** re-theme the bundle; the entry points load
-their variables in their own module scope and keep the defaults.
+Compile with `--load-path=node_modules`. To emit only the token layer (for loading after a
+prebuilt `pure-css.css` / `base.css`), `@use` `base-css-variables` instead of the bundle and
+include `output-base-css-variables` + `output-pc-css-variables` in `:root`. The configuring
+`@use … with` must come first: Sass modules are configured once, so a later `with` (or a
+module that already loaded the variables) is an error rather than a silently ignored override.
 
 ## What's in it
 
@@ -277,7 +278,7 @@ node scripts/check-base-parity.mjs  # --base-* names match @keenmate/base-css-va
 The SCSS is the foundation extracted from `pure-admin-core`'s `src/scss` — the `variables/` modules,
 `_base-css-variables.scss`, `utilities.scss`, `_fonts.scss`, and the native grid (`_pa-grid.scss`,
 formerly core's `core-components/_grid.scss`). **pure-admin-core now consumes this package** as its
-single source for the foundation (thin `@import`/`@forward` shims), so the two no longer drift —
+single source for the foundation (thin `@forward` / `@use` shims), so the two no longer drift —
 core's compiled `--base-*` values and grid output match pure-css exactly.
 
 One intentional difference: `utilities.scss` here `@use`s `_fonts.scss` so the generic

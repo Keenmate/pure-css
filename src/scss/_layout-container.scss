@@ -98,6 +98,7 @@ body.pc-layout--sticky .pc-layout__inner {
 .pc-layout__footer {
   min-height: $footer-height;
   background-color: var(--pc-footer-bg, var(--base-main-bg));
+  color: var(--pc-footer-text, var(--base-text-color-1));
   border-top: $border-width-base solid var(--pc-footer-border-color, var(--base-border-color));
   display: flex;
   align-items: center;
@@ -133,6 +134,14 @@ body.pc-layout--sticky .pc-layout__inner {
     align-items: flex-end;
     gap: $spacing-xs;
   }
+}
+
+// Secondary footer text (version, build, small print). Derived from the footer's own
+// text colour, so it stays readable on any footer background — page-level utilities
+// like .text-muted / .text-secondary are tuned for the page surface, not the footer.
+// Optional knobs: --pc-footer-text, --pc-footer-text-secondary.
+.pc-footer__muted {
+  color: var(--pc-footer-text-secondary, color-mix(in srgb, currentColor 80%, transparent));
 }
 
 // Responsive footer - stack sections on mobile
