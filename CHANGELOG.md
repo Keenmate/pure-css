@@ -3,6 +3,24 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.0.0-rc02] — 2026-10-17
+
+### Added
+
+- **Logical border and radius utilities: `.border-start`, `.border-end`, `.border-start-0`,
+  `.border-end-0`, `.rounded-start`, `.rounded-end`.** They follow the writing direction
+  (`border-inline-*`, `border-{start|end}-{start|end}-radius`), so they mirror under
+  `dir="rtl"` like the logical spacing utilities (`ms-*` / `me-*`).
+
+### Removed
+
+- **BREAKING: the physical inline-side border and radius utilities — `.border-left`,
+  `.border-right`, `.border-left-0`, `.border-right-0`, `.rounded-left`, `.rounded-right`.**
+  They didn't mirror under `dir="rtl"`, so an accent border or a joined control's rounded
+  corners landed on the wrong side in RTL. Replace with the logical classes above:
+  `-left` → `-start`, `-right` → `-end` (in LTR they render identically). Top / bottom
+  variants are unchanged.
+
 ## [2.0.0-rc01] — 2026-10-16 [PUBLISHED]
 
 ### Added
@@ -137,6 +155,14 @@ All notable changes to `@keenmate/pure-css` are documented here. Format based on
   derived border) — the 5 specs that still expected Bootstrap values pass again.
 - **`.bg-primary` / `.surface-primary`** now read `--pc-primary` (the role-utility loop no
   longer needs the `primary: accent` mapping).
+
+### Fixed
+
+- **Fit no longer misjudges a growing section with an absolutely positioned child.** For a
+  `flex-grow` section Fit sums its children, but an absolute/fixed child (e.g. a slider's inset
+  rail) stretches WITH the section, so the row read as ever-wider and over-degraded. Out-of-flow
+  children are now skipped, and a growing section is never counted narrower than its own
+  `min-width`.
 
 ### Removed
 

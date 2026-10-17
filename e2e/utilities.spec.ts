@@ -287,10 +287,11 @@ test('radius — .rounded* read the token scale and target the right corners', a
         { cls: 'rounded-top', prop: 'borderBottomLeftRadius' },
         { cls: 'rounded-bottom', prop: 'borderBottomLeftRadius' },
         { cls: 'rounded-bottom', prop: 'borderTopLeftRadius' },
-        { cls: 'rounded-left', prop: 'borderTopLeftRadius' },
-        { cls: 'rounded-left', prop: 'borderTopRightRadius' },
-        { cls: 'rounded-right', prop: 'borderTopRightRadius' },
-        { cls: 'rounded-right', prop: 'borderTopLeftRadius' }
+        // logical inline sides (the page is LTR, so start = left, end = right)
+        { cls: 'rounded-start', prop: 'borderTopLeftRadius' },
+        { cls: 'rounded-start', prop: 'borderTopRightRadius' },
+        { cls: 'rounded-end', prop: 'borderTopRightRadius' },
+        { cls: 'rounded-end', prop: 'borderTopLeftRadius' }
     ];
     const actual = await measure(page, items);
     expect(collectNumeric(items, actual, [6, 8, 0, 6, 0, 6, 0, 6, 0, 6, 0], 0.05).join('\n')).toBe('');
@@ -303,20 +304,37 @@ test('radius — .rounded* read the token scale and target the right corners', a
 // =============================================================================
 // borders — width / side / style, colour from --pc-border-color
 // =============================================================================
+// Logical inline sides mirror under dir="rtl": start = right, end = left.
+test('borders + radius — start / end mirror under dir="rtl"', async ({ page }) => {
+    await page.evaluate(() => document.documentElement.setAttribute('dir', 'rtl'));
+    const items: Probe[] = [
+        { cls: 'border-start', prop: 'borderRightWidth' },
+        { cls: 'border-start', prop: 'borderLeftWidth' },
+        { cls: 'border-end', prop: 'borderLeftWidth' },
+        { cls: 'border-end', prop: 'borderRightWidth' },
+        { cls: 'rounded-start', prop: 'borderTopRightRadius' },
+        { cls: 'rounded-start', prop: 'borderTopLeftRadius' },
+        { cls: 'rounded-end', prop: 'borderTopLeftRadius' },
+        { cls: 'rounded-end', prop: 'borderTopRightRadius' }
+    ];
+    const actual = await measure(page, items);
+    expect(collectNumeric(items, actual, [1, 0, 1, 0, 6, 0, 6, 0], 0.05).join('\n')).toBe('');
+});
+
 test('borders — width, per-side and style utilities', async ({ page }) => {
     const num = await measure(page, [
         { cls: 'border', prop: 'borderTopWidth' },
         { cls: 'border-0', prop: 'borderTopWidth' },
         { cls: 'border-top', prop: 'borderTopWidth' },
         { cls: 'border-top', prop: 'borderBottomWidth' },
-        { cls: 'border-right', prop: 'borderRightWidth' },
+        { cls: 'border-end', prop: 'borderRightWidth' },     // LTR: end = right
         { cls: 'border-bottom', prop: 'borderBottomWidth' },
-        { cls: 'border-left', prop: 'borderLeftWidth' },
+        { cls: 'border-start', prop: 'borderLeftWidth' },    // LTR: start = left
         // per-side zeroing variants
         { cls: 'border-top-0', prop: 'borderTopWidth' },
-        { cls: 'border-right-0', prop: 'borderRightWidth' },
+        { cls: 'border-end-0', prop: 'borderRightWidth' },
         { cls: 'border-bottom-0', prop: 'borderBottomWidth' },
-        { cls: 'border-left-0', prop: 'borderLeftWidth' }
+        { cls: 'border-start-0', prop: 'borderLeftWidth' }
     ]);
     expect(num.map((v) => parseFloat(v))).toEqual([1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0]);
 

@@ -130,7 +130,7 @@ Per-set icon hover strategy hooks: pc-icon-hover with -fill / -highlight variant
 | background (role / named) | 6 | `bg-danger`, `bg-info`, `bg-primary`, `bg-secondary`, `bg-success`, `bg-warning` |
 | border (width / side / style / colour) | 14 | `border`, `border-0`, `border-bottom`, `border-bottom-0`, `border-dashed`, `border-dotted` … |
 | border colour (palette) | 9 | `border-color-1`, `border-color-2`, `border-color-3`, `border-color-4`, `border-color-5`, `border-color-6` … |
-| border radius | 8 | `rounded`, `rounded-0`, `rounded-bottom`, `rounded-circle`, `rounded-left`, `rounded-lg` … |
+| border radius | 8 | `rounded`, `rounded-0`, `rounded-bottom`, `rounded-circle`, `rounded-end`, `rounded-lg` … |
 | box shadow | 4 | `shadow`, `shadow-lg`, `shadow-none`, `shadow-sm` |
 | display | 6 | `d-block`, `d-flex`, `d-inline`, `d-inline-block`, `d-inline-flex`, `d-none` |
 | flexbox | 25 | `align-items-baseline`, `align-items-center`, `align-items-end`, `align-items-start`, `align-items-stretch`, `flex-1` … |
