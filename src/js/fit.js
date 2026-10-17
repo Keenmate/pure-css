@@ -31,6 +31,9 @@
  *                               resolves to the nearest ancestor's
  *                               data-pc-fit-default-priority, else
  *                               pureCss.config.fit.defaultPriority, else 0.
+ *   data-pc-fit-group="name"  — slots sharing a name degrade TOGETHER, in one
+ *                               step (a pager's First + Last, mirrored toolbar
+ *                               ends) so a pair never ends up lopsided.
  *   data-pc-fit-step="0"      — on a `steps` slot's DIRECT children; 0 = largest
  *                               / the default. Numbers, ascending = smaller.
  *   data-pc-fit-target="sidebar"       — (relocate) which sink places the slot.
@@ -169,6 +172,7 @@
       strategy: strategy,
       target: target,          // relocate: name of the destination sink
       priority: resolvePriority(el, container),
+      group: el.getAttribute('data-pc-fit-group') || null,   // degrade together
       steps: steps,
       domIndex: 0,   // assigned after the document-order sort below
       state: 0,      // current degradation level
@@ -469,13 +473,21 @@
   // content makes it grow and read *wider*, which would make the engine fight
   // itself and over-degrade. For those, sum the children instead; for fixed
   // sections (flex-grow:0) scrollWidth already equals content.
+  // Out-of-flow children (absolute/fixed) take no row space — and an inset
+  // one stretches WITH the section, which is the same inflation trap — so
+  // they're skipped. A growing section is never narrower than its own
+  // min-width (e.g. a slider whose only child is an absolute rail).
   function contentWidth(el) {
-    if (parseFloat(getComputedStyle(el).flexGrow) > 0) {
+    var cs = getComputedStyle(el);
+    if (parseFloat(cs.flexGrow) > 0) {
       var w = 0, kids = el.children;
       for (var i = 0; i < kids.length; i++) {
-        if (getComputedStyle(kids[i]).display !== 'none') w += kids[i].scrollWidth;
+        var kcs = getComputedStyle(kids[i]);
+        if (kcs.display === 'none') continue;
+        if (kcs.position === 'absolute' || kcs.position === 'fixed') continue;
+        w += kids[i].scrollWidth;
       }
-      return w;
+      return Math.max(w, parseFloat(cs.minWidth) || 0);
     }
     return el.scrollWidth;
   }
@@ -524,6 +536,17 @@
       if (!s) break; // nothing left to give
       s.state += 1;
       applyMeasureState(s);
+      // Group mates follow in the same step (e.g. a pager's First + Last), so
+      // a mirrored pair never ends up lopsided.
+      if (s.group) {
+        for (var g = 0; g < slots.length; g++) {
+          var t = slots[g];
+          if (t !== s && t.group === s.group && t.state < Math.min(s.state, t.maxState)) {
+            t.state = Math.min(s.state, t.maxState);
+            applyMeasureState(t);
+          }
+        }
+      }
     }
 
     reconcileRelocate(entry, container, slots);
