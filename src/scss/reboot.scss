@@ -22,6 +22,10 @@
 // This makes calculations simple: 1.5rem = 15px, 3.5rem = 35px
 html {
   font-size: 10px;
+  // Native checkboxes / radios / range / progress take the theme's primary
+  // instead of the browser's blue. Controls drawn with appearance: none (e.g.
+  // pure-admin's .pa-checkbox / .pa-radio) ignore it.
+  accent-color: var(--pc-primary-color);
 }
 
 // Reset and base styles

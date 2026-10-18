@@ -3,6 +3,16 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.0.0-rc03] — 2026-10-18
+
+### Changed
+
+- **Native form controls take the theme's primary.** `reboot.css` sets
+  `html { accent-color: var(--pc-primary-color) }`, so unstyled checkboxes, radios, range sliders
+  and progress bars stop using the browser's blue (e.g. cobalt2's radios rendered blue next to its
+  yellow checkboxes). Controls drawn with `appearance: none` are unaffected; `component-reset.css`
+  still resets `accent-color` to `auto` inside web components.
+
 ## [2.0.0-rc02] — 2026-10-18 [PUBLISHED]
 
 ### Added

@@ -16,6 +16,15 @@ test('html font-size is exactly 10px (the rem base)', async ({ page }) => {
     expect(fontSize).toBe('10px');
 });
 
+test('native controls take the theme primary via accent-color', async ({ page }) => {
+    const { accent, primary } = await page.evaluate(() => ({
+        accent: getComputedStyle(document.getElementById('radio')!).accentColor,
+        primary: getComputedStyle(document.documentElement).getPropertyValue('--base-primary-color').trim(),
+    }));
+    expect(primary).toBe('#0ea5e9');
+    expect(accent).toBe('rgb(14, 165, 233)');
+});
+
 test('box-sizing is border-box on elements', async ({ page }) => {
     const boxSizing = await page
         .locator('#para')
