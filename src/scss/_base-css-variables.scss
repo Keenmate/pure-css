@@ -325,7 +325,7 @@
 // regardless of which class layout each theme uses for mode switching.
 //
 // NOTE: this placement-agnosticism only covers the base tokens pure-css emits
-// here. The pure-admin COMPONENT tokens (e.g. `--pa-btn-info-bg: var(--pc-info)`)
+// here. The pure-admin COMPONENT tokens (e.g. `--pa-btn-info-bg: var(--pc-info-color)`)
 // are emitted once at `:root` by core and are NOT re-emitted per mode, so they
 // only re-resolve when the mode/variant class sits on the :root element itself.
 // Consumers MUST therefore apply `.pc-mode-*` / `.pa-color-*` to `<html>`, not
@@ -399,18 +399,18 @@
 
   // Primary — the brand / interactive role. -hover / -active are the darker
   // steps (text, borders, fills); -bg-subtle(-hover) are the low-alpha tints
-  // (selected / hovered backgrounds). -bg-subtle derives from --pc-primary at
+  // (selected / hovered backgrounds). -bg-subtle derives from --pc-primary-color at
   // runtime so theme overrides cascade.
-  --pc-primary: var(--base-primary-color, #{$primary-color});
-  --pc-primary-hover: var(--base-primary-color-hover, #{$base-primary-color-hover});
-  --pc-primary-active: var(--base-primary-color-active, #{$base-primary-color-active});
+  --pc-primary-color: var(--base-primary-color, #{$primary-color});
+  --pc-primary-color-hover: var(--base-primary-color-hover, #{$base-primary-color-hover});
+  --pc-primary-color-active: var(--base-primary-color-active, #{$base-primary-color-active});
   --pc-primary-bg-subtle-hover: var(--base-primary-bg-subtle-hover, #{$primary-bg-subtle-hover});
-  --pc-primary-bg-subtle: var(--base-primary-bg-subtle, color-mix(in srgb, var(--pc-primary) 10%, transparent));
+  --pc-primary-bg-subtle: var(--base-primary-bg-subtle, color-mix(in srgb, var(--pc-primary-color) 10%, transparent));
 
   // Links — derive from accent so theme overrides cascade automatically.
   // Hover mixes 50% toward currentColor (inherited text colour at the use site),
   // so it auto-darkens on light themes and auto-lightens on dark themes.
-  --pc-link-color: var(--pc-primary);
+  --pc-link-color: var(--pc-primary-color);
   --pc-link-color-hover: color-mix(in srgb, var(--pc-link-color), currentColor 50%);
   --pc-link-color-visited: var(--pc-link-color);
 
@@ -419,13 +419,13 @@
   --pc-border-color: var(--base-border-color, #{$border-color});
 
   // Semantic role identities — the single source for the roles (primary is
-  // --pc-primary above). Component surfaces (--pc-*-bg, alerts, buttons) derive
+  // --pc-primary-color above). Component surfaces (--pc-*-bg, alerts, buttons) derive
   // from these via var() in pure-admin, so retuning a role here cascades everywhere.
-  --pc-secondary: var(--base-secondary-color, #{$base-secondary-color});
-  --pc-success: var(--base-success-color, #{$base-success-color});
-  --pc-warning: var(--base-warning-color, #{$base-warning-color});
-  --pc-danger:  var(--base-danger-color, #{$base-danger-color});
-  --pc-info:    var(--base-info-color, #{$base-info-color});
+  --pc-secondary-color: var(--base-secondary-color, #{$base-secondary-color});
+  --pc-success-color: var(--base-success-color, #{$base-success-color});
+  --pc-warning-color: var(--base-warning-color, #{$base-warning-color});
+  --pc-danger-color:  var(--base-danger-color, #{$base-danger-color});
+  --pc-info-color:    var(--base-info-color, #{$base-info-color});
 
   // Role text colours — consumed by the .text-{success,danger,warning,info}
   // utilities (utilities.scss). Kept in the base contract for that reason.

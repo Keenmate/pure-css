@@ -77,7 +77,7 @@
 
         // Hover/active derive their pill background from `currentColor` — a
         // translucent tint of the link's OWN rendered text colour — not the
-        // content-area --pc-primary. The navbar sits on --pc-navbar-bg, which
+        // content-area --pc-primary-color. The navbar sits on --pc-navbar-bg, which
         // several themes set dark or to the accent colour itself (e.g. NATO's
         // navy bar) and then force the nav text light with !important while
         // leaving --pc-navbar-text at its default dark value. A currentColor
@@ -192,7 +192,7 @@
 
         &:hover {
           background-color: var(--pc-primary-bg-subtle);
-          color: var(--pc-primary);
+          color: var(--pc-primary-color);
         }
       }
     }
@@ -397,7 +397,7 @@
   }
 
   &:hover span {
-    background-color: var(--pc-primary);
+    background-color: var(--pc-primary-color);
   }
 }
 
@@ -422,7 +422,7 @@
 
     &:focus {
       outline: none;
-      border-color: var(--pc-primary);
+      border-color: var(--pc-primary-color);
     }
   }
 }

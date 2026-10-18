@@ -165,9 +165,9 @@ body.pc-layout--sticky .pc-layout__sidebar {
     }
 
     &--active {
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
       background-color: var(--pc-primary-bg-subtle-hover);
-      border-inline-end-color: var(--pc-primary); // RTL: flips to border-left-color
+      border-inline-end-color: var(--pc-primary-color); // RTL: flips to border-left-color
       font-weight: $font-weight-semibold;
     }
   }
@@ -333,7 +333,7 @@ body.pc-layout--sticky .pc-layout__sidebar {
     }
 
     &--active {
-      color: var(--pc-primary);
+      color: var(--pc-primary-color);
       background-color: var(--pc-primary-bg-subtle-hover);
     }
   }
@@ -389,7 +389,7 @@ body.pc-layout--sticky .pc-layout__sidebar {
     &--active {
       background-color: var(--pc-sidebar-submenu-active-bg, var(--base-active-bg));
       color: var(--pc-sidebar-submenu-active-text, var(--base-text-color-1));
-      border-inline-end-color: var(--pc-primary); // RTL: flips to border-left-color
+      border-inline-end-color: var(--pc-primary-color); // RTL: flips to border-left-color
     }
   }
 
@@ -406,7 +406,7 @@ body.pc-layout--sticky .pc-layout__sidebar {
     border-inline-end: $border-width-base solid transparent; // RTL: flips to border-left
 
     &--active {
-      border-inline-end-color: var(--pc-primary); // RTL: flips to border-left-color
+      border-inline-end-color: var(--pc-primary-color); // RTL: flips to border-left-color
     }
   }
 

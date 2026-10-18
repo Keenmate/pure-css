@@ -2523,11 +2523,11 @@
 }
 
 .text-primary {
-  color: var(--pc-primary) !important;
+  color: var(--pc-primary-color) !important;
 }
 
 .text-secondary {
-  color: var(--pc-secondary) !important;
+  color: var(--pc-secondary-color) !important;
 }
 
 .text-success {
@@ -2547,7 +2547,7 @@
 }
 
 .bg-primary {
-  background-color: var(--pc-primary) !important;
+  background-color: var(--pc-primary-color) !important;
 }
 
 .text-on-primary {
@@ -2555,12 +2555,12 @@
 }
 
 .surface-primary {
-  background-color: var(--pc-primary) !important;
+  background-color: var(--pc-primary-color) !important;
   color: var(--base-on-primary-text-color) !important;
 }
 
 .bg-secondary {
-  background-color: var(--pc-secondary) !important;
+  background-color: var(--pc-secondary-color) !important;
 }
 
 .text-on-secondary {
@@ -2568,12 +2568,12 @@
 }
 
 .surface-secondary {
-  background-color: var(--pc-secondary) !important;
+  background-color: var(--pc-secondary-color) !important;
   color: var(--base-on-secondary-text-color) !important;
 }
 
 .bg-success {
-  background-color: var(--pc-success) !important;
+  background-color: var(--pc-success-color) !important;
 }
 
 .text-on-success {
@@ -2581,12 +2581,12 @@
 }
 
 .surface-success {
-  background-color: var(--pc-success) !important;
+  background-color: var(--pc-success-color) !important;
   color: var(--base-on-success-text-color) !important;
 }
 
 .bg-warning {
-  background-color: var(--pc-warning) !important;
+  background-color: var(--pc-warning-color) !important;
 }
 
 .text-on-warning {
@@ -2594,12 +2594,12 @@
 }
 
 .surface-warning {
-  background-color: var(--pc-warning) !important;
+  background-color: var(--pc-warning-color) !important;
   color: var(--base-on-warning-text-color) !important;
 }
 
 .bg-danger {
-  background-color: var(--pc-danger) !important;
+  background-color: var(--pc-danger-color) !important;
 }
 
 .text-on-danger {
@@ -2607,12 +2607,12 @@
 }
 
 .surface-danger {
-  background-color: var(--pc-danger) !important;
+  background-color: var(--pc-danger-color) !important;
   color: var(--base-on-danger-text-color) !important;
 }
 
 .bg-info {
-  background-color: var(--pc-info) !important;
+  background-color: var(--pc-info-color) !important;
 }
 
 .text-on-info {
@@ -2620,7 +2620,7 @@
 }
 
 .surface-info {
-  background-color: var(--pc-info) !important;
+  background-color: var(--pc-info-color) !important;
   color: var(--base-on-info-text-color) !important;
 }
 

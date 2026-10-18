@@ -452,7 +452,7 @@ test('text — alignment and truncation', async ({ page }) => {
 
 test('text — semantic colours resolve to their tokens', async ({ page }) => {
     const map: Record<string, string> = {
-        'text-primary': 'rgb(14, 165, 233)',  // --pc-primary #0ea5e9
+        'text-primary': 'rgb(14, 165, 233)',  // --pc-primary-color #0ea5e9
         'text-success': 'rgb(21, 87, 36)',    // --pc-success-text-color #155724
         'text-danger': 'rgb(114, 28, 36)',    // --pc-danger-text-color #721c24
         'text-warning': 'rgb(133, 100, 4)',   // --pc-warning-text-color #856404

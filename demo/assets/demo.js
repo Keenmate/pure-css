@@ -103,19 +103,19 @@
             "--pc-subtle-bg": "#1e293b",
             "--pc-text-color-1": "#e2e8f0",
             "--pc-text-color-2": "#94a3b8",
-            "--pc-primary": "#38bdf8",
+            "--pc-primary-color": "#38bdf8",
             "--base-primary-color": "#38bdf8",
             "--base-border-color": "#334155"
         },
         emerald: {
-            "--pc-primary": "#10b981",
+            "--pc-primary-color": "#10b981",
             "--base-primary-color": "#10b981",
             "--pc-main-bg": "#f6fbf8",
             "--pc-subtle-bg": "#ffffff",
             "--base-border-color": "#cfe8dc"
         },
         grape: {
-            "--pc-primary": "#7c3aed",
+            "--pc-primary-color": "#7c3aed",
             "--base-primary-color": "#7c3aed",
             "--pc-main-bg": "#faf7ff",
             "--pc-subtle-bg": "#ffffff",

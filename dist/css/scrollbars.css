@@ -15,10 +15,10 @@
   border: 1px solid var(--pc-page-bg);
 }
 *::-webkit-scrollbar-thumb:hover {
-  background: var(--pc-primary);
+  background: var(--pc-primary-color);
 }
 *::-webkit-scrollbar-thumb:active {
-  background: var(--pc-primary-active);
+  background: var(--pc-primary-color-active);
 }
 
 *::-webkit-scrollbar-corner {

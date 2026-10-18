@@ -19,6 +19,14 @@ All notable changes to `@keenmate/pure-css` are documented here. Format based on
 
 ### Changed
 
+- **BREAKING: `--pc-*` role colours end in `-color`**, like the `--base-*` contract they mirror
+  (`--base-success-color` → `--pc-success-color`). `--pc-primary` / `-hover` / `-active` →
+  `--pc-primary-color` / `-color-hover` / `-color-active`; `--pc-secondary`, `--pc-success`,
+  `--pc-warning`, `--pc-danger`, `--pc-info` → `--pc-<role>-color`. 2.0.0-rc01 renamed only the
+  derived names (`--pc-<role>-text-color`), leaving `--pc-success` next to `--pc-success-text-color`.
+  The tints (`--pc-primary-bg-subtle[-hover]`) and `--pc-<role>-text-color` are unchanged. Search
+  your CSS for `var(--pc-(primary|secondary|success|warning|danger|info)` and add `-color`.
+
 - **`.mx-*` / `.px-*` / `.mx-auto` use `margin-inline` / `padding-inline`** instead of
   left + right. Same result (both sides), logical like the rest.
 

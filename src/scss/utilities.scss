@@ -705,8 +705,8 @@ $spacers: (
 .border-none { border-style: none !important; }
 
 // Text color utilities (semantic colors)
-.text-primary { color: var(--pc-primary) !important; }
-.text-secondary { color: var(--pc-secondary) !important; }
+.text-primary { color: var(--pc-primary-color) !important; }
+.text-secondary { color: var(--pc-secondary-color) !important; }
 .text-success { color: var(--pc-success-text-color) !important; }
 .text-danger { color: var(--pc-danger-text-color) !important; }
 .text-warning { color: var(--pc-warning-text-color) !important; }
@@ -721,10 +721,10 @@ $spacers: (
 //   .text-on-{role}   contrast text to sit on a role fill (pair with .bg-{role})
 //   .surface-{role}   role background + contrast text in one class
 @each $role in (primary, secondary, success, warning, danger, info) {
-  .bg-#{$role} { background-color: var(--pc-#{$role}) !important; }
+  .bg-#{$role} { background-color: var(--pc-#{$role}-color) !important; }
   .text-on-#{$role} { color: var(--base-on-#{$role}-text-color) !important; }
   .surface-#{$role} {
-    background-color: var(--pc-#{$role}) !important;
+    background-color: var(--pc-#{$role}-color) !important;
     color: var(--base-on-#{$role}-text-color) !important;
   }
 }
