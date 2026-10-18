@@ -512,5 +512,6 @@ test('font-family — .font-family-* switch the stack', async ({ page }) => {
     expect(actual[0]).toContain('apple-system');
     expect(actual[1]).toContain('helvetica');
     expect(actual[2]).toContain('georgia');
-    expect(actual[3]).toContain('courier');
+    // system / mono read --base-font-family / --base-font-family-mono (theme tokens)
+    expect(actual[3]).toContain('sfmono');
 });

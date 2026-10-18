@@ -3,7 +3,7 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [2.0.0-rc02] — 2026-10-17
+## [2.0.0-rc02] — 2026-10-18 [PUBLISHED]
 
 ### Added
 
@@ -19,6 +19,11 @@ All notable changes to `@keenmate/pure-css` are documented here. Format based on
 
 ### Changed
 
+- **`.font-family-mono` / `.font-family-system` read the theme's font tokens** —
+  `var(--base-font-family-mono)` / `var(--base-font-family)` instead of hard-coded stacks. Visible:
+  `.font-family-mono` was `"Courier New", Courier, monospace` and now matches the framework's
+  own code text (`SFMono-Regular, Menlo, Consolas, …` by default) and follows a theme's font
+  choice. `.font-family-sans` / `-serif` have no token and are unchanged.
 - **BREAKING: `--pc-*` role colours end in `-color`**, like the `--base-*` contract they mirror
   (`--base-success-color` → `--pc-success-color`). `--pc-primary` / `-hover` / `-active` →
   `--pc-primary-color` / `-color-hover` / `-color-active`; `--pc-secondary`, `--pc-success`,

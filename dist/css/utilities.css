@@ -1,5 +1,5 @@
 .font-family-system {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--base-font-family);
 }
 .font-family-system *, .font-family-system h1, .font-family-system h2, .font-family-system h3, .font-family-system h4, .font-family-system h5, .font-family-system h6, .font-family-system p, .font-family-system div, .font-family-system span, .font-family-system button, .font-family-system input, .font-family-system textarea, .font-family-system select {
   font-family: inherit;
@@ -20,7 +20,7 @@
 }
 
 .font-family-mono {
-  font-family: "Courier New", Courier, monospace;
+  font-family: var(--base-font-family-mono);
 }
 .font-family-mono *, .font-family-mono h1, .font-family-mono h2, .font-family-mono h3, .font-family-mono h4, .font-family-mono h5, .font-family-mono h6, .font-family-mono p, .font-family-mono div, .font-family-mono span, .font-family-mono button, .font-family-mono input, .font-family-mono textarea, .font-family-mono select {
   font-family: inherit;
