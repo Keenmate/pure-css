@@ -85,12 +85,13 @@ function collectExact(items: Probe[], actual: string[], expected: string[]): str
 // =============================================================================
 const MARGIN_SIDES: Record<string, string[]> = {
     '': ['marginTop', 'marginRight', 'marginBottom', 'marginLeft'],
-    t: ['marginTop'], r: ['marginRight'], b: ['marginBottom'], l: ['marginLeft'],
+    // inline sides are logical: the page is LTR, so s(tart) = left, e(nd) = right
+    t: ['marginTop'], e: ['marginRight'], b: ['marginBottom'], s: ['marginLeft'],
     x: ['marginLeft', 'marginRight'], y: ['marginTop', 'marginBottom']
 };
 const PADDING_SIDES: Record<string, string[]> = {
     '': ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
-    t: ['paddingTop'], r: ['paddingRight'], b: ['paddingBottom'], l: ['paddingLeft'],
+    t: ['paddingTop'], e: ['paddingRight'], b: ['paddingBottom'], s: ['paddingLeft'],
     x: ['paddingLeft', 'paddingRight'], y: ['paddingTop', 'paddingBottom']
 };
 
@@ -110,11 +111,11 @@ async function checkSpacing(page: Page, base: 'm' | 'p', sides: Record<string, s
     expect(fails, `${items.length} probes\n${fails.join('\n')}`).toEqual([]);
 }
 
-test('margins — every .m{,t,r,b,l,x,y}-<key> matches the spacing scale', async ({ page }) => {
+test('margins — every .m{,t,b,s,e,x,y}-<key> matches the spacing scale', async ({ page }) => {
     await checkSpacing(page, 'm', MARGIN_SIDES);
 });
 
-test('paddings — every .p{,t,r,b,l,x,y}-<key> matches the spacing scale', async ({ page }) => {
+test('paddings — every .p{,t,b,s,e,x,y}-<key> matches the spacing scale', async ({ page }) => {
     await checkSpacing(page, 'p', PADDING_SIDES);
 });
 
@@ -124,6 +125,20 @@ test('margin auto centers a fixed-width block', async ({ page }) => {
         { cls: 'mx-auto w-20', prop: 'marginLeft', parent: 'w-parent' }
     ]);
     expect(parseFloat(ml)).toBeGreaterThan(0);
+});
+
+test('spacing — start / end mirror under dir="rtl"', async ({ page }) => {
+    await page.evaluate(() => document.documentElement.setAttribute('dir', 'rtl'));
+    const items: Probe[] = [
+        { cls: 'ms-4', prop: 'marginRight' },
+        { cls: 'ms-4', prop: 'marginLeft' },
+        { cls: 'me-4', prop: 'marginLeft' },
+        { cls: 'ps-4', prop: 'paddingRight' },
+        { cls: 'pe-4', prop: 'paddingLeft' },
+        { cls: 'pe-4', prop: 'paddingRight' }
+    ];
+    const actual = await measure(page, items);
+    expect(collectNumeric(items, actual, [10, 0, 10, 10, 10, 0], 0.05).join('\n')).toBe('');
 });
 
 // =============================================================================

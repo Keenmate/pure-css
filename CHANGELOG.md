@@ -11,8 +11,24 @@ All notable changes to `@keenmate/pure-css` are documented here. Format based on
   `.border-end-0`, `.rounded-start`, `.rounded-end`.** They follow the writing direction
   (`border-inline-*`, `border-{start|end}-{start|end}-radius`), so they mirror under
   `dir="rtl"` like the logical spacing utilities (`ms-*` / `me-*`).
+- **Logical spacing on both scales: `.ms-*`, `.me-*`, `.ps-*`, `.pe-*`** (margin / padding
+  inline start / end), numeric `0-6 | 8 | 10 | 12 | 16 | 20` **and** semantic
+  `0 | xs | sm | md | base | lg | xl | 2xl`, plus `.ms-auto` / `.me-auto`. Previously only the
+  semantic `ms/me/ps/pe` existed (in pure-admin-core, without `!important`); they now live here
+  with `!important` like every other spacing utility.
+
+### Changed
+
+- **`.mx-*` / `.px-*` / `.mx-auto` use `margin-inline` / `padding-inline`** instead of
+  left + right. Same result (both sides), logical like the rest.
 
 ### Removed
+
+- **BREAKING: the physical inline-side spacing utilities — `.ml-*`, `.mr-*`, `.pl-*`, `.pr-*`**
+  (both scales, plus `.ml-auto` / `.mr-auto`). They didn't mirror under `dir="rtl"`. Rename
+  `ml` → `ms`, `mr` → `me`, `pl` → `ps`, `pr` → `pe` with the same suffix (`.ml-2` →
+  `.ms-2`, `.mr-auto` → `.me-auto`); in LTR they render identically. Inline sides are now
+  logical-only across spacing, borders and radii.
 
 - **BREAKING: the physical inline-side border and radius utilities — `.border-left`,
   `.border-right`, `.border-left-0`, `.border-right-0`, `.rounded-left`, `.rounded-right`.**

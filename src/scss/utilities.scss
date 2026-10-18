@@ -1,5 +1,7 @@
 // @keenmate/pure-css — utility classes
-// Spacing utilities similar to Bootstrap/Tailwind
+// Spacing utilities similar to Bootstrap/Tailwind. Inline sides are logical only
+// (ms/me/ps/pe = start/end, mx/px = both) so they mirror under dir="rtl" — the
+// physical ml/mr/pl/pr were removed in 2.0.0-rc02.
 // Based on rem units: 0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5
 
 @use './variables' as *;
@@ -37,9 +39,9 @@ $spacers: (
     margin-top: #{$value} !important;
   }
 
-  // Right
-  .mr-#{$name} {
-    margin-right: #{$value} !important;
+  // Inline end (right in LTR, left in RTL)
+  .me-#{$name} {
+    margin-inline-end: #{$value} !important;
   }
 
   // Bottom
@@ -47,15 +49,14 @@ $spacers: (
     margin-bottom: #{$value} !important;
   }
 
-  // Left
-  .ml-#{$name} {
-    margin-left: #{$value} !important;
+  // Inline start (left in LTR, right in RTL)
+  .ms-#{$name} {
+    margin-inline-start: #{$value} !important;
   }
 
-  // X-axis (left + right)
+  // Inline axis (both sides)
   .mx-#{$name} {
-    margin-left: #{$value} !important;
-    margin-right: #{$value} !important;
+    margin-inline: #{$value} !important;
   }
 
   // Y-axis (top + bottom)
@@ -77,9 +78,9 @@ $spacers: (
     padding-top: #{$value} !important;
   }
 
-  // Right
-  .pr-#{$name} {
-    padding-right: #{$value} !important;
+  // Inline end (right in LTR, left in RTL)
+  .pe-#{$name} {
+    padding-inline-end: #{$value} !important;
   }
 
   // Bottom
@@ -87,15 +88,14 @@ $spacers: (
     padding-bottom: #{$value} !important;
   }
 
-  // Left
-  .pl-#{$name} {
-    padding-left: #{$value} !important;
+  // Inline start (left in LTR, right in RTL)
+  .ps-#{$name} {
+    padding-inline-start: #{$value} !important;
   }
 
-  // X-axis (left + right)
+  // Inline axis (both sides)
   .px-#{$name} {
-    padding-left: #{$value} !important;
-    padding-right: #{$value} !important;
+    padding-inline: #{$value} !important;
   }
 
   // Y-axis (top + bottom)
@@ -114,21 +114,20 @@ $spacers: (
   margin-top: auto !important;
 }
 
-.mr-auto {
-  margin-right: auto !important;
+.me-auto {
+  margin-inline-end: auto !important;
 }
 
 .mb-auto {
   margin-bottom: auto !important;
 }
 
-.ml-auto {
-  margin-left: auto !important;
+.ms-auto {
+  margin-inline-start: auto !important;
 }
 
 .mx-auto {
-  margin-left: auto !important;
-  margin-right: auto !important;
+  margin-inline: auto !important;
 }
 
 .my-auto {
@@ -140,10 +139,10 @@ $spacers: (
 @each $name, $value in $semantic-spacers {
   .m-#{$name} { margin: #{$value} !important; }
   .mt-#{$name} { margin-top: #{$value} !important; }
-  .mr-#{$name} { margin-right: #{$value} !important; }
+  .me-#{$name} { margin-inline-end: #{$value} !important; }
   .mb-#{$name} { margin-bottom: #{$value} !important; }
-  .ml-#{$name} { margin-left: #{$value} !important; }
-  .mx-#{$name} { margin-left: #{$value} !important; margin-right: #{$value} !important; }
+  .ms-#{$name} { margin-inline-start: #{$value} !important; }
+  .mx-#{$name} { margin-inline: #{$value} !important; }
   .my-#{$name} { margin-top: #{$value} !important; margin-bottom: #{$value} !important; }
 }
 
@@ -151,10 +150,10 @@ $spacers: (
 @each $name, $value in $semantic-spacers {
   .p-#{$name} { padding: #{$value} !important; }
   .pt-#{$name} { padding-top: #{$value} !important; }
-  .pr-#{$name} { padding-right: #{$value} !important; }
+  .pe-#{$name} { padding-inline-end: #{$value} !important; }
   .pb-#{$name} { padding-bottom: #{$value} !important; }
-  .pl-#{$name} { padding-left: #{$value} !important; }
-  .px-#{$name} { padding-left: #{$value} !important; padding-right: #{$value} !important; }
+  .ps-#{$name} { padding-inline-start: #{$value} !important; }
+  .px-#{$name} { padding-inline: #{$value} !important; }
   .py-#{$name} { padding-top: #{$value} !important; padding-bottom: #{$value} !important; }
 }
 
