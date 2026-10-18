@@ -3,7 +3,7 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [2.0.0-rc03] — 2026-10-18
+## [2.0.0-rc03] — 2026-10-18 [PUBLISHED]
 
 ### Changed
 
