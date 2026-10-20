@@ -2632,6 +2632,14 @@
   color: var(--pc-text-color-2) !important;
 }
 
+.text-subtle {
+  color: var(--pc-text-color-3) !important;
+}
+
+.text-faint {
+  color: var(--pc-text-color-4) !important;
+}
+
 .text-caption {
   font-size: 1.2rem;
   color: var(--pc-text-color-2);

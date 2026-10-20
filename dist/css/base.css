@@ -1,9 +1,6 @@
 :root,
 .pc-mode-light,
 .pc-mode-dark {
-  --pc-text-strong: color-mix(in srgb, var(--pc-text-color-1) 85%, transparent);
-  --pc-text-secondary: color-mix(in srgb, var(--pc-text-color-1) 70%, transparent);
-  --pc-text-tertiary: color-mix(in srgb, var(--pc-text-color-1) 55%, transparent);
   --pc-surface-hover: color-mix(in srgb, var(--pc-text-color-1) 4%, transparent);
   --pc-surface-track: color-mix(in srgb, var(--pc-text-color-1) 12%, transparent);
 }
@@ -186,6 +183,8 @@
   --pc-active-bg: var(--base-active-bg, light-dark(color-mix(in oklch, oklch(from var(--base-main-bg) calc(l - 0.45) c h) 24%, transparent), color-mix(in oklch, oklch(from var(--base-main-bg) calc(l + 0.45) c h) 48%, transparent)));
   --pc-text-color-1: var(--base-text-color-1, #334155);
   --pc-text-color-2: var(--base-text-color-2, color-mix(in srgb, var(--base-text-color-1) 75%, var(--base-main-bg)));
+  --pc-text-color-3: var(--base-text-color-3, color-mix(in srgb, var(--base-text-color-1) 55%, var(--base-main-bg)));
+  --pc-text-color-4: var(--base-text-color-4, color-mix(in srgb, var(--base-text-color-1) 40%, var(--base-main-bg)));
   --pc-primary-color: var(--base-primary-color, #0ea5e9);
   --pc-primary-color-hover: var(--base-primary-color-hover, light-dark(color-mix(in srgb, black 15%, var(--base-primary-color)), color-mix(in srgb, white 15%, var(--base-primary-color))));
   --pc-primary-color-active: var(--base-primary-color-active, light-dark(color-mix(in srgb, black 30%, var(--base-primary-color)), color-mix(in srgb, white 30%, var(--base-primary-color))));

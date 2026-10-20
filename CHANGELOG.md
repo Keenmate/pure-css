@@ -3,6 +3,24 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.0.0-rc04] — 2026-10-20
+
+### Added
+
+- **`--pc-text-color-3` / `--pc-text-color-4` and `.text-subtle` / `.text-faint`.** The `--pc-*`
+  text hierarchy now mirrors all four `--base-text-color-*` steps (1 body, 2 muted, 3 subtle —
+  hints, metadata, timestamps, 4 faint — disabled), each with a utility: `.text-body`,
+  `.text-muted`, `.text-subtle`, `.text-faint`. pure-admin-core already read
+  `--pc-text-color-3` in five places (settings hints, sheet labels and legal text, table item
+  descriptions); it was never defined, so those rendered in the parent's colour.
+
+### Removed
+
+- **BREAKING: `--pc-text-strong`, `--pc-text-secondary`, `--pc-text-tertiary`.** A second text
+  scale (85 / 70 / 55% of `--pc-text-color-1` mixed into transparent) that pure-css never used
+  and that duplicated the `--pc-text-color-*` steps. Use `--pc-text-color-1` / `-2` / `-3`.
+  `--pc-surface-hover` / `--pc-surface-track` stay.
+
 ## [2.0.0-rc03] — 2026-10-18 [PUBLISHED]
 
 ### Changed

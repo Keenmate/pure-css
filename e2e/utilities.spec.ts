@@ -463,6 +463,18 @@ test('text — semantic colours resolve to their tokens', async ({ page }) => {
     expect(collectExact(items, actual, Object.values(map)).join('\n')).toBe('');
 });
 
+test('text — .text-body / -muted / -subtle / -faint follow --pc-text-color-1..4', async ({ page }) => {
+    const items = ['text-body', 'text-muted', 'text-subtle', 'text-faint'].map((cls) => ({ cls, prop: 'color' }));
+    const actual = await measure(page, items);
+    // #334155, then 75% / 55% / 40% of it mixed into the white main surface.
+    expect(actual).toEqual([
+        'rgb(51, 65, 85)',
+        'color(srgb 0.4 0.441176 0.5)',
+        'color(srgb 0.56 0.590196 0.633333)',
+        'color(srgb 0.68 0.701961 0.733333)'
+    ]);
+});
+
 test('text — .text-color-1..9 default to the Corporate palette slots', async ({ page }) => {
     const items = Array.from({ length: 9 }, (_, i) => ({ cls: `text-color-${i + 1}`, prop: 'color' }));
     const actual = await measure(page, items);

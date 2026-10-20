@@ -308,18 +308,18 @@
 }
 
 // ============================================================================
-// DERIVED TOKENS — TEXT CONTRAST TIERS + SURFACE TINTS
+// DERIVED TOKENS — SURFACE TINTS
 // ============================================================================
 // These tokens use `color-mix(... var(--pc-text-color-1) ...)` to derive
-// theme-aware contrast levels. They MUST be emitted at every selector that
+// theme-aware hover / track tints. They MUST be emitted at every selector that
 // could carry an override of --pc-text-color-1, because CSS custom property
 // substitution bakes nested var() references at the *defining element*, not
 // the using element. If we only defined these at `:root, .pc-mode-light`,
 // the light-mode text colour would be frozen into the value, and elements
 // inside `.pc-mode-dark` (which overrides --pc-text-color-1 at body) would
-// inherit the light-mode-baked tier values → low contrast on dark surfaces.
+// inherit the light-mode-baked tints → wrong contrast on dark surfaces.
 //
-// Emitting at all three selectors causes each scope to recompute the tiers
+// Emitting at all three selectors causes each scope to recompute the tints
 // against its own --pc-text-color-1. The selector list `:root, .pc-mode-light,
 // .pc-mode-dark` covers html, body in light mode, and body in dark mode —
 // regardless of which class layout each theme uses for mode switching.
@@ -334,7 +334,7 @@
 // This is a TOP-LEVEL rule (not inside the mixin) because themes only call
 // the mixin from their light-mode block; they don't call it again in the
 // dark-mode block. Emitting at framework level means themes get correct
-// dark-mode tiers without changing any theme code.
+// dark-mode tints without changing any theme code.
 //
 // Override these per-theme by redefining them in the same scope you
 // override --pc-text-color-1.
@@ -343,9 +343,6 @@
 :root,
 .pc-mode-light,
 .pc-mode-dark {
-  --pc-text-strong:    color-mix(in srgb, var(--pc-text-color-1) 85%, transparent);
-  --pc-text-secondary: color-mix(in srgb, var(--pc-text-color-1) 70%, transparent);
-  --pc-text-tertiary:  color-mix(in srgb, var(--pc-text-color-1) 55%, transparent);
   --pc-surface-hover:  color-mix(in srgb, var(--pc-text-color-1) 4%, transparent);
   --pc-surface-track:  color-mix(in srgb, var(--pc-text-color-1) 12%, transparent);
 }
@@ -393,9 +390,13 @@
   --pc-hover-bg: var(--base-hover-bg, #{$base-hover-bg});
   --pc-active-bg: var(--base-active-bg, #{$base-active-bg});
 
-  // Text — follow the shared --base-* tokens at runtime.
+  // Text — the four-step hierarchy, following the shared --base-* tokens at
+  // runtime: 1 body / titles, 2 muted, 3 subtle (hints, metadata, icons),
+  // 4 faint (disabled). The only text scale — there is no alpha-mix tier.
   --pc-text-color-1: var(--base-text-color-1, #{$text-color-1});
   --pc-text-color-2: var(--base-text-color-2, #{$text-color-2});
+  --pc-text-color-3: var(--base-text-color-3, #{$text-color-3});
+  --pc-text-color-4: var(--base-text-color-4, #{$text-color-4});
 
   // Primary — the brand / interactive role. -hover / -active are the darker
   // steps (text, borders, fills); -bg-subtle(-hover) are the low-alpha tints
