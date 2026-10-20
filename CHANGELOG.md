@@ -14,6 +14,17 @@ All notable changes to `@keenmate/pure-css` are documented here. Format based on
   `--pc-text-color-3` in five places (settings hints, sheet labels and legal text, table item
   descriptions); it was never defined, so those rendered in the parent's colour.
 
+### Changed
+
+- **Placeholders use text step 3** (base-css-variables 2.0.0-rc03): `--base-input-placeholder-color`
+  is `var(--base-text-color-3)`, the same tone as a field's icons (was step 4, 2.1:1 on Corporate's
+  white input). Step 3 now covers icons, metadata, paths, placeholders and hints; step 4 is
+  disabled / decorative. The sidebar search placeholder reads the token (was step 2 at 50% opacity).
+- **Role text colours have a dark value.** `--base-success|danger|warning|info-text-color` are
+  `light-dark()` pairs mirroring the contract (`#155724` / `#34d399`, `#721c24` / `#f87171`,
+  `#856404` / `#fbbf24`, `#0c5460` / `#22d3ee`); `.text-success` etc. were 1.3–2.7:1 on dark
+  surfaces.
+
 ### Removed
 
 - **BREAKING: `--pc-text-strong`, `--pc-text-secondary`, `--pc-text-tertiary`.** A second text

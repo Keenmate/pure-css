@@ -40,8 +40,8 @@ $base-primary-bg-subtle-hover: light-dark(color-mix(in srgb, var(--base-primary-
 
 $base-text-color-1: #334155 !default;  // Primary text (strongest) — Corporate slate-700 (input)
 $base-text-color-2: color-mix(in srgb, var(--base-text-color-1) 75%, var(--base-main-bg)) !default;  // Secondary — muted labels, supporting text
-$base-text-color-3: color-mix(in srgb, var(--base-text-color-1) 55%, var(--base-main-bg)) !default;  // Tertiary — icons, metadata, paths
-$base-text-color-4: color-mix(in srgb, var(--base-text-color-1) 40%, var(--base-main-bg)) !default;  // Faint — hints, placeholders, disabled
+$base-text-color-3: color-mix(in srgb, var(--base-text-color-1) 55%, var(--base-main-bg)) !default;  // Tertiary — icons, metadata, paths, placeholders, hints
+$base-text-color-4: color-mix(in srgb, var(--base-text-color-1) 40%, var(--base-main-bg)) !default;  // Faint — disabled, decorative
 $base-on-primary-text-color: #ffffff !default;  // Text on the primary fill
 
 // =============================================================================
@@ -119,7 +119,7 @@ $base-input-border-hover: var(--base-border-width) solid var(--base-primary-colo
 $base-input-border-focus: var(--base-border-width) solid var(--base-primary-color) !default;
 $base-input-shadow-color-focus: color-mix(in srgb, var(--base-primary-color) 5%, transparent) !default;  // focus halo tone; set this to tune it
 $base-input-box-shadow-focus: 0 0 0 3px var(--base-input-shadow-color-focus) !default;  // soft halo around a focused field
-$base-input-placeholder-color: var(--base-text-color-4) !default;
+$base-input-placeholder-color: var(--base-text-color-3) !default;  // Readable hint, same tone as the field's icons
 $base-input-bg-disabled: var(--base-disabled-bg) !default;
 // Inline icons inside inputs — clear ✕, chevrons (web-component bridge:
 // --base-input-icon-color / --base-input-icon-bg-hover).
@@ -160,7 +160,7 @@ $base-tooltip-text-color: light-dark(var(--base-main-bg), var(--base-text-color-
 $base-success-color: #10b981 !default;  // Corporate emerald-500 — also --pa-positive in the sentiment scale
 $base-success-color-hover: light-dark(color-mix(in srgb, black 15%, var(--base-success-color)), color-mix(in srgb, white 15%, var(--base-success-color))) !default;  // Corporate emerald-600
 $base-success-bg-subtle: light-dark(color-mix(in srgb, var(--base-success-color) 10%, transparent), color-mix(in srgb, var(--base-success-color) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-success-color
-$base-success-text-color: #155724 !default;
+$base-success-text-color: light-dark(#155724, #34d399) !default;
 $base-on-success-text-color: #ffffff !default;
 
 // =============================================================================
@@ -171,7 +171,7 @@ $base-on-success-text-color: #ffffff !default;
 $base-danger-color: #ef4444 !default;  // Tailwind red-500 — aligns with --pa-negative in the sentiment scale
 $base-danger-color-hover: light-dark(color-mix(in srgb, black 15%, var(--base-danger-color)), color-mix(in srgb, white 15%, var(--base-danger-color))) !default;  // Corporate red-600
 $base-danger-bg-subtle: light-dark(color-mix(in srgb, var(--base-danger-color) 10%, transparent), color-mix(in srgb, var(--base-danger-color) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-danger-color
-$base-danger-text-color: #721c24 !default;
+$base-danger-text-color: light-dark(#721c24, #f87171) !default;
 $base-on-danger-text-color: #ffffff !default;
 
 // =============================================================================
@@ -182,7 +182,7 @@ $base-on-danger-text-color: #ffffff !default;
 $base-warning-color: #f59e0b !default;  // Corporate amber-500 — also the off-target axis in KPI components
 $base-warning-color-hover: light-dark(color-mix(in srgb, black 15%, var(--base-warning-color)), color-mix(in srgb, white 15%, var(--base-warning-color))) !default;  // Corporate amber-600
 $base-warning-bg-subtle: light-dark(color-mix(in srgb, var(--base-warning-color) 10%, transparent), color-mix(in srgb, var(--base-warning-color) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-warning-color
-$base-warning-text-color: #856404 !default;
+$base-warning-text-color: light-dark(#856404, #fbbf24) !default;
 $base-on-warning-text-color: #ffffff !default;  // Corporate uses white on amber
 
 // =============================================================================
@@ -193,7 +193,7 @@ $base-on-warning-text-color: #ffffff !default;  // Corporate uses white on amber
 $base-info-color: #06b6d4 !default;  // Corporate cyan-500
 $base-info-color-hover: light-dark(color-mix(in srgb, black 15%, var(--base-info-color)), color-mix(in srgb, white 15%, var(--base-info-color))) !default;  // Corporate cyan-600
 $base-info-bg-subtle: light-dark(color-mix(in srgb, var(--base-info-color) 10%, transparent), color-mix(in srgb, var(--base-info-color) 20%, transparent)) !default;  // Role tint; tracks a runtime --base-info-color
-$base-info-text-color: #0c5460 !default;
+$base-info-text-color: light-dark(#0c5460, #22d3ee) !default;
 $base-on-info-text-color: #ffffff !default;
 
 // =============================================================================

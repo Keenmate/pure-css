@@ -289,8 +289,7 @@ body.pc-layout--sticky .pc-layout__sidebar {
         padding: 0;
 
         &::placeholder {
-          color: var(--pc-text-color-2);
-          opacity: $opacity-muted;
+          color: var(--base-input-placeholder-color);
         }
 
         &::-webkit-search-decoration,
