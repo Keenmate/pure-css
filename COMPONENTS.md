@@ -4,7 +4,7 @@
 > Do not edit by hand — re-run `npm run catalog` (after `npm run build`) when any `pc-*` class or utility changes.
 > Machine-readable form: [`components.json`](./components.json).
 
-Package version **2.0.0-rc02** · **11** pc-* components · **382** pc-* selectors · **722** utility classes.
+Package version **2.0.0-rc04** · **11** pc-* components · **382** pc-* selectors · **724** utility classes.
 
 This is the pure-css half of the wrapper-fidelity contract: the foundation (`pc-*` grid + app-shell + engines, and the unprefixed utility classes) that the pure-admin catalog intentionally does **not** track. The svelte / phoenix wrappers validate the non-`pa-*` classes they emit against this catalog.
 
@@ -122,7 +122,7 @@ Per-set icon hover strategy hooks: pc-icon-hover with -fill / -highlight variant
 
 ## Utilities
 
-**722** unprefixed utility classes across **21** families (harvested from compiled `dist/css/utilities.css`). Full per-class list in [`components.json`](./components.json) → `utilities.classes`.
+**724** unprefixed utility classes across **21** families (harvested from compiled `dist/css/utilities.css`). Full per-class list in [`components.json`](./components.json) → `utilities.classes`.
 
 | Family | Count | Examples |
 |---|--:|---|
@@ -142,7 +142,7 @@ Per-set icon hover strategy hooks: pc-icon-hover with -fill / -highlight variant
 | position | 5 | `position-absolute`, `position-fixed`, `position-relative`, `position-static`, `position-sticky` |
 | surface (palette) | 9 | `surface-color-1`, `surface-color-2`, `surface-color-3`, `surface-color-4`, `surface-color-5`, `surface-color-6` … |
 | surface (role / named) | 6 | `surface-danger`, `surface-info`, `surface-primary`, `surface-secondary`, `surface-success`, `surface-warning` |
-| text (colour / alignment / wrap) | 13 | `text-body`, `text-caption`, `text-center`, `text-danger`, `text-info`, `text-lead` … |
+| text (colour / alignment / wrap) | 15 | `text-body`, `text-caption`, `text-center`, `text-danger`, `text-faint`, `text-info` … |
 | text colour (palette) | 9 | `text-color-1`, `text-color-2`, `text-color-3`, `text-color-4`, `text-color-5`, `text-color-6` … |
 | text-on (palette contrast) | 9 | `text-on-color-1`, `text-on-color-2`, `text-on-color-3`, `text-on-color-4`, `text-on-color-5`, `text-on-color-6` … |
 | text-on (role contrast) | 6 | `text-on-danger`, `text-on-info`, `text-on-primary`, `text-on-secondary`, `text-on-success`, `text-on-warning` |
