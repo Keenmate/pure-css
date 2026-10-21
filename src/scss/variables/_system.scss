@@ -9,6 +9,8 @@
 // `light dark` (let OS preference decide), or `only light` / `only dark`
 // to ignore OS preference. Per-mode overrides (e.g. `color-scheme: dark;`
 // inside a `.pc-mode-dark` block) take precedence via the cascade.
+@use 'base' as *;
+
 $theme-color-scheme: light !default;
 
 // Z-index scale (increments of 1000 for easy adjustment).
@@ -43,7 +45,7 @@ $easing-smooth: ease !default;
 $easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55) !default;
 
 // Opacity system
-$opacity-disabled: 0.65 !default;
+$opacity-disabled: $base-disabled-opacity !default;  // = --base-disabled-opacity
 $opacity-muted: 0.5 !default;
 $opacity-hover: 0.8 !default;
 $opacity-light: 0.1 !default;

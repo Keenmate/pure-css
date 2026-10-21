@@ -37,6 +37,7 @@ test('theming playground re-themes the accent live', async ({ page }) => {
     });
     const after = await swatchColor();
 
-    expect(after).toBe('rgb(255, 0, 0)');
+    // .text-primary / links show the primary FOREGROUND: #ff0000 45% toward black.
+    expect(after).toBe('color(srgb 0.55 0 0)');
     expect(after).not.toBe(before);
 });

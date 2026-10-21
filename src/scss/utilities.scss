@@ -705,8 +705,8 @@ $spacers: (
 .border-none { border-style: none !important; }
 
 // Text color utilities (semantic colors)
-.text-primary { color: var(--pc-primary-color) !important; }
-.text-secondary { color: var(--pc-secondary-color) !important; }
+.text-primary { color: var(--pc-primary-text-color) !important; }
+.text-secondary { color: var(--pc-secondary-text-color) !important; }
 .text-success { color: var(--pc-success-text-color) !important; }
 .text-danger { color: var(--pc-danger-text-color) !important; }
 .text-warning { color: var(--pc-warning-text-color) !important; }

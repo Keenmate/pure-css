@@ -452,7 +452,7 @@ test('text — alignment and truncation', async ({ page }) => {
 
 test('text — semantic colours resolve to their tokens', async ({ page }) => {
     const map: Record<string, string> = {
-        'text-primary': 'rgb(14, 165, 233)',  // --pc-primary-color #0ea5e9
+        'text-primary': 'color(srgb 0.0301961 0.355882 0.502549)',  // --pc-primary-text-color: #0ea5e9 45% toward black
         'text-success': 'rgb(21, 87, 36)',    // --pc-success-text-color #155724
         'text-danger': 'rgb(114, 28, 36)',    // --pc-danger-text-color #721c24
         'text-warning': 'rgb(133, 100, 4)',   // --pc-warning-text-color #856404
@@ -478,11 +478,11 @@ test('text — .text-body / -muted / -subtle / -faint follow --pc-text-color-1..
 test('text — .text-color-1..9 default to the Corporate palette slots', async ({ page }) => {
     const items = Array.from({ length: 9 }, (_, i) => ({ cls: `text-color-${i + 1}`, prop: 'color' }));
     const actual = await measure(page, items);
-    // --pc-palette-N → --base-palette-N (amber, pink, emerald, sky, violet, indigo, slate, blue, dark slate)
+    // --pc-palette-N → --base-palette-N (amber, pink, emerald, sky, violet-600, indigo-600, slate, blue-700, dark slate)
     expect(actual).toEqual([
         'rgb(245, 158, 11)', 'rgb(236, 72, 153)', 'rgb(16, 185, 129)',
-        'rgb(14, 165, 233)', 'rgb(139, 92, 246)', 'rgb(99, 102, 241)',
-        'rgb(100, 116, 139)', 'rgb(2, 132, 199)', 'rgb(51, 65, 85)'
+        'rgb(14, 165, 233)', 'rgb(124, 58, 237)', 'rgb(79, 70, 229)',
+        'rgb(100, 116, 139)', 'rgb(3, 105, 161)', 'rgb(51, 65, 85)'
     ]);
 });
 

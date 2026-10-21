@@ -22,14 +22,15 @@ test('base.css emits the default accent tokens at :root', async ({ page }) => {
     expect(pc).toBe('#0ea5e9');
     expect(base).toBe('#0ea5e9');
 
-    // ...and it renders: default .text-primary is the accent colour.
+    // ...and it renders: default .text-primary is the primary FOREGROUND —
+    // the fill 45% toward black (--base-primary-text-color), not the fill itself.
     const color = await page
         .locator('#default-primary')
         .evaluate((el) => getComputedStyle(el).color);
-    expect(color).toBe('rgb(14, 165, 233)');
+    expect(color).toBe('color(srgb 0.0301961 0.355882 0.502549)');
 });
 
-test('overriding --pc-primary-color re-themes .text-primary live', async ({ page }) => {
+test('overriding --pc-primary-text-color re-themes .text-primary live', async ({ page }) => {
     const color = await page
         .locator('#accent-text')
         .evaluate((el) => getComputedStyle(el).color);

@@ -3,9 +3,35 @@
 All notable changes to `@keenmate/pure-css` are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [2.0.0-rc04] — 2026-10-20
+## [2.0.0-rc04] — 2026-10-21
+
+Mirrors `@keenmate/base-css-variables` 2.0.0-rc03 (the full role contract); `check-base-parity`
+passes at 183 tokens and every new value matches the contract.
+
+### Changed — breaking
+
+- **`--base-highlighted-*` is `--base-selected-*`** (`-bg`, `-bg-hover`, `-text-color`, `-outline`),
+  no aliases — the item-state model is now *focused* (the cursor item), *selected* (the click /
+  Ctrl / Shift-click set) and *checked* (the checkbox tick, no row tokens).
+- **Text on fills is derived.** The 15 `--base-on-<role>-text-color` / `--base-on-palette-N-text-color`
+  defaults were hand-set (almost all `#ffffff`, 2.1:1 on amber); they are now black or white,
+  whichever reads better on the fill by APCA, computed in CSS from the fill (`base-on-fill-text()`
+  in `variables/_base.scss`), so a fill changed at runtime brings its text along. Success, warning,
+  info and palette 1 / 3 get black text by default. A theme hand-sets one only for a fill near the tie.
+- **`.text-primary`, `.text-secondary` and links use the role's foreground colour**, the new
+  `--pc-primary-text-color` / `--pc-secondary-text-color` (from `--base-<role>-text-color`: the fill
+  45% toward black in light, 25% toward white in dark), not the fill itself — sky blue on white was
+  2.8:1. `--pc-link-color` follows.
+- **Four default fills one shade darker** so white text passes: danger `#ef4444` → `#dc2626`,
+  palette 5 `#7c3aed`, 6 `#4f46e5`, 8 `#0369a1`.
 
 ### Added
+
+- **Every role has the same token set**: `--base-<role>-color-active` and `-bg-subtle-hover` for
+  success / danger / warning / info, `--base-secondary-color-active` / `-bg-subtle(-hover)`, and
+  `--base-primary-text-color` / `--base-secondary-text-color`. All derived.
+- **`--base-disabled-opacity: 0.65`** — one fade for every disabled control; `$opacity-disabled`
+  reads it.
 
 - **`--pc-text-color-3` / `--pc-text-color-4` and `.text-subtle` / `.text-faint`.** The `--pc-*`
   text hierarchy now mirrors all four `--base-text-color-*` steps (1 body, 2 muted, 3 subtle —

@@ -146,7 +146,7 @@ the styling stands on its own and the JS only adds the interactive behaviour.
 (`--pc-*`) and web/svelte components all derive from it via fallback chains
 (`--ms-accent-color: var(--base-primary-color, #3b82f6)`). Categories: primary / secondary roles,
 text, background, border, input, dropdown, tooltip, contextual roles (success/danger/warning/info),
-interactive and item states (hover, active, highlighted, focused), shadow, palette slots, typography,
+interactive and item states (hover, active, selected, focused), shadow, palette slots, typography,
 border-radius, and icons. The canonical list is `@keenmate/base-css-variables`; pure-css's mirror is
 `src/scss/variables/_base.scss`, and `scripts/check-base-parity.mjs` fails if the two drift.
 

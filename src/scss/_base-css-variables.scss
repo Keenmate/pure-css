@@ -28,10 +28,15 @@
   --base-primary-color-active: #{$base-primary-color-active};
   --base-primary-bg-subtle: #{$base-primary-bg-subtle};
   --base-primary-bg-subtle-hover: #{$base-primary-bg-subtle-hover};
+  --base-primary-text-color: #{$base-primary-text-color};
 
   // === Secondary role (promoted into the contract, WS7.5) ===
   --base-secondary-color: #{$base-secondary-color};
   --base-secondary-color-hover: #{$base-secondary-color-hover};
+  --base-secondary-color-active: #{$base-secondary-color-active};
+  --base-secondary-bg-subtle: #{$base-secondary-bg-subtle};
+  --base-secondary-bg-subtle-hover: #{$base-secondary-bg-subtle-hover};
+  --base-secondary-text-color: #{$base-secondary-text-color};
 
   // === Text Colors ===
   --base-text-color-1: #{$base-text-color-1};
@@ -52,17 +57,18 @@
   --base-hover-bg: #{$base-hover-bg};
   --base-active-bg: #{$base-active-bg};
   --base-disabled-bg: #{$base-disabled-bg};
+  --base-disabled-opacity: #{$base-disabled-opacity};
   --base-elevated-bg: #{$base-elevated-bg};
 
   // === Item States (list options / tree rows / grid rows) ===
-  // focused = the one cursor item; highlighted = Ctrl/Shift-click set
-  // (selected = checkbox-checked, shown by the checkbox only — no row tokens)
+  // focused = the one cursor item; selected = the click / Ctrl / Shift-click set
+  // (checked = checkbox ticked, shown by the checkbox only — no row tokens)
   // (*-ring is an outline shorthand drawn inset by consumers).
   --base-outline-width: #{$base-outline-width};
-  --base-highlighted-bg: #{$base-highlighted-bg};
-  --base-highlighted-bg-hover: #{$base-highlighted-bg-hover};
-  --base-highlighted-text-color: #{$base-highlighted-text-color};
-  --base-highlighted-outline: #{$base-highlighted-outline};
+  --base-selected-bg: #{$base-selected-bg};
+  --base-selected-bg-hover: #{$base-selected-bg-hover};
+  --base-selected-text-color: #{$base-selected-text-color};
+  --base-selected-outline: #{$base-selected-outline};
   --base-focused-bg: #{$base-focused-bg};
   --base-focused-text-color: #{$base-focused-text-color};
   --base-focused-outline: #{$base-focused-outline};
@@ -112,28 +118,36 @@
   // === Contextual Colors - Success ===
   --base-success-color: #{$base-success-color};
   --base-success-color-hover: #{$base-success-color-hover};
+  --base-success-color-active: #{$base-success-color-active};
   --base-success-bg-subtle: #{$base-success-bg-subtle};
+  --base-success-bg-subtle-hover: #{$base-success-bg-subtle-hover};
   --base-success-text-color: #{$base-success-text-color};
   --base-on-success-text-color: #{$base-on-success-text-color};
 
   // === Contextual Colors - Danger ===
   --base-danger-color: #{$base-danger-color};
   --base-danger-color-hover: #{$base-danger-color-hover};
+  --base-danger-color-active: #{$base-danger-color-active};
   --base-danger-bg-subtle: #{$base-danger-bg-subtle};
+  --base-danger-bg-subtle-hover: #{$base-danger-bg-subtle-hover};
   --base-danger-text-color: #{$base-danger-text-color};
   --base-on-danger-text-color: #{$base-on-danger-text-color};
 
   // === Contextual Colors - Warning ===
   --base-warning-color: #{$base-warning-color};
   --base-warning-color-hover: #{$base-warning-color-hover};
+  --base-warning-color-active: #{$base-warning-color-active};
   --base-warning-bg-subtle: #{$base-warning-bg-subtle};
+  --base-warning-bg-subtle-hover: #{$base-warning-bg-subtle-hover};
   --base-warning-text-color: #{$base-warning-text-color};
   --base-on-warning-text-color: #{$base-on-warning-text-color};
 
   // === Contextual Colors - Info ===
   --base-info-color: #{$base-info-color};
   --base-info-color-hover: #{$base-info-color-hover};
+  --base-info-color-active: #{$base-info-color-active};
   --base-info-bg-subtle: #{$base-info-bg-subtle};
+  --base-info-bg-subtle-hover: #{$base-info-bg-subtle-hover};
   --base-info-text-color: #{$base-info-text-color};
   --base-on-info-text-color: #{$base-on-info-text-color};
 
@@ -407,11 +421,14 @@
   --pc-primary-color-active: var(--base-primary-color-active, #{$base-primary-color-active});
   --pc-primary-bg-subtle-hover: var(--base-primary-bg-subtle-hover, #{$primary-bg-subtle-hover});
   --pc-primary-bg-subtle: var(--base-primary-bg-subtle, color-mix(in srgb, var(--pc-primary-color) 10%, transparent));
+  // Primary as FOREGROUND on a surface (links, .text-primary) — the fill itself
+  // is too light for text on most themes (sky blue on white is 2.8:1).
+  --pc-primary-text-color: var(--base-primary-text-color, #{$base-primary-text-color});
 
   // Links — derive from accent so theme overrides cascade automatically.
   // Hover mixes 50% toward currentColor (inherited text colour at the use site),
   // so it auto-darkens on light themes and auto-lightens on dark themes.
-  --pc-link-color: var(--pc-primary-color);
+  --pc-link-color: var(--pc-primary-text-color);
   --pc-link-color-hover: color-mix(in srgb, var(--pc-link-color), currentColor 50%);
   --pc-link-color-visited: var(--pc-link-color);
 
@@ -430,6 +447,7 @@
 
   // Role text colours — consumed by the .text-{success,danger,warning,info}
   // utilities (utilities.scss). Kept in the base contract for that reason.
+  --pc-secondary-text-color: var(--base-secondary-text-color, #{$base-secondary-text-color});
   --pc-success-text-color: var(--base-success-text-color, #{$success-text-color});
   --pc-danger-text-color:  var(--base-danger-text-color, #{$danger-text-color});
   --pc-warning-text-color: var(--base-warning-text-color, #{$warning-text-color});
