@@ -53,7 +53,7 @@ $base-primary-text-color: light-dark(color-mix(in srgb, black 45%, var(--base-pr
 // Hierarchical text colors for different emphasis levels
 // =============================================================================
 
-$base-text-color-1: #334155 !default;  // Primary text (strongest) — Corporate slate-700 (input)
+$base-text-color-1: light-dark(#334155, #f1f5f9) !default;  // Primary text (strongest) — Corporate slate-700 (input)
 $base-text-color-2: color-mix(in srgb, var(--base-text-color-1) 75%, var(--base-main-bg)) !default;  // Secondary — muted labels, supporting text
 $base-text-color-3: color-mix(in srgb, var(--base-text-color-1) 55%, var(--base-main-bg)) !default;  // Tertiary — icons, metadata, paths, placeholders, hints
 $base-text-color-4: color-mix(in srgb, var(--base-text-color-1) 40%, var(--base-main-bg)) !default;  // Faint — disabled, decorative
@@ -67,8 +67,8 @@ $base-on-primary-text-color: base-on-fill-text(var(--base-primary-color)) !defau
 // SURFACE ELEVATION LADDER (static container backgrounds — one axis).
 // Keep this axis separate from the interaction-STATE tokens below (hover/
 // active/disabled) and from --base-border-color (dividers).
-$base-main-bg: #ffffff !default;          // Content surface (cards, modals, body) — the reference rung
-$base-page-bg: #f8f9fa !default;          // Canvas/backdrop the content sits on
+$base-main-bg: light-dark(#ffffff, #1e293b) !default;          // Content surface (cards, modals, body) — the reference rung
+$base-page-bg: light-dark(#f8f9fa, #0f172a) !default;          // Canvas/backdrop the content sits on
 // Recessed / inset surface — the "sunken" rung BELOW main: code blocks, wells,
 // inset panels, pills, tiles. NOT a hover state (see $base-hover-bg) and NOT a
 // divider (see $base-border-color); one crisp job. Raised chrome (headers,

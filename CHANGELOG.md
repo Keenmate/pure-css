@@ -22,6 +22,12 @@ passes at 183 tokens and every new value matches the contract.
   `--pc-primary-text-color` / `--pc-secondary-text-color` (from `--base-<role>-text-color`: the fill
   45% toward black in light, 25% toward white in dark), not the fill itself — sky blue on white was
   2.8:1. `--pc-link-color` follows.
+- **The default surfaces and body text have a dark value**, like the contract: `--base-page-bg`
+  `light-dark(#f8f9fa, #0f172a)`, `--base-main-bg` `light-dark(#ffffff, #1e293b)`,
+  `--base-text-color-1` `light-dark(#334155, #f1f5f9)`. Bare pure-css still renders light (it sets
+  `color-scheme: light`); with `color-scheme: dark` it now gives a whole dark page instead of white
+  surfaces with dark-mode borders, hovers and inputs. Every `--base-*` colour now resolves exactly
+  as in the contract in both modes. Themes set their own values and are unaffected.
 - **Four default fills one shade darker** so white text passes: danger `#ef4444` → `#dc2626`,
   palette 5 `#7c3aed`, 6 `#4f46e5`, 8 `#0369a1`.
 
